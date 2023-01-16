@@ -1,0 +1,45 @@
+.main {
+    display: grid;
+    grid-template-columns: 85% 15%;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.field .row {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.field .row .cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 100px;
+    cursor: pointer;
+
+    background-color: rgb(46, 46, 94);
+    color: #fff;
+    border: 2px solid #000;
+}
+
+.sidebar .players {
+    display: flex;
+    flex-direction: column;
+    font-size: 34px;
+    font-weight: bold;
+}
+
+.question {
+    width: 20%;
+    padding: 30px;
+    font-size: 34px;
+    font-weight: bold;
+
+    background-color: rgb(89, 89, 215);
+    color: #fff;
+}

@@ -1,9 +1,10 @@
 import './App.css';
+import GameContainer from './components/Game/container';
 
 function App() {
   return (
     <div className="App">
-      <h1>Hello JEORARDY!</h1>
+      <GameContainer />
     </div>
   );
 }
