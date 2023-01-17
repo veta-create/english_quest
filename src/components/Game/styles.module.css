@@ -34,6 +34,10 @@
     font-weight: bold;
 }
 
+.sidebar .players .currentPlayer {
+    color: red;
+}
+
 .question {
     width: 20%;
     padding: 30px;

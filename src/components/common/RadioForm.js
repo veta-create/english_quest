@@ -3,20 +3,20 @@ const RadioForm = (props) => {
         <div>{props.question}</div>
         {props.answers.map((a, i) => {
             if (i === props.currentAnswer) {
-                return <div>
-                    <input type="radio" onClick={() => props.changeCurrentAnswer(i)} checked name="answer" id={i} />
-                    <label for={i}>{a}</label>
+                return <div key={"i" + i}>
+                    <input type="radio" onChange={() => props.changeCurrentAnswer(i)} checked name="answer" id={i} />
+                    <label htmlFor={i}>{a}</label>
                 </div>
             } else {
-                return <div>
-                    <input type="radio" onClick={() => props.changeCurrentAnswer(i)} name="answer" id={i} />
-                    <label for={i}>{a}</label>
+                return <div key={"i" + i}>
+                    <input type="radio" onChange={() => props.changeCurrentAnswer(i)} name="answer" id={i} />
+                    <label htmlFor={i}>{a}</label>
                 </div>
             };
         }
         )
         }
-        <input type="button" value="ответить" />
+        <input type="button" onClick={() => props.submitAnswerButton(props.currentAnswer, props.questionNumber)} value="ответить" />
     </form>)
 };
 

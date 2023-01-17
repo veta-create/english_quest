@@ -1,16 +1,18 @@
 import RadioForm from '../common/RadioForm';
 import styles from './styles.module.css';
+import cn from 'classnames';
 
 const Game = (props) => {
     return (
         <div className={styles.main}>
             <div className={styles.field}>
-                {props.field.map(r => {
+                {props.field.map((r, iR) => {
                     let rows = [];
-                    let row = <div className={styles.row}>{r.map(cell =>
-                        <div key="0"
-                            onClick={() => props.changeCurrentQuestion(cell.question, cell.answers)}
-                            className={styles.cell}>{cell.score}</div>)}
+                    let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
+                        <div key={"r" + iR + "c" + iC}
+                            onClick={() => props
+                                .changeCurrentQuestion(cell)}
+                            className={styles.cell}>{cell.close ? 'X' : cell.score}</div>)}
                     </div>;
                     rows.push(row);
                     return rows;
@@ -18,27 +20,21 @@ const Game = (props) => {
             </div>
             <div className={styles.sidebar}>
                 <div className={styles.players}>
-                    {props.players.map(p => <div key={p.key} className={styles.player}>
+                    {props.players.map(p => <div key={p.key}
+                        className={cn(styles.player, p.key === props.currentPlayer ? styles.currentPlayer : "")}>
                         <div className={styles.name}>{p.name}</div>
                         <div className={styles.score}>{p.score}</div>
                     </div>)}
                 </div>
             </div>
             <div className={styles.question}>
-                {/* <form>
-                    <div className={styles.question}>{props.currentQuestion.question}</div>
-                    {props.currentQuestion.answers.map((a, i) => <div>
-                        <input type="radio" name="answer"
-                            id={i} />
-                        <label for={i}>{a}</label>
-                    </div>)}
-                    <input type="button" value="ответить" />
-                </form> */}
                 <RadioForm
                     question={props.currentQuestion.question}
                     answers={props.currentQuestion.answers}
+                    questionNumber={props.currentQuestion.key}
                     currentAnswer={props.currentAnswer}
                     changeCurrentAnswer={props.changeCurrentAnswer}
+                    submitAnswerButton={props.submitAnswerButton}
                 />
             </div>
         </div>
