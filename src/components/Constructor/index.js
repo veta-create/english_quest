@@ -1,6 +1,6 @@
 import styles from './styles.module.css'
 
-export const Constructor = (props) => {
+const Constructor = (props) => {
     let rows = [];
     let row = [];
     for(let i = 0; i < props.fieldHeight; i++) {
@@ -16,4 +16,6 @@ export const Constructor = (props) => {
             </div>
         </div>
     )
-}
+};
+
+export default Constructor;

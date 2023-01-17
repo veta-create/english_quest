@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Game from './index';
+import Constructor from './index';
 
 const mapStateToProps = (state) => {
     return {
@@ -8,6 +8,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-const GameContainer = connect(mapStateToProps, {changeCurrentQuestion, changeCurrentAnswer})(Game);
+const ConstructorContainer = connect(mapStateToProps, {})(Constructor);
 
-export default GameContainer;
+export default ConstructorContainer;

@@ -7,7 +7,7 @@ const mapStateToProps = (state) => {
         field: state.gamePage.field,
         players: state.gamePage.players,
         currentQuestion: state.gamePage.currentQuestion,
-        currentAnswer: state.gamePage.currentAnswer
+        currentAnswer: state.gamePage.currentQuestion.currentAnswer
     };
 };
 
