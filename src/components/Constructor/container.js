@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
+import { getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-selectors';
+import { createField } from '../../redux/constructorReducer';
 import Constructor from './index';
 
 const mapStateToProps = (state) => {
     return {
-        fieldHeight: state.constructorPage.fieldHeight,
-        fieldWidth: state.constructorPage.fieldWidth
+        themes: getThemes(state),
+        fieldWidth: getFieldWidth(state),
+        fieldHeight: getFieldHeight(state),
+        field: getField(state)
     };
 };
 
-const ConstructorContainer = connect(mapStateToProps, {})(Constructor);
+const ConstructorContainer = connect(mapStateToProps, {createField})(Constructor);
 
 export default ConstructorContainer;

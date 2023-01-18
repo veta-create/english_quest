@@ -1,19 +1,27 @@
 import RadioForm from '../common/RadioForm';
 import styles from './styles.module.css';
 import cn from 'classnames';
+import Cell from '../common/Cell/Cell';
 
 const Game = (props) => {
     return (
         <div className={styles.main}>
             <div className={styles.field}>
+                <div className={styles.themes}>
+                    <nav>{props.themes.map((t, i) => {
+                        return <Cell key={"0" + i} content={t} />
+                    })}
+                    </nav>
+                </div>
                 {props.field.map((r, iR) => {
                     let rows = [];
                     let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
-                        <div key={"r" + iR + "c" + iC}
-                            onClick={() => props
-                                .changeCurrentQuestion(cell)}
-                            className={styles.cell}>{cell.close ? 'X' : cell.score}</div>)}
-                    </div>;
+                        <Cell key={"r" + iR + "c" + iC}
+                            cell={cell}
+                            onClickHandler={props.changeCurrentQuestion}
+                            content={cell.close ? 'X' : cell.score} />
+                    )}
+                    </div>
                     rows.push(row);
                     return rows;
                 })}

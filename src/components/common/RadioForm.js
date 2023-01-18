@@ -1,3 +1,5 @@
+// форма для с вопросами для ответа
+
 const RadioForm = (props) => {
     return (<form>
         <div>{props.question}</div>

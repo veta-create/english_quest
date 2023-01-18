@@ -2,9 +2,10 @@ const CHANGE_CURRENT_QUESTION = "CHANGE_CURRENT_QUESTION";
 const CHANGE_CURRENT_ANSWER = "CHANGE_CURRENT_ANSWER";
 const SCORE_COUNTER = "SCORE_COUNTER";
 const PLAYER_CHANGE = "PLAYER_CHANGE";
-const CELL_CLOSURE = "CELL_CLOSURE"
+const CELL_CLOSURE = "CELL_CLOSURE";
 
 let initialState = {
+    themes: ["BTS", "Minecraft", "Олимпийские игры"],
     field: [
         [{ key: "01", score: 200, question: '1?', answers: ['п', 'н', 'н'], correct: 0, close: false },
         { key: "02", score: 200, question: '2?', answers: ['п', 'н', 'н'], correct: 0, close: false },

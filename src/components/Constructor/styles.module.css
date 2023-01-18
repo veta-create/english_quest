@@ -1,0 +1,27 @@
+.main {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.field .themes nav {
+    display: flex;
+    flex-direction: row;
+}
+
+.fieldVariations ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    font-size: 2rem;}
+
+.fieldVariations ul li {
+    cursor: pointer;
+
+    background-color: rgb(97, 97, 232);
+    color: #fff;
+    border: 2px solid #000;
+}
+
+.fieldVariations ul li:hover {
+    background-color: bisque;
+}

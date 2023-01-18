@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { constructorReducer } from './constructorReduces';
+import { constructorReducer } from './constructorReducer';
 import { gameReducer } from './gameReducer'
 
 const reducers = combineReducers({

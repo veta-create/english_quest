@@ -1,0 +1,13 @@
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    height: 100px;
+    cursor: pointer;
+    text-align: center;
+
+    background-color: rgb(46, 46, 94);
+    color: #fff;
+    border: 2px solid #000;
+}
