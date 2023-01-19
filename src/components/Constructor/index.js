@@ -2,12 +2,10 @@ import Cell from '../common/Cell/Cell';
 import styles from './styles.module.css'
 
 const Constructor = (props) => {
-    debugger
     if (props.field.length === 0) {
-        console.log("+")
         props.createField()
     }
-    
+
     return (
         <div className={styles.main}>
             <div className={styles.field}>
@@ -34,13 +32,22 @@ const Constructor = (props) => {
 
             <div className={styles.fieldVariations}>
                 <ul>
-                    <li>
+                    <li onClick={() => {
+                        props.setNewFieldSize(3, 3);
+                        props.createField();
+                    }}>
                         3 Х 3
                     </li>
-                    <li>
+                    <li onClick={() => {
+                        props.setNewFieldSize(4, 4)
+                        props.createField();
+                    }}>
                         4 Х 4
                     </li>
-                    <li>
+                    <li onClick={() => {
+                        props.setNewFieldSize(6, 5);
+                        props.createField();
+                    }}>
                         6 Х 5
                     </li>
 
