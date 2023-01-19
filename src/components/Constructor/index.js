@@ -2,10 +2,6 @@ import Cell from '../common/Cell/Cell';
 import styles from './styles.module.css'
 
 const Constructor = (props) => {
-    if (props.field.length === 0) {
-        props.createField()
-    }
-
     return (
         <div className={styles.main}>
             <div className={styles.field}>
@@ -27,7 +23,7 @@ const Constructor = (props) => {
                     rows.push(row);
                     return rows;
                 })}
-
+                <Cell content="+" onClickHandler={() => props.addRow()}/>
             </div>
 
             <div className={styles.fieldVariations}>
@@ -50,7 +46,6 @@ const Constructor = (props) => {
                     }}>
                         6 Х 5
                     </li>
-
                 </ul>
             </div>
         </div>

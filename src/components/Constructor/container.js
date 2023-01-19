@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-selectors';
-import { createField, setNewFieldSize } from '../../redux/constructorReducer';
+import { addRow, createField, setNewFieldSize } from '../../redux/constructorReducer';
 import Constructor from './index';
 
 const mapStateToProps = (state) => {
@@ -12,6 +12,6 @@ const mapStateToProps = (state) => {
     };
 };
 
-const ConstructorContainer = connect(mapStateToProps, {createField, setNewFieldSize})(Constructor);
+const ConstructorContainer = connect(mapStateToProps, {createField, setNewFieldSize, addRow})(Constructor);
 
 export default ConstructorContainer;

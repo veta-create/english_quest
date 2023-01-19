@@ -25,17 +25,18 @@ export const constructorReducer = (state = initialState, action) => {
                 row = [];
             };
             let emptyArray = new Array(state.fieldWidth);
-            return { ...state, field: newField, themes:  emptyArray.fill('Тематика')}
+            return { ...state, field: newField, themes: emptyArray.fill('Тематика') }
         case ADD_ROW:
             let lastIndex = state.field[state.field.length - 1].length;
             let newRow = [];
             for (let i = 0; i < state.fieldWidth; i++) {
-                newRow.push({ key: "0" + lastIndex, score: 200, question: '', answers: ['', '', ''], correct: 0, close: false })
+                newRow.push({ key: "0" + lastIndex, score: 200 * (state.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                 lastIndex += 1;
             };
             return {
                 ...state,
-                field: [...state.field, newRow]
+                field: [...state.field, newRow],
+                fieldHeight: state.fieldHeight + 1
             };
         case ADD_COLUMN:
 
@@ -64,4 +65,8 @@ export const setNewFieldSize = (newFieldWidth, newFieldHeigh) => ({
     type: SET_NEW_FIELD_SIZE,
     newFieldWidth,
     newFieldHeigh
+});
+
+export const addRow = () => ({
+    type: ADD_ROW
 });
