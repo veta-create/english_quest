@@ -22,7 +22,7 @@ export const constructorReducer = (state = initialState, action) => {
             let row = [];
             for (let i = 0; i < state.fieldHeight; i++) {
                 for (let j = 0; j < state.fieldWidth; j++) {
-                    row.push({ key: "0" + (j + i + 1), score: 200, question: '', answers: ['', '', ''], correct: 0, close: false })
+                    row.push({ key: "0" + (j + i + 1), score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                 };
                 newField.push(row);
                 row = [];

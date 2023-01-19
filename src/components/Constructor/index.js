@@ -2,9 +2,12 @@ import Cell from '../common/Cell/Cell';
 import styles from './styles.module.css'
 
 const Constructor = (props) => {
-    if (props.field === []) {
+    debugger
+    if (props.field.length === 0) {
+        console.log("+")
         props.createField()
     }
+    
     return (
         <div className={styles.main}>
             <div className={styles.field}>
@@ -18,17 +21,14 @@ const Constructor = (props) => {
                 {props.field.map((r, iR) => {
                     let rows = [];
                     let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
-                    <Cell key={"r" + iR + "c" + iC}
+                        <Cell key={"r" + iR + "c" + iC}
                             cell={cell}
                             content={"Добавить вопрос за " + cell.score} />
                     )}
                     </div>
                     rows.push(row);
                     return rows;
-                }  
-                )}
-
-
+                })}
 
             </div>
 

@@ -8,6 +8,11 @@
     flex-direction: row;
 }
 
+.field .row {
+    display: flex;
+    flex-direction: row;
+}
+
 .fieldVariations ul {
     display: flex;
     flex-direction: column;
