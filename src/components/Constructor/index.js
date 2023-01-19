@@ -11,7 +11,7 @@ const Constructor = (props) => {
                     })}
                     </nav>
                 </div>
-
+                <Cell content="+" className={styles.addColumn} onClickHandler={() => props.addColumn()} />
                 {props.field.map((r, iR) => {
                     let rows = [];
                     let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
@@ -23,27 +23,18 @@ const Constructor = (props) => {
                     rows.push(row);
                     return rows;
                 })}
-                <Cell content="+" onClickHandler={() => props.addRow()}/>
+                <Cell content="+" onClickHandler={() => props.addRow()} />
             </div>
 
             <div className={styles.fieldVariations}>
                 <ul>
-                    <li onClick={() => {
-                        props.setNewFieldSize(3, 3);
-                        props.createField();
-                    }}>
+                    <li onClick={() => props.createFieldFromTemplate(3, 3)} >
                         3 Х 3
                     </li>
-                    <li onClick={() => {
-                        props.setNewFieldSize(4, 4)
-                        props.createField();
-                    }}>
+                    <li onClick={() => props.createFieldFromTemplate(4, 4)} >
                         4 Х 4
                     </li>
-                    <li onClick={() => {
-                        props.setNewFieldSize(6, 5);
-                        props.createField();
-                    }}>
+                    <li onClick={() => props.createFieldFromTemplate(6, 5)} >
                         6 Х 5
                     </li>
                 </ul>

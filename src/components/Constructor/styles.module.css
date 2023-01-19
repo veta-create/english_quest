@@ -13,6 +13,10 @@
     flex-direction: row;
 }
 
+.field .addColumn {
+    float: right;
+}
+
 .fieldVariations ul {
     display: flex;
     flex-direction: column;

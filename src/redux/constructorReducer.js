@@ -39,10 +39,9 @@ export const constructorReducer = (state = initialState, action) => {
                 fieldHeight: state.fieldHeight + 1
             };
         case ADD_COLUMN:
-
             let fieldCopy = [...state.field];
-            for (let i = 0; i < state.fieldCopy.length; i++) {
-                fieldCopy[i].push({ key: "0" + fieldCopy[i][fieldCopy[i].length], score: 200, question: '', answers: ['', '', ''], correct: 0, close: false })
+            for (let i = 0; i < fieldCopy.length; i++) {
+                fieldCopy[i].push({ key: "0" + fieldCopy[i][fieldCopy[i].length], score: fieldCopy[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false })
                 if (i !== fieldCopy.length - 1) {
                     for (let j = 0; j < fieldCopy[i + 1].length; j++) {
                         fieldCopy[i + 1][j].key = Number(fieldCopy[i + 1][j].key) + 1;
@@ -51,7 +50,12 @@ export const constructorReducer = (state = initialState, action) => {
                 }
             }
 
-            return { ...state, themes: [...state.themes, 'Тематика'], field: fieldCopy }
+            return {
+                ...state,
+                themes: [...state.themes, 'Тематика'],
+                field: fieldCopy,
+                fieldWidth: state.fieldWidth + 1
+            }
         default:
             return state;
     };
@@ -70,3 +74,14 @@ export const setNewFieldSize = (newFieldWidth, newFieldHeigh) => ({
 export const addRow = () => ({
     type: ADD_ROW
 });
+
+export const addColumn = () => ({
+    type: ADD_COLUMN
+})
+
+export const createFieldFromTemplate = (newFieldWidth, newFieldHeigh) => {
+    return (dispatch) => {
+        dispatch(setNewFieldSize(newFieldWidth, newFieldHeigh))
+        dispatch(createField())
+    }
+}
