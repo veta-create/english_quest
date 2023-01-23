@@ -34,3 +34,27 @@
 .fieldVariations ul li:hover {
     background-color: bisque;
 }
+
+.createQuestion {
+    width: 30%;
+    height: 400px;
+    background-color: aqua;
+}
+
+.createQuestion form {
+    width: 70%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.visible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hide {
+    display: none;
+}

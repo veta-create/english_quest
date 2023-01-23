@@ -9,7 +9,7 @@ const Game = (props) => {
             <div className={styles.field}>
                 <div className={styles.themes}>
                     <nav>{props.themes.map((t, i) => {
-                        return <Cell key={"0" + i} content={t} />
+                        return <Cell key={"0" + i} handlerType="none" content={t} />
                     })}
                     </nav>
                 </div>
@@ -19,6 +19,7 @@ const Game = (props) => {
                         <Cell key={"r" + iR + "c" + iC}
                             cell={cell}
                             onClickHandler={props.changeCurrentQuestion}
+                            handlerType="changeCurrentQuestion"
                             content={cell.close ? 'X' : cell.score} />
                     )}
                     </div>

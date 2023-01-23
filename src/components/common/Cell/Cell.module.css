@@ -12,3 +12,13 @@
     color: #fff;
     border: 2px solid #000;
 }
+
+.cell input {
+    width: 100%;
+    font-size: 0.9rem;
+    text-align: center;
+
+    background-color: rgb(46, 46, 94);
+    color: #fff;
+    border: none;
+}
