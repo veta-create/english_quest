@@ -14,11 +14,18 @@
 }
 
 .cell input {
-    width: 100%;
+    width: 80%;
     font-size: 0.9rem;
     text-align: center;
 
     background-color: rgb(46, 46, 94);
     color: #fff;
     border: none;
+}
+
+.cell input[type="button"] {
+    width: 20px;
+    cursor: pointer;
+    color: #000;
+    background-color: rgb(234, 244, 244);
 }

@@ -25,7 +25,8 @@ const Constructor = (props) => {
             <div className={styles.field}>
                 <div className={styles.themes}>
                     <nav>{props.themes.map((t, i) => {
-                        return <Cell key={"0" + i} handlerType="none" content={<input value={t} />} />
+                        return <Cell key={"0" + i} themeNumber={i} handlerType="changeTheme"
+                         onClickHandler={props.changeTheme} content={t}/>
                     })}
                     </nav>
                 </div>

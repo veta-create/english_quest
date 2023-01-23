@@ -6,7 +6,8 @@ const ADD_COLUMN = "ADD_COLUMN";
 const ADD_THEME = "ADD_THEME";
 const CREATE_QUESTION = "CREATE_QUESTION";
 const TOGGLE_CREATING_QUESTION = "TOGGLE_CREATING_QUESTION";
-const SET_CURRENT_CELL = "SET_CURRENT_CELL"
+const SET_CURRENT_CELL = "SET_CURRENT_CELL";
+const CHANGE_THEME = "CHANGE_THEME";
 
 let initialState = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -20,6 +21,7 @@ let initialState = {
 export const constructorReducer = (state = initialState, action) => {
     const stateCopy = lodash.cloneDeep(state);
     const fieldCopy = lodash.cloneDeep(stateCopy.field);
+    const themesCopy = lodash.cloneDeep(stateCopy.themes);
     switch (action.type) {
         case SET_NEW_FIELD_SIZE:
             return { ...state, fieldWidth: action.newFieldWidth, fieldHeight: action.newFieldHeigh };
@@ -89,6 +91,15 @@ export const constructorReducer = (state = initialState, action) => {
             return { ...state, field: fieldCopy}
         case SET_CURRENT_CELL:
             return {...state, currentCell: action.currentCell};
+
+        case CHANGE_THEME:
+            for(let i = 0; i < themesCopy.length; i++) {
+                if(i === action.themeNumber) {
+                    themesCopy[i] = action.newTheme;
+                };
+            };
+
+            return {...state, themes: themesCopy}
         default:
             return state;
     };
@@ -128,25 +139,31 @@ export const createQuestion = (key, newQuestion, answers, correctAnswer) => ({
 export const setCurrentCell = (currentCell) => ({
     type: SET_CURRENT_CELL,
     currentCell
-})
+});
+
+export const changeTheme = (themeNumber, newTheme) => ({
+    type: CHANGE_THEME,
+    themeNumber,
+    newTheme
+});
 
 export const clickOnCell = (currentCell) => {
     return (dispatch) => {
         dispatch(toggleCreatingQuestion(true));
         dispatch(setCurrentCell(currentCell));
-    }
-}
+    };
+};
 
 export const createFieldFromTemplate = (newFieldWidth, newFieldHeigh) => {
     return (dispatch) => {
         dispatch(setNewFieldSize(newFieldWidth, newFieldHeigh))
         dispatch(createField())
-    }
+    };
 };
 
 export const addNewQuestion = (key, newQuestion, answers, correctAnswer) => {
     return (dispatch) => {
         dispatch(createQuestion(key, newQuestion, answers, correctAnswer))
         dispatch(toggleCreatingQuestion(false))
-    }
+    };
 };
