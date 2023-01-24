@@ -1,4 +1,4 @@
-import lodash from "lodash"
+import lodash from "lodash";
 const SET_NEW_FIELD_SIZE = "SET_NEW_FIELD_SIZE";
 const CREATE_FIELD = "CREATE_FIELD";
 const ADD_ROW = "ADD_ROW";

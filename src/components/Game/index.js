@@ -4,6 +4,13 @@ import cn from 'classnames';
 import Cell from '../common/Cell/Cell';
 
 const Game = (props) => {
+    if(props.gameOver) {
+        return <div>
+            <h1>GAME OVER</h1>
+            {props.winner[0] === 'Все' ? <p>Ничья со счетом: {props.winner[1]}</p> 
+            : <p>Победил игрок: {props.winner[0]} со счетом {props.winner[1]}</p>} 
+        </div>
+    }
     return (
         <div className={styles.main}>
             <div className={styles.field}>
@@ -43,6 +50,7 @@ const Game = (props) => {
                     questionNumber={props.currentQuestion.key}
                     currentAnswer={props.currentAnswer}
                     changeCurrentAnswer={props.changeCurrentAnswer}
+                    questionAnswered={props.questionAnswered}
                     submitAnswerButton={props.submitAnswerButton}
                 />
             </div>

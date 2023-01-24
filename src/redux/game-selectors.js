@@ -22,3 +22,15 @@ export const getCurrentAnswer = (state) => {
     return state.gamePage.currentQuestion.currentAnswer;
 };
 
+export const getQuestionAnswered = (state) => {
+    return state.gamePage.questionAnswered;
+};
+
+export const getGameOver = (state) => {
+    return state.gamePage.gameOver;
+};
+
+export const getWinner = (state) => {
+    return state.gamePage.winner;
+};
+

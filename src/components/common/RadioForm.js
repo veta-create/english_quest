@@ -18,7 +18,8 @@ const RadioForm = (props) => {
         }
         )
         }
-        <input type="button" onClick={() => props.submitAnswerButton(props.currentAnswer, props.questionNumber)} value="ответить" />
+        <input type="button" 
+        onClick={() => props.submitAnswerButton(props.currentAnswer, props.questionNumber, props.questionAnswered)} value="ответить" />
     </form>)
 };
 

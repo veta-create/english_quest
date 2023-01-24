@@ -1,10 +1,15 @@
+import lodash from 'lodash';
 const CHANGE_CURRENT_QUESTION = "CHANGE_CURRENT_QUESTION";
 const CHANGE_CURRENT_ANSWER = "CHANGE_CURRENT_ANSWER";
 const SCORE_COUNTER = "SCORE_COUNTER";
 const PLAYER_CHANGE = "PLAYER_CHANGE";
 const CELL_CLOSURE = "CELL_CLOSURE";
+const GAME_OVER = "GAME_OVER";
+const DETERMINE_WINNER = "DETERMINE_WINNER";
 
 let initialState = {
+    fieldWidth: 3,
+    fieldHeight: 3,
     themes: ["BTS", "Minecraft", "Олимпийские игры"],
     field: [
         [{ key: "01", score: 200, question: '1?', answers: ['п', 'н', 'н'], correct: 0, close: false },
@@ -17,12 +22,17 @@ let initialState = {
         { key: "08", score: 600, question: '8?', answers: ['н', 'п', 'н'], correct: 1, close: false },
         { key: "09", score: 600, question: '9?', answers: ['н', 'п', 'н'], correct: 1, close: false }]
     ],
-    players: [{ key: "01", name: "Arut", score: 1000 }, { key: "02", name: "Veta", score: 900 }],
+    players: [{ key: "01", name: "Arut", score: 0}, { key: "02", name: "Veta", score: 0 }],
     currentPlayer: "01",
-    currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 }
+    currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
+    questionAnswered: 0,
+    gameOver: false, 
+    winner: ['', 0]
 }
 
 export const gameReducer = (state = initialState, action) => {
+    let stateCopy =  lodash.cloneDeep(state);
+    let playersCopy = lodash.cloneDeep(stateCopy.players);
     switch (action.type) {
         case CHANGE_CURRENT_QUESTION:
             if (action.cell.close === false) {
@@ -108,8 +118,31 @@ export const gameReducer = (state = initialState, action) => {
             }
             return {
                 ...state,
-                field: fieldCopy
+                field: fieldCopy,
+                questionAnswered: state.questionAnswered + 1
             }
+        case GAME_OVER:
+            return {...state, gameOver: true}
+        case DETERMINE_WINNER:
+            let winner = ["", 0];
+            let scoreHitCounter = 0;
+            for(let i = 0; i < playersCopy.length; i++) {
+                if(playersCopy[i].score > winner[1]) {
+                    winner[0] = playersCopy[i].name;
+                    winner[1] = playersCopy[i].score;
+                }
+            }
+
+            for(let i = 0; i < playersCopy.length; i++) {
+                if(playersCopy[i].score === winner[0]) {
+                    scoreHitCounter += 1;
+                }
+            }
+
+            if(scoreHitCounter === playersCopy.length) {
+                return {...state, winner: ['Все', winner[1]]}
+            }
+            return {...state, winner: winner}
         default:
             return state;
     }
@@ -139,10 +172,22 @@ export const cellClosure = (key) => ({
     key
 })
 
-export const submitAnswerButton = (answerId, key) => {
+export const gameOver = () => ({
+    type: GAME_OVER,
+});
+
+export const determineWinner = () => ({
+    type: DETERMINE_WINNER
+});
+
+export const submitAnswerButton = (answerId, key, questionAnswered) => {
     return (dispatch) => {
         dispatch(scoreCounter(answerId))
         dispatch(cellClosure(key))
         dispatch(playerChange())
+        if(questionAnswered === (initialState.fieldHeight * initialState.fieldWidth - 1)) {
+            dispatch(determineWinner());
+            dispatch(gameOver());
+        }
     }
 }
