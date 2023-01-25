@@ -1,0 +1,47 @@
+.main {
+    width: 100%;
+    height: 100%;
+
+    background-image: url(../../assets/stars.png);
+    background-color: #0A0724;
+    color: #fff;
+}
+
+.logo {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 5%;
+}
+
+.logo {
+    animation-name: movement;
+    animation-timing-function: linear;
+}
+
+@keyframes movement {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-30px); }
+    100% { transform: translateY(0); }
+}
+
+.options {
+    padding: 5%;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.options nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.options nav div:hover {
+    font-size: 3.3rem;
+    cursor: pointer;
+}
+
