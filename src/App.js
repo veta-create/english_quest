@@ -6,9 +6,9 @@ import SettingsContainer from './components/Settings/container';
 function App() {
   return (
     <div className="App">
-      {/* <GameContainer /> */}
+      <GameContainer />
       {/* <ConstructorContainer /> */}
-      <SettingsContainer />
+      {/* <SettingsContainer /> */}
     </div>
   );
 }

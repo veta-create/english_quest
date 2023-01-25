@@ -64,7 +64,11 @@ export const gameReducer = (state = initialState, action) => {
                             console.log(playerCopy)
                         }
                         if (symbol === 'minus') {
-                            playerCopy.score -= state.currentQuestion.score;
+                            if(playerCopy.score - state.currentQuestion.score > 0) {
+                                playerCopy.score -= state.currentQuestion.score;
+                            } else {
+                                playerCopy.score = 0;
+                            }
                         }
                     }
                     playersCopy.push(playerCopy);
