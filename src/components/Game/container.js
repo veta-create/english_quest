@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Game from './index';
-import { changeCurrentQuestion, changeCurrentAnswer, submitAnswerButton } from '../../redux/gameReducer';
-import { getCurrentAnswer, getCurrentPlayer, getCurrentQuestion, getField, getGameOver, getPlayers, getQuestionAnswered, getThemes, getWinner } from '../../redux/game-selectors';
+import { changeCurrentQuestion, changeCurrentAnswer, submitAnswerButton, clickOnCell, timeIsOver } from '../../redux/gameReducer';
+import { getCurrentAnswer, getCurrentPlayer, getCurrentQuestion, getField, getGameOver, getPlayers, getQuestionAnswered, getQuestionIsClosed, getThemes, getWinner } from '../../redux/game-selectors';
 
 const mapStateToProps = (state) => {
     return {
@@ -13,12 +13,13 @@ const mapStateToProps = (state) => {
         currentAnswer: getCurrentAnswer(state),
         questionAnswered: getQuestionAnswered(state),
         gameOver: getGameOver(state),
-        winner: getWinner(state)
+        winner: getWinner(state),
+        questionIsClosed: getQuestionIsClosed(state)
     };
 };
 
 const GameContainer = connect(mapStateToProps, 
-    {changeCurrentQuestion, changeCurrentAnswer, submitAnswerButton})
+    {changeCurrentQuestion, changeCurrentAnswer, submitAnswerButton, clickOnCell, timeIsOver})
     (Game);
 
 export default GameContainer;

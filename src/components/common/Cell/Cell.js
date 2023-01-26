@@ -4,7 +4,7 @@ import styles from './Cell.module.css';
 
 const Cell = (props) => {
     let newTheme = React.createRef();
-    if (props.handlerType === "changeCurrentQuestion") {
+    if (props.handlerType === "clickOnCell") {
         return <div onClick={() => props.onClickHandler(props.cell)}
             className={styles.cell}>
             {props.content}
@@ -37,6 +37,12 @@ const Cell = (props) => {
     if (props.handlerType === "addRow") {
         return <div onClick={() => props.onClickHandler()}
             className={styles.cell}>
+            {props.content}
+        </div>
+    }
+
+    if (props.handlerType === "none") {
+        return <div className={styles.cell}>
             {props.content}
         </div>
     }

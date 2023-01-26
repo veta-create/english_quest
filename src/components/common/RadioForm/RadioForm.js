@@ -1,4 +1,5 @@
 // форма для с вопросами для ответа
+import Timer from "../Timer";
 
 const RadioForm = (props) => {
     return (<form>
@@ -20,6 +21,9 @@ const RadioForm = (props) => {
         }
         <input type="button" 
         onClick={() => props.submitAnswerButton(props.currentAnswer, props.questionNumber, props.questionAnswered)} value="ответить" />
+        <div>
+            <Timer minutes={0} seconds={30} timeIsOver={props.timeIsOver}/>
+        </div>
     </form>)
 };
 

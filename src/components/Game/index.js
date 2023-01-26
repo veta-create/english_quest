@@ -1,14 +1,14 @@
-import RadioForm from '../common/RadioForm';
+import RadioForm from '../common/RadioForm/RadioForm';
 import styles from './styles.module.css';
 import cn from 'classnames';
 import Cell from '../common/Cell/Cell';
 
 const Game = (props) => {
-    if(props.gameOver) {
+    if (props.gameOver) {
         return <div>
             <h1>GAME OVER</h1>
-            {props.winner[0] === 'Все' ? <p>Ничья со счетом: {props.winner[1]}</p> 
-            : <p>Победил игрок: {props.winner[0]} со счетом {props.winner[1]}</p>} 
+            {props.winner[0] === 'Все' ? <p>Ничья со счетом: {props.winner[1]}</p>
+                : <p>Победил игрок: {props.winner[0]} со счетом {props.winner[1]}</p>}
         </div>
     }
     return (
@@ -25,8 +25,8 @@ const Game = (props) => {
                     let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
                         <Cell key={"r" + iR + "c" + iC}
                             cell={cell}
-                            onClickHandler={props.changeCurrentQuestion}
-                            handlerType="changeCurrentQuestion"
+                            onClickHandler={props.clickOnCell}
+                            handlerType="clickOnCell"
                             content={cell.close ? 'X' : cell.score} />
                     )}
                     </div>
@@ -43,7 +43,7 @@ const Game = (props) => {
                     </div>)}
                 </div>
             </div>
-            <div className={styles.question}>
+            {props.questionIsClosed ? '' : <div className={styles.question} >
                 <RadioForm
                     question={props.currentQuestion.question}
                     answers={props.currentQuestion.answers}
@@ -52,8 +52,10 @@ const Game = (props) => {
                     changeCurrentAnswer={props.changeCurrentAnswer}
                     questionAnswered={props.questionAnswered}
                     submitAnswerButton={props.submitAnswerButton}
+                    timeIsOver={props.timeIsOver}
                 />
             </div>
+            }
         </div>
     )
 };

@@ -4,7 +4,16 @@
 
     background-image: url(../../assets/stars.png);
     background-color: #0A0724;
+}
+
+a {
+    text-decoration: none;
+
     color: #fff;
+}
+
+a:hover {
+    font-size: 3.3rem;
 }
 
 .logo {
@@ -38,10 +47,5 @@
 .options nav {
     display: flex;
     flex-direction: column;
-}
-
-.options nav div:hover {
-    font-size: 3.3rem;
-    cursor: pointer;
 }
 

@@ -6,6 +6,7 @@ const PLAYER_CHANGE = "PLAYER_CHANGE";
 const CELL_CLOSURE = "CELL_CLOSURE";
 const GAME_OVER = "GAME_OVER";
 const DETERMINE_WINNER = "DETERMINE_WINNER";
+const CLOSE_QUESTION = "CLOSE_QUESTION";
 
 let initialState = {
     fieldWidth: 3,
@@ -27,7 +28,8 @@ let initialState = {
     currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
     questionAnswered: 0,
     gameOver: false, 
-    winner: ['', 0]
+    winner: ['', 0],
+    questionIsClosed: true
 }
 
 export const gameReducer = (state = initialState, action) => {
@@ -147,6 +149,8 @@ export const gameReducer = (state = initialState, action) => {
                 return {...state, winner: ['Все', winner[1]]}
             }
             return {...state, winner: winner}
+        case CLOSE_QUESTION:
+            return {...state, questionIsClosed: action.questionIsClosed}
         default:
             return state;
     }
@@ -184,14 +188,35 @@ export const determineWinner = () => ({
     type: DETERMINE_WINNER
 });
 
+export const closeQuestion = (questionIsClosed) => ({
+    type: CLOSE_QUESTION,
+    questionIsClosed
+});
+
 export const submitAnswerButton = (answerId, key, questionAnswered) => {
     return (dispatch) => {
+        dispatch(closeQuestion(true))
         dispatch(scoreCounter(answerId))
         dispatch(cellClosure(key))
         dispatch(playerChange())
         if(questionAnswered === (initialState.fieldHeight * initialState.fieldWidth - 1)) {
             dispatch(determineWinner());
             dispatch(gameOver());
-        }
-    }
-}
+        };
+    };
+};
+
+export const clickOnCell = (cell) => {
+    return (dispatch) => {
+        dispatch(closeQuestion(false));
+        dispatch(changeCurrentQuestion(cell));
+    };
+};
+
+export const timeIsOver = (answerId) => {
+    return (dispatch) => {
+        dispatch(scoreCounter(answerId));
+        dispatch(closeQuestion(true));
+        dispatch(playerChange())
+    };
+};

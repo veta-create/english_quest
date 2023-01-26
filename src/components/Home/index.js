@@ -1,5 +1,6 @@
 import styles from "./styles.module.css";
 import logo from "../../assets/logo.png"
+import { NavLink } from "react-router-dom";
 
 const Home = (props) => {
     return (
@@ -9,9 +10,9 @@ const Home = (props) => {
             </div>
             <div className={styles.options}>
                 <nav>
-                    <div className={styles.game}>Новая игра</div>
-                    <div className={styles.customBoard}>Пользовательская доска</div>
-                    <div className={styles.settings}>Настройки</div>
+                    <NavLink to="/game" className={styles.game}>Новая игра</NavLink>
+                    <NavLink to="/custom" className={styles.customBoard}>Пользовательская доска</NavLink>
+                    <NavLink to="/settings" className={styles.settings}>Настройки</NavLink>
                 </nav>
             </div>
         </div>

@@ -34,3 +34,6 @@ export const getWinner = (state) => {
     return state.gamePage.winner;
 };
 
+export const getQuestionIsClosed = (state) => {
+    return state.gamePage.questionIsClosed;
+};
