@@ -1,6 +1,8 @@
 .main {
     display: grid;
+    height: 100%;
     grid-template-columns: 70% 30%;
+    background-color: #000;
 }
 
 .field .themes nav {
@@ -21,7 +23,8 @@
     display: flex;
     flex-direction: column;
     list-style-type: none;
-    font-size: 2rem;}
+    font-size: 2rem;
+}
 
 .fieldVariations ul li {
     cursor: pointer;

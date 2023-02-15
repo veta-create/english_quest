@@ -2,12 +2,13 @@
 import cn from 'classnames';
 import React from 'react';
 import styles from './Cell.module.css';
-import score200 from '../../../assets/200.png'
-import score400 from '../../../assets/400.png'
-import score600 from '../../../assets/600.png'
-import score800 from '../../../assets/800.png'
-import score1000 from '../../../assets/1000.png'
-import closeCell from '../../../assets/close-cell.png'
+import score200 from '../../../assets/200.png';
+import score400 from '../../../assets/400.png';
+import score600 from '../../../assets/600.png';
+import score800 from '../../../assets/800.png';
+import score1000 from '../../../assets/1000.png';
+import closeCell from '../../../assets/close-cell.png';
+import plus from '../../../assets/plus.png';
 
 const Cell = (props) => {
     const defineScorePicture = () => {
@@ -28,37 +29,30 @@ const Cell = (props) => {
         };
     };
 
-    let cellStyles = cn(styles.cell, "w-1/6", "max-w-xs", "h-28", "flex", "justify-center", "items-center", "cursor-pointer", "text-3xl", "bg-blue-900", "border-solid", "border-4", "border-black");
+    let cellStyles = cn(styles.cell, "w-1/6", "max-w-xs", "h-28", "flex", "justify-center", "items-center", "cursor-pointer", "text-3xl", "bg-blue-900");
 
     let newTheme = React.createRef();
     
     if (props.handlerType === "clickOnCell") {
         return <div onClick={() => props.onClickHandler(props.cell)}
-            className={cellStyles}>
+            className={cn(cellStyles, "border-solid", "border-4", "border-black")}>
             {props.cell.close ? <img src={closeCell} /> : <img src={defineScorePicture()} />}
         </div>
     }
 
     if (props.handlerType === "changeTheme") {
         return <div
-            className={cellStyles}>
+            className={cn(cellStyles, "border-solid", "border-4", "border-black")}>
             <input ref={newTheme} id="question" placeholder={props.content} />
             <input type="button" value="✓"
                 onClick={() => props.onClickHandler(props.themeNumber, newTheme.current.value)} />
         </div>
     };
 
-    if (props.handlerType === "addColumn") {
+    if (props.handlerType === "addColumn" || props.handlerType === "addRow") {
         return <div onClick={() => props.onClickHandler()}
-            className={styles.cell}>
-            {props.content}
-        </div>
-    }
-
-    if (props.handlerType === "addRow") {
-        return <div onClick={() => props.onClickHandler()}
-            className={styles.cell}>
-            {props.content}
+            className={cn(cellStyles, "border-2", "border-dashed", "divide-white")}>
+            <img src={plus} />
         </div>
     }
 
