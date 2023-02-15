@@ -14,7 +14,7 @@ let initialState = {
     themes: ["BTS", "Minecraft", "Олимпийские игры"],
     field: [
         [{ key: "01", score: 200, question: '1?', answers: ['п', 'н', 'н'], correct: 0, close: false },
-        { key: "02", score: 200, question: '2?', answers: ['п', 'н', 'н'], correct: 0, close: false },
+        { key: "02", score: 200, question: 'Как добраться до Эндермира?', answers: ['Око Края', 'Через пещеру', 'В кусты'], correct: 0, close: false },
         { key: "03", score: 200, question: '3?', answers: ['н', 'н', 'п'], correct: 2, close: false }],
         [{ key: "04", score: 400, question: '4?', answers: ['н', 'н', 'п'], correct: 2, close: false },
         { key: "05", score: 400, question: '5?', answers: ['н', 'п', 'н'], correct: 1, close: false },

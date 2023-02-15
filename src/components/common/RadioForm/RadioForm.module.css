@@ -1,0 +1,40 @@
+.main {
+    font-family: "MacondoRegular";
+    text-shadow: 0px 0px 5px #000;
+}
+
+.answerButton {
+    text-shadow: 0px 0px 5px #000;
+}
+
+.answerRadio+label {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 5px;
+    text-shadow: 0px 0px 5px #000;
+}
+
+.answerRadio+label::before {
+    content: '';
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-right: 20px;
+
+    border: 2px solid #fff;
+}
+
+.answerRadio:not(:disabled):not(:checked)+label:hover::before {
+    background-color: #fff;
+}
+
+.answerRadio:not(:disabled):checked+label::before {
+    background-color: #fff;
+}
+
+@font-face {
+    font-family: "MacondoRegular";
+    src: url("../../../fonts/MacondoRegular/Macondo-Regular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: normal;
+}

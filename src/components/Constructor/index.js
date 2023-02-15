@@ -64,6 +64,10 @@ const Constructor = (props) => {
             <div className={cn(styles.createQuestion, props.creatingQuestion ? styles.visible : styles.hide)}>
                 <form>
                     <input ref={question} id="question" placeholder="Введите вопрос" />
+                    <p>Добавьте аудио вопрос</p>
+                    <input type="file" accept='audio/'/>
+                    <p>Добавьте видео вопрос</p>
+                    <input type="file" accep='video/'/>
                     <input ref={option1Value} id="option1" placeholder={'Вариант ответа номер 1'} />
                     <input ref={option2Value} id="option2" placeholder={'Вариант ответа номер 2'} />
                     <input ref={option3Value} id="option3" placeholder={'Вариант ответа номер 3'} />

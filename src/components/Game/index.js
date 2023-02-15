@@ -1,5 +1,4 @@
 import RadioForm from '../common/RadioForm/RadioForm';
-import styles from './styles.module.css';
 import cn from 'classnames';
 import Cell from '../common/Cell/Cell';
 
@@ -12,38 +11,37 @@ const Game = (props) => {
         </div>
     }
     return (
-        <div className={styles.main}>
-            <div className={styles.field}>
-                <div className={styles.themes}>
-                    <nav>{props.themes.map((t, i) => {
+        <div className={cn("h-full", "grid", "grid-cols-[8fr_2fr]", "bg-black")}>
+            <div>
+                <div>
+                    <nav className={cn("flex", "flex-row", "text-white", "font-bold", "text-center")}>{props.themes.map((t, i) => {
                         return <Cell key={"0" + i} handlerType="none" content={t} />
                     })}
                     </nav>
                 </div>
                 {props.field.map((r, iR) => {
                     let rows = [];
-                    let row = <div key={"r" + iR} className={styles.row}>{r.map((cell, iC) =>
+                    let row = <div key={"r" + iR} className={cn("flex", "flex-row")}>{r.map((cell, iC) =>
                         <Cell key={"r" + iR + "c" + iC}
                             cell={cell}
                             onClickHandler={props.clickOnCell}
-                            handlerType="clickOnCell"
-                            content={cell.close ? 'X' : cell.score} />
+                            handlerType="clickOnCell" />
                     )}
                     </div>
                     rows.push(row);
                     return rows;
                 })}
             </div>
-            <div className={styles.sidebar}>
-                <div className={styles.players}>
+            <div className={cn("flex", "col-span-1")}>
+                <div className={cn("text-5xl", "font-bold", "text-yellow-600")}>
                     {props.players.map(p => <div key={p.key}
-                        className={cn(styles.player, p.key === props.currentPlayer ? styles.currentPlayer : "")}>
-                        <div className={styles.name}>{p.name}</div>
-                        <div className={styles.score}>{p.score}</div>
+                        className={cn(p.key === props.currentPlayer ? "text-white" : "")}>
+                        <div>{p.name}</div>
+                        <div>{p.score}</div>
                     </div>)}
                 </div>
             </div>
-            {props.questionIsClosed ? '' : <div className={styles.question} >
+            {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
                 <RadioForm
                     question={props.currentQuestion.question}
                     answers={props.currentQuestion.answers}
@@ -53,6 +51,7 @@ const Game = (props) => {
                     questionAnswered={props.questionAnswered}
                     submitAnswerButton={props.submitAnswerButton}
                     timeIsOver={props.timeIsOver}
+                    players={props.players}
                 />
             </div>
             }

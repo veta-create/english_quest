@@ -1,4 +1,5 @@
 import React from "react";
+import cn from "classnames";
 
 const Timer = (props) => {
     const [over, setOver] = React.useState(false);
@@ -27,7 +28,7 @@ const Timer = (props) => {
   
     return (
       <div>
-        <p>{`${m
+        <p className={cn("flex", "justify-end", "content-end")}>{`${m
           .toString()
           .padStart(2, '0')}:${s.toString().padStart(2, '0')}`}</p>
         <div>{over ? "Время закончилось" : ''}</div>
