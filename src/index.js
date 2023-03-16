@@ -27,4 +27,5 @@ store.subscribe(() => {
   let state = store.getState();
   render(state);
 });
+
 reportWebVitals();

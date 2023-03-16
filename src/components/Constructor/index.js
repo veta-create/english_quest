@@ -4,7 +4,6 @@ import Cell from '../common/Cell/Cell';
 import styles from './styles.module.css';
 
 const Constructor = (props) => {
-    debugger
     let question = React.createRef();
     let option1Value = React.createRef();
     let option2Value = React.createRef();
@@ -41,7 +40,7 @@ const Constructor = (props) => {
                             content={cell.question === '' ? "Добавить вопрос за " + cell.score : cell.score} />
                     )}
                         {iR === 0 && props.fieldWidth < 6 ?
-                         <Cell className={styles.addColumn} handlerType="addColumn" onClickHandler={props.addColumn} /> : ''
+                            <Cell className={styles.addColumn} handlerType="addColumn" onClickHandler={props.addColumn} /> : ''
                         }
                     </div>
                     rows.push(row);
@@ -50,17 +49,14 @@ const Constructor = (props) => {
                 {props.fieldHeight < 5 ? <Cell handlerType="addRow" onClickHandler={props.addRow} /> : ""}
             </div>
 
-            <div className={styles.fieldVariations}>
-                <ul>
-                    <li onClick={() => props.createFieldFromTemplate(3, 3)} >
-                        3 Х 3
-                    </li>
-                    <li onClick={() => props.createFieldFromTemplate(4, 4)} >
-                        4 Х 4
-                    </li>
-                    <li onClick={() => props.createFieldFromTemplate(6, 5)} >
-                        6 Х 5
-                    </li>
+            <div>
+                <ul className={cn("w-full", "flex", "flex-col", "items-end", "list-none")}>
+                    <Cell fieldWidth={3} fieldHeight={3} onClickHandler={props.createFieldFromTemplate}
+                     handlerType="createFieldFromTemplate" content="3*3" />
+                    <Cell fieldWidth={4} fieldHeight={4} onClickHandler={props.createFieldFromTemplate}
+                     handlerType="createFieldFromTemplate" content="4*4" />
+                    <Cell fieldWidth={6} fieldHeight={5} onClickHandler={props.createFieldFromTemplate}
+                     handlerType="createFieldFromTemplate" content="6*5" />
                 </ul>
             </div>
 
