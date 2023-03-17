@@ -8,14 +8,17 @@ const CREATE_QUESTION = "CREATE_QUESTION";
 const TOGGLE_CREATING_QUESTION = "TOGGLE_CREATING_QUESTION";
 const SET_CURRENT_CELL = "SET_CURRENT_CELL";
 const CHANGE_THEME = "CHANGE_THEME";
+const CHANGE_CREATING_QUESTION_TYPE = "CHANGE_CREATING_QUESTION_TYPE";
 
 let initialState = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
     field: [],
     fieldWidth: 3,
     fieldHeight: 3,
-    currentCell: "01", 
-    creatingQuestion: false
+    currentCell: "01",
+    creatingQuestion: false,
+    //text - текстовые вопросы, audio - аудио-вопросы, video - видео-вопросы
+    creatingQuestionType: "text"
 }
 
 export const constructorReducer = (state = initialState, action) => {
@@ -81,25 +84,43 @@ export const constructorReducer = (state = initialState, action) => {
             for (let i = 0; i < fieldCopy.length; i++) {
                 for (let j = 0; j < fieldCopy[i].length; j++) {
                     if (fieldCopy[i][j].key === action.key) {
-                        fieldCopy[i][j].question = action.newQuestion;
+
+                        if (action.questionType === "text") {
+                            fieldCopy[i][j].question = action.newQuestion;
+                        };
+
+                        if (action.questionType === "audio") {
+                            //фунцкия, генерирующая путь к аудио файл
+                        };
+
+                        if (action.questionType === "video") {
+                            //фунцкия, генерирующая путь к аудио файл
+                        };
+
                         fieldCopy[i][j].answers = action.answers;
                         // надо обработать ошибку, если ввели неккоректный ответ
                         fieldCopy[i][j].correct = action.correctAnswer - 1;
                     }
                 }
             }
-            return { ...state, field: fieldCopy}
+            return { ...state, field: fieldCopy }
+
         case SET_CURRENT_CELL:
-            return {...state, currentCell: action.currentCell};
+            return { ...state, currentCell: action.currentCell };
 
         case CHANGE_THEME:
-            for(let i = 0; i < themesCopy.length; i++) {
-                if(i === action.themeNumber) {
+            for (let i = 0; i < themesCopy.length; i++) {
+                if (i === action.themeNumber) {
                     themesCopy[i] = action.newTheme;
                 };
             };
 
-            return {...state, themes: themesCopy}
+            return { ...state, themes: themesCopy }
+
+        case CHANGE_CREATING_QUESTION_TYPE:
+
+            return { ...state, creatingQuestionType: action.creatingQuestionType }
+
         default:
             return state;
     };
@@ -128,8 +149,9 @@ export const toggleCreatingQuestion = (creatingQuestion) => ({
     creatingQuestion
 });
 
-export const createQuestion = (key, newQuestion, answers, correctAnswer) => ({
+export const createQuestion = (questionType, key, newQuestion, answers, correctAnswer) => ({
     type: CREATE_QUESTION,
+    questionType,
     key,
     newQuestion,
     answers,
@@ -147,6 +169,11 @@ export const changeTheme = (themeNumber, newTheme) => ({
     newTheme
 });
 
+export const changeCreatingQuestionType = (creatingQuestionType) => ({
+    type: CHANGE_CREATING_QUESTION_TYPE,
+    creatingQuestionType
+});
+
 export const clickOnCell = (currentCell) => {
     return (dispatch) => {
         dispatch(toggleCreatingQuestion(true));
@@ -161,9 +188,9 @@ export const createFieldFromTemplate = (newFieldWidth, newFieldHeigh) => {
     };
 };
 
-export const addNewQuestion = (key, newQuestion, answers, correctAnswer) => {
+export const addNewQuestion = (type, key, newQuestion, answers, correctAnswer) => {
     return (dispatch) => {
-        dispatch(createQuestion(key, newQuestion, answers, correctAnswer))
+        dispatch(createQuestion(type, key, newQuestion, answers, correctAnswer))
         dispatch(toggleCreatingQuestion(false))
     };
 };

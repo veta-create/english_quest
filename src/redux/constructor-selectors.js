@@ -18,6 +18,10 @@ export const getCreatingQuestion = (state) => {
     return state.constructorPage.creatingQuestion;
 };
 
+export const getCreatingQuestionType = (state) => {
+    return state.constructorPage.creatingQuestionType;
+};
+
 export const getCurrentCell = (state) => {
     return state.constructorPage.currentCell;
 }

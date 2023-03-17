@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getCreatingQuestion, getCurrentCell, getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-selectors';
-import { addColumn, addNewQuestion, addRow, changeTheme, clickOnCell, createFieldFromTemplate, setCurrentCell } from '../../redux/constructorReducer';
+import { getCreatingQuestion, getCreatingQuestionType, getCurrentCell, getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-selectors';
+import { addColumn, addNewQuestion, addRow, changeCreatingQuestionType, changeTheme, clickOnCell, createFieldFromTemplate, setCurrentCell } from '../../redux/constructorReducer';
 import Constructor from './index';
 
 const mapStateToProps = (state) => {
@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
         fieldHeight: getFieldHeight(state),
         field: getField(state), 
         creatingQuestion: getCreatingQuestion(state),
-        currentCell: getCurrentCell(state)
+        currentCell: getCurrentCell(state),
+        creatingQuestionType: getCreatingQuestionType(state)
     };
 };
 
@@ -21,7 +22,8 @@ const ConstructorContainer = connect(mapStateToProps,
         clickOnCell,
         addNewQuestion,
         setCurrentCell,
-        changeTheme
+        changeTheme,
+        changeCreatingQuestionType
      })
      (Constructor);
 
