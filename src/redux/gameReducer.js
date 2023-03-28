@@ -7,6 +7,7 @@ const CELL_CLOSURE = "CELL_CLOSURE";
 const GAME_OVER = "GAME_OVER";
 const DETERMINE_WINNER = "DETERMINE_WINNER";
 const CLOSE_QUESTION = "CLOSE_QUESTION";
+const SET_QUESTION_IS_CLOSED = "SET_QUESTION_IS_CLOSED";
 
 let initialState = {
     fieldWidth: 3,
@@ -23,31 +24,34 @@ let initialState = {
         { key: "08", score: 600, question: '8?', answers: ['н', 'п', 'н'], correct: 1, close: false },
         { key: "09", score: 600, question: '9?', answers: ['н', 'п', 'н'], correct: 1, close: false }]
     ],
-    players: [{ key: "01", name: "Arut", score: 0}, { key: "02", name: "Veta", score: 0 }],
+    players: [{ key: "01", name: "Arut", score: 0 }, { key: "02", name: "Veta", score: 0 }],
     currentPlayer: "01",
     currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
     questionAnswered: 0,
-    gameOver: false, 
+    gameOver: false,
     winner: ['', 0],
     questionIsClosed: true
 }
 
 export const gameReducer = (state = initialState, action) => {
-    let stateCopy =  lodash.cloneDeep(state);
+    let stateCopy = lodash.cloneDeep(state);
     let playersCopy = lodash.cloneDeep(stateCopy.players);
     switch (action.type) {
-        case CHANGE_CURRENT_QUESTION:
+        case CHANGE_CURRENT_QUESTION: {
             if (action.cell.close === false) {
+                let newCurrentQuestion = lodash.cloneDeep(action.cell);
+                newCurrentQuestion.currentAnswer = 0;
                 return {
                     ...state,
-                    currentQuestion: action.cell
+                    currentQuestion: newCurrentQuestion
                 };
 
             } else {
                 alert('Ячейка уже использована, пожалуйста, выберите другую');
                 return state;
-            }
-        case CHANGE_CURRENT_ANSWER:
+            };
+        };
+        case CHANGE_CURRENT_ANSWER: {
             return {
                 ...state,
                 currentQuestion: {
@@ -55,7 +59,8 @@ export const gameReducer = (state = initialState, action) => {
                     currentAnswer: action.currentAnswer
                 }
             };
-        case SCORE_COUNTER:
+        };
+        case SCORE_COUNTER: {
             const scoreCounter = (symbol) => {
                 let playersCopy = [];
                 for (let i = 0; i < state.players.length; i++) {
@@ -63,10 +68,9 @@ export const gameReducer = (state = initialState, action) => {
                     if (state.players[i].key === state.currentPlayer) {
                         if (symbol === 'plus') {
                             playerCopy.score += state.currentQuestion.score;
-                            console.log(playerCopy)
                         }
                         if (symbol === 'minus') {
-                            if(playerCopy.score - state.currentQuestion.score > 0) {
+                            if (playerCopy.score - state.currentQuestion.score > 0) {
                                 playerCopy.score -= state.currentQuestion.score;
                             } else {
                                 playerCopy.score = 0;
@@ -86,8 +90,9 @@ export const gameReducer = (state = initialState, action) => {
             } else {
                 const newState = scoreCounter('minus');
                 return newState;
-            }
-        case PLAYER_CHANGE:
+            };
+        };
+        case PLAYER_CHANGE: {
             const definePlayer = () => {
                 let newPlayer = '';
                 state.players.find((p, i) => {
@@ -106,51 +111,54 @@ export const gameReducer = (state = initialState, action) => {
                 ...state,
                 currentPlayer: "0" + definePlayer()
             };
-        case CELL_CLOSURE:
-            let fieldCopy = [];
-            for (let i = 0; i < state.field.length; i++) {
-                let row = []
-                for (let j = 0; j < state.field[i].length; j++) {
-                    if (state.field[i][j].key === action.key) {
-                        let cellCopy = { ...state.field[i][j] };
-                        cellCopy.close = true;
-                        row.push(cellCopy)
-                    } else {
-                        row.push(state.field[i][j])
-                    }
-                }
-                fieldCopy.push(row);
-                row = [];
-            }
-            return {
-                ...state,
-                field: fieldCopy,
-                questionAnswered: state.questionAnswered + 1
-            }
-        case GAME_OVER:
-            return {...state, gameOver: true}
-        case DETERMINE_WINNER:
+        };
+
+        case CELL_CLOSURE: {
+            let stateChangeFlag = false;
+            for (let i = 0; i < stateCopy.field.length; i++) {
+                for (let j = 0; j < stateCopy.field[i].length; j++) {
+                    if (stateCopy.field[i][j].key === action.key && !stateCopy.field[i][j].close) {
+                        stateCopy.field[i][j].close = true;
+                        stateChangeFlag = true;
+                    };
+                };
+            };
+            if(stateChangeFlag) {
+                return stateCopy;
+            };
+        };
+
+        case GAME_OVER: {
+            return { ...state, gameOver: true };
+        };
+
+        case DETERMINE_WINNER: {
             let winner = ["", 0];
             let scoreHitCounter = 0;
-            for(let i = 0; i < playersCopy.length; i++) {
-                if(playersCopy[i].score > winner[1]) {
+            for (let i = 0; i < playersCopy.length; i++) {
+                if (playersCopy[i].score > winner[1]) {
                     winner[0] = playersCopy[i].name;
                     winner[1] = playersCopy[i].score;
                 }
             }
 
-            for(let i = 0; i < playersCopy.length; i++) {
-                if(playersCopy[i].score === winner[0]) {
+            for (let i = 0; i < playersCopy.length; i++) {
+                if (playersCopy[i].score === winner[0]) {
                     scoreHitCounter += 1;
                 }
             }
 
-            if(scoreHitCounter === playersCopy.length) {
-                return {...state, winner: ['Все', winner[1]]}
+            if (scoreHitCounter === playersCopy.length) {
+                return { ...state, winner: ['Все', winner[1]] }
             }
-            return {...state, winner: winner}
-        case CLOSE_QUESTION:
-            return {...state, questionIsClosed: action.questionIsClosed}
+
+            return { ...state, winner: winner };
+        };
+
+        case SET_QUESTION_IS_CLOSED: {
+            return { ...state, questionIsClosed: action.questionIsClosed };
+        };
+
         default:
             return state;
     }
@@ -188,18 +196,18 @@ export const determineWinner = () => ({
     type: DETERMINE_WINNER
 });
 
-export const closeQuestion = (questionIsClosed) => ({
-    type: CLOSE_QUESTION,
+export const setQuestionIsClosed = (questionIsClosed) => ({
+    type: SET_QUESTION_IS_CLOSED,
     questionIsClosed
 });
 
 export const submitAnswerButton = (answerId, key, questionAnswered) => {
     return (dispatch) => {
-        dispatch(closeQuestion(true))
-        dispatch(scoreCounter(answerId))
-        dispatch(cellClosure(key))
-        dispatch(playerChange())
-        if(questionAnswered === (initialState.fieldHeight * initialState.fieldWidth - 1)) {
+        dispatch(scoreCounter(answerId));
+        dispatch(cellClosure(key));
+        dispatch(playerChange());
+        dispatch(setQuestionIsClosed(true));
+        if (questionAnswered === (initialState.fieldHeight * initialState.fieldWidth - 1)) {
             dispatch(determineWinner());
             dispatch(gameOver());
         };
@@ -208,15 +216,15 @@ export const submitAnswerButton = (answerId, key, questionAnswered) => {
 
 export const clickOnCell = (cell) => {
     return (dispatch) => {
-        dispatch(closeQuestion(false));
         dispatch(changeCurrentQuestion(cell));
+        dispatch(setQuestionIsClosed(false));
     };
 };
 
 export const timeIsOver = (answerId) => {
     return (dispatch) => {
         dispatch(scoreCounter(answerId));
-        dispatch(closeQuestion(true));
-        dispatch(playerChange())
+        dispatch(setQuestionIsClosed(true));
+        dispatch(playerChange());
     };
 };

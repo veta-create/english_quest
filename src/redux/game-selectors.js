@@ -18,10 +18,6 @@ export const getCurrentQuestion = (state) => {
     return state.gamePage.currentQuestion;
 };
 
-export const getCurrentAnswer = (state) => {
-    return state.gamePage.currentQuestion.currentAnswer;
-};
-
 export const getQuestionAnswered = (state) => {
     return state.gamePage.questionAnswered;
 };

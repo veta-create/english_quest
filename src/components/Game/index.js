@@ -44,9 +44,9 @@ const Game = (props) => {
             {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
                 <RadioForm
                     question={props.currentQuestion.question}
+                    currentQuestion={props.currentQuestion}
                     answers={props.currentQuestion.answers}
                     questionNumber={props.currentQuestion.key}
-                    currentAnswer={props.currentAnswer}
                     changeCurrentAnswer={props.changeCurrentAnswer}
                     questionAnswered={props.questionAnswered}
                     submitAnswerButton={props.submitAnswerButton}

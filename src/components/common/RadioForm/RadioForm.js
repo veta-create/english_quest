@@ -8,22 +8,22 @@ const RadioForm = (props) => {
         <div className={cn("text-center")}>{props.question}</div>
         <div className={cn("pt-8")}>
             {props.answers.map((a, i) => {
-                if (i === props.currentAnswer) {
+                if (i === props.currentQuestion.currentAnswer) {
                     return <div key={"i" + i}>
-                        <input className={cn(styles.answerRadio, "absolute", "opacity-0")} type="radio" onChange={() => props.changeCurrentAnswer(i)} checked name="answer" id={i} />
+                        <input className={cn(styles.answerRadio, "absolute", "opacity-0")} type="radio" checked onChange={() => props.changeCurrentAnswer(i)} name="answer" id={i} />
                         <label htmlFor={i} className={"cursor-pointer"}>{a}</label>
                     </div>
                 } else {
                     return <div key={"i" + i}>
                         <input className={cn(styles.answerRadio, "absolute", "opacity-0")} type="radio" onChange={() => props.changeCurrentAnswer(i)} name="answer" id={i} />
-                        <label htmlFor={i} className={"cursor-pointer"}>{a}</label>
+                        <label  htmlFor={i} className={"cursor-pointer"}>{a}</label>
                     </div>
                 };
             })}
         </div>
         <div className={cn("pt-6", "flex", "justify-center")}>
             <input type="button" className={cn(styles.answerButton, "cursor-pointer")}
-                onClick={() => props.submitAnswerButton(props.currentAnswer, props.questionNumber, props.questionAnswered)} value="ответить" />
+                onClick={() => props.submitAnswerButton(props.currentQuestion.currentAnswer, props.questionNumber, props.questionAnswered, props.currentQuestion)} value="ответить" />
         </div>
         <div className={cn("pt-6", "pl-6")}>
             <select className={cn("bg-indigo-800", "text-white")}>

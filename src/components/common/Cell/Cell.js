@@ -53,7 +53,7 @@ const Cell = (props) => {
             className={cn(cellStyles, "border-solid", "border-4", "border-black")}>
             {props.cell.close ? <img src={closeCell} alt="Закрытая клетка" /> : <img src={defineScorePicture()} alt="Открытая клетка" />}
         </div>
-    }
+}
 
     if (props.handlerType === "changeTheme") {
         return <div
