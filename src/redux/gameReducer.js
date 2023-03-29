@@ -90,18 +90,14 @@ export const gameReducer = (state = initialState, action) => {
         };
 
         case CELL_CLOSURE: {
-            let stateChangeFlag = false;
             for (let i = 0; i < stateCopy.field.length; i++) {
                 for (let j = 0; j < stateCopy.field[i].length; j++) {
                     if (stateCopy.field[i][j].key === action.key && !stateCopy.field[i][j].close) {
                         stateCopy.field[i][j].close = true;
-                        stateChangeFlag = true;
                     };
                 };
             };
-            if (stateChangeFlag) {
-                return stateCopy;
-            };
+            return stateCopy;
         };
 
         case GAME_OVER: {

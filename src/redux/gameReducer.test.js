@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { changeCurrentQuestion, gameReducer, playerChange, scoreCounter } from "./gameReducer";
+import { cellClosure, changeCurrentQuestion, gameReducer, playerChange, scoreCounter } from "./gameReducer";
 
 
 let state = {
@@ -95,3 +95,13 @@ describe('the current player must change', () => {
     expect(result.currentPlayer).toBe("01");
   })
 });
+
+describe('game cell must be closed', () => {
+  it('the close field of the cell with the key "01" must be true', () => {
+    const action = cellClosure("01");
+
+    const result = gameReducer(state, action);
+
+    expect(result.field[0][0].close).toBe(true);
+  })
+})
