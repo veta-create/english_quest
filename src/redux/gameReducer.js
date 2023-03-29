@@ -6,7 +6,6 @@ const PLAYER_CHANGE = "PLAYER_CHANGE";
 const CELL_CLOSURE = "CELL_CLOSURE";
 const GAME_OVER = "GAME_OVER";
 const DETERMINE_WINNER = "DETERMINE_WINNER";
-const CLOSE_QUESTION = "CLOSE_QUESTION";
 const SET_QUESTION_IS_CLOSED = "SET_QUESTION_IS_CLOSED";
 
 let initialState = {
@@ -27,38 +26,25 @@ let initialState = {
     players: [{ key: "01", name: "Arut", score: 0 }, { key: "02", name: "Veta", score: 0 }],
     currentPlayer: "01",
     currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
+    questionIsClosed: true,
     questionAnswered: 0,
     gameOver: false,
-    winner: ['', 0],
-    questionIsClosed: true
-}
+    winner: ['', 0]
+};
 
 export const gameReducer = (state = initialState, action) => {
     let stateCopy = lodash.cloneDeep(state);
     let playersCopy = lodash.cloneDeep(stateCopy.players);
     switch (action.type) {
         case CHANGE_CURRENT_QUESTION: {
-            if (action.cell.close === false) {
-                let newCurrentQuestion = lodash.cloneDeep(action.cell);
-                newCurrentQuestion.currentAnswer = 0;
-                return {
-                    ...state,
-                    currentQuestion: newCurrentQuestion
-                };
-
-            } else {
-                alert('Ячейка уже использована, пожалуйста, выберите другую');
-                return state;
-            };
+            let newCurrentQuestion = lodash.cloneDeep(action.cell);
+            newCurrentQuestion.currentAnswer = 0;
+            stateCopy.currentQuestion = newCurrentQuestion;
+            return stateCopy;
         };
         case CHANGE_CURRENT_ANSWER: {
-            return {
-                ...state,
-                currentQuestion: {
-                    ...state.currentQuestion,
-                    currentAnswer: action.currentAnswer
-                }
-            };
+            stateCopy.currentQuestion.currentAnswer = action.currentAnswer;
+            return stateCopy;
         };
         case SCORE_COUNTER: {
             const scoreCounter = (symbol) => {
@@ -123,7 +109,7 @@ export const gameReducer = (state = initialState, action) => {
                     };
                 };
             };
-            if(stateChangeFlag) {
+            if (stateChangeFlag) {
                 return stateCopy;
             };
         };
@@ -216,8 +202,12 @@ export const submitAnswerButton = (answerId, key, questionAnswered) => {
 
 export const clickOnCell = (cell) => {
     return (dispatch) => {
-        dispatch(changeCurrentQuestion(cell));
-        dispatch(setQuestionIsClosed(false));
+        if (!cell.close) {
+            dispatch(changeCurrentQuestion(cell));
+            dispatch(setQuestionIsClosed(false));
+        } else {
+            alert("Эта ячейка уже использована, пожалуйста, выберите другую");
+        };
     };
 };
 
