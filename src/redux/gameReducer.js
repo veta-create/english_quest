@@ -48,42 +48,35 @@ export const gameReducer = (state = initialState, action) => {
         };
         case SCORE_COUNTER: {
             const scoreCounter = (symbol) => {
-                let playersCopy = [];
-                for (let i = 0; i < state.players.length; i++) {
-                    let playerCopy = { ...state.players[i] }
-                    if (state.players[i].key === state.currentPlayer) {
-                        if (symbol === 'plus') {
-                            playerCopy.score += state.currentQuestion.score;
-                        }
-                        if (symbol === 'minus') {
-                            if (playerCopy.score - state.currentQuestion.score > 0) {
-                                playerCopy.score -= state.currentQuestion.score;
+                for (let i = 0; i < stateCopy.players.length; i++) {
+                    if (stateCopy.players[i].key === stateCopy.currentPlayer) {
+                        if (symbol === "increase") {
+                            stateCopy.players[i].score += stateCopy.currentQuestion.score;
+                        };
+                        if (symbol === "decrease") {
+                            if (stateCopy.players[i].score - stateCopy.currentQuestion.score > 0) {
+                                stateCopy.players[i].score -= stateCopy.currentQuestion.score;
                             } else {
-                                playerCopy.score = 0;
-                            }
-                        }
-                    }
-                    playersCopy.push(playerCopy);
-                }
-                return {
-                    ...state,
-                    players: playersCopy
-                }
-            }
-            if (action.answerId === state.currentQuestion.correct) {
-                const newState = scoreCounter('plus');
-                return newState;
+                                stateCopy.players[i].score = 0;
+                            };
+                        };
+                    };
+                };
+                return stateCopy;
+            };
+
+            if (action.answerId === stateCopy.currentQuestion.correct) {
+                return scoreCounter("increase");
             } else {
-                const newState = scoreCounter('minus');
-                return newState;
+                return scoreCounter("decrease");
             };
         };
         case PLAYER_CHANGE: {
             const definePlayer = () => {
-                let newPlayer = '';
-                state.players.find((p, i) => {
-                    if (p.key === state.currentPlayer) {
-                        if (i !== state.players.length - 1) {
+                let newPlayer;
+                stateCopy.players.find((p, i) => {
+                    if (p.key === stateCopy.currentPlayer) {
+                        if (i !== stateCopy.players.length - 1) {
                             newPlayer = i + 2;
                         } else {
                             newPlayer = 1;
@@ -92,11 +85,8 @@ export const gameReducer = (state = initialState, action) => {
                 });
                 return newPlayer;
             };
-
-            return {
-                ...state,
-                currentPlayer: "0" + definePlayer()
-            };
+            stateCopy.currentPlayer = "0" + definePlayer();
+            return stateCopy;
         };
 
         case CELL_CLOSURE: {
