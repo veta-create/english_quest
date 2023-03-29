@@ -101,30 +101,34 @@ export const gameReducer = (state = initialState, action) => {
         };
 
         case GAME_OVER: {
-            return { ...state, gameOver: true };
+            stateCopy.gameOver = true;
+            return stateCopy;
         };
 
         case DETERMINE_WINNER: {
             let winner = ["", 0];
             let scoreHitCounter = 0;
-            for (let i = 0; i < playersCopy.length; i++) {
-                if (playersCopy[i].score > winner[1]) {
-                    winner[0] = playersCopy[i].name;
-                    winner[1] = playersCopy[i].score;
-                }
-            }
 
-            for (let i = 0; i < playersCopy.length; i++) {
-                if (playersCopy[i].score === winner[0]) {
+            for (let i = 0; i < stateCopy.players.length; i++) {
+                if (stateCopy.players[i].score > winner[1]) {
+                    winner[0] = stateCopy.players[i].name;
+                    winner[1] = stateCopy.players[i].score;
+                };
+            };
+
+            for (let i = 0; i < stateCopy.players.length; i++) {
+                if (stateCopy.players[i].score === winner[1]) {
                     scoreHitCounter += 1;
-                }
-            }
+                };
+            };
 
-            if (scoreHitCounter === playersCopy.length) {
-                return { ...state, winner: ['Все', winner[1]] }
-            }
+            if (scoreHitCounter === stateCopy.players.length) {
+                winner[0] = 'Все';
+            };
 
-            return { ...state, winner: winner };
+            stateCopy.winner = winner;
+
+            return stateCopy;
         };
 
         case SET_QUESTION_IS_CLOSED: {

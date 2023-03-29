@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { cellClosure, changeCurrentQuestion, gameReducer, playerChange, scoreCounter } from "./gameReducer";
+import { cellClosure, changeCurrentQuestion, determineWinner, gameOver, gameReducer, playerChange, scoreCounter, setQuestionIsClosed } from "./gameReducer";
 
 
 let state = {
@@ -103,5 +103,57 @@ describe('game cell must be closed', () => {
     const result = gameReducer(state, action);
 
     expect(result.field[0][0].close).toBe(true);
-  })
-})
+  });
+});
+
+describe('game over must be change', () => {
+  it('game over must be true', () => {
+    const action = gameOver();
+
+    const result = gameReducer(state, action);
+
+    expect(result.gameOver).toBe(true);
+  });
+});
+
+describe('the winner must change', () => {
+  it('the winner must be [Arut, 100]', () => {
+    const action = determineWinner();
+
+    const result = gameReducer(state, action);
+
+    expect(result.winner).toEqual(["Arut", 100]);
+  });
+
+  it('the winner must be [Все, 100](dead heat)', () => {
+    const action = determineWinner();
+
+    let newState = lodash.cloneDeep(state);
+
+    newState.players[1].score = 100;
+    console.log(newState)
+
+    let result = gameReducer(newState, action);
+    console.log(result)
+
+    expect(result.winner).toEqual(['Все', 100]);
+  });
+});
+
+describe('question is closed must change', () => {
+  it('question is closed must be true', () => {
+    const action = setQuestionIsClosed(true);
+
+    const result = gameReducer(state, action);
+
+    expect(result.questionIsClosed).toBe(true);
+  });
+
+  it('question is closed must be false', () => {
+    const action = setQuestionIsClosed(false);
+
+    const result = gameReducer(state, action);
+
+    expect(result.questionIsClosed).toBe(false);
+  });
+});
