@@ -19,21 +19,24 @@ let initialState = {
     creatingQuestion: false,
     //text - текстовые вопросы, audio - аудио-вопросы, video - видео-вопросы
     creatingQuestionType: "text"
-}
+};
 
 export const constructorReducer = (state = initialState, action) => {
     const stateCopy = lodash.cloneDeep(state);
     const fieldCopy = lodash.cloneDeep(stateCopy.field);
     const themesCopy = lodash.cloneDeep(stateCopy.themes);
     switch (action.type) {
-        case SET_NEW_FIELD_SIZE:
-            return { ...state, fieldWidth: action.newFieldWidth, fieldHeight: action.newFieldHeigh };
-        case CREATE_FIELD:
+        case SET_NEW_FIELD_SIZE: {
+            stateCopy.fieldWidth = action.newFieldWidth;
+            stateCopy.fieldHeight = action.newFieldHeigh;
+            return stateCopy;
+        };
+        case CREATE_FIELD: {
             let newField = [];
             let row = [];
-            let key = 1
-            for (let i = 0; i < state.fieldHeight; i++) {
-                for (let j = 0; j < state.fieldWidth; j++) {
+            let key = 1;
+            for (let i = 0; i < stateCopy.fieldHeight; i++) {
+                for (let j = 0; j < stateCopy.fieldWidth; j++) {
                     row.push({ key: "0" + key, score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                     key++
                 };
@@ -41,19 +44,21 @@ export const constructorReducer = (state = initialState, action) => {
                 row = [];
             };
             let emptyArray = new Array(state.fieldWidth);
-            return { ...state, field: newField, themes: emptyArray.fill('Тематика') }
-        case ADD_ROW:
-            let lastIndex = state.field[state.field.length - 1].length;
+            stateCopy.field = newField;
+            stateCopy.themes = emptyArray.fill("Тематика");
+            return stateCopy;
+        };
+        case ADD_ROW: {
+            let lastIndex = stateCopy.field[stateCopy.field.length - 1].length;
             let newRow = [];
-            for (let i = 0; i < state.fieldWidth; i++) {
-                newRow.push({ key: "0" + lastIndex, score: 200 * (state.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
+            for (let i = 0; i < stateCopy.fieldWidth; i++) {
+                newRow.push({ key: "0" + lastIndex, score: 200 * (stateCopy.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                 lastIndex += 1;
             };
-            return {
-                ...state,
-                field: [...state.field, newRow],
-                fieldHeight: state.fieldHeight + 1
-            };
+            stateCopy.field = [...stateCopy.field, newRow];
+            stateCopy.fieldHeight = stateCopy.fieldHeight + 1;
+            return stateCopy;
+        };
         case ADD_COLUMN:
             for (let i = 0; i < fieldCopy.length; i++) {
                 fieldCopy[i].push({ key: "0" + fieldCopy[i][fieldCopy[i].length], score: fieldCopy[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false })

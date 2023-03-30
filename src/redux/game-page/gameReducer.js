@@ -34,7 +34,6 @@ let initialState = {
 
 export const gameReducer = (state = initialState, action) => {
     let stateCopy = lodash.cloneDeep(state);
-    let playersCopy = lodash.cloneDeep(stateCopy.players);
     switch (action.type) {
         case CHANGE_CURRENT_QUESTION: {
             let newCurrentQuestion = lodash.cloneDeep(action.cell);

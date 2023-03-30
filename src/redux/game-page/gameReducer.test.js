@@ -1,7 +1,6 @@
 import lodash from 'lodash';
 import { cellClosure, changeCurrentQuestion, determineWinner, gameOver, gameReducer, playerChange, scoreCounter, setQuestionIsClosed } from "./gameReducer";
 
-
 let state = {
   fieldWidth: 3,
   fieldHeight: 3,
@@ -131,10 +130,8 @@ describe('the winner must change', () => {
     let newState = lodash.cloneDeep(state);
 
     newState.players[1].score = 100;
-    console.log(newState)
 
     let result = gameReducer(newState, action);
-    console.log(result)
 
     expect(result.winner).toEqual(['Все', 100]);
   });
