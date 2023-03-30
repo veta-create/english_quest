@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
+import { addRow, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
 
 let state = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -91,5 +91,76 @@ describe('field field must be created', () => {
             { key: "029", score: 1000, question: '', answers: ['', '', ''], correct: 0, close: false },
             { key: "030", score: 1000, question: '', answers: ['', '', ''], correct: 0, close: false }]
         ]);
+    });
+});
+
+describe('a new row should be added to the field', () => {
+    const actionCreateField = createField();
+
+    const action = addRow();
+
+    const newState = constructorReducer(state, actionCreateField);
+
+    it('a row should be added to a field of size 3 * 3, field height should become 4', () => {
+
+        const result = constructorReducer(newState, action);
+
+        expect(result.field).toEqual([
+            [{ key: "01", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "02", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "03", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "04", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "05", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "06", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "07", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "08", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "09", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "010", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "011", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "012", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false }]
+        ]);
+
+        expect(result.fieldHeight).toBe(4);
+    });
+
+    it('a row should be added to a field of size 3 * 4, field height should become 5', () => {
+        newState.field = [
+            [{ key: "01", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "02", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "03", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "04", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "05", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "06", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "07", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "08", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "09", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "010", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "011", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "012", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false }]
+        ];
+
+        newState.fieldHeight = 4;
+
+        const result = constructorReducer(newState, action);
+
+        expect(result.field).toEqual([
+            [{ key: "01", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "02", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "03", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "04", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "05", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "06", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "07", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "08", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "09", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "010", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "011", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "012", score: 800, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "013", score: 1000, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "014", score: 1000, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "015", score: 1000, question: '', answers: ['', '', ''], correct: 0, close: false }],
+        ]);
+
+        expect(result.fieldHeight).toBe(5);
     });
 });

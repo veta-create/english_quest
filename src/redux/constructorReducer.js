@@ -49,11 +49,11 @@ export const constructorReducer = (state = initialState, action) => {
             return stateCopy;
         };
         case ADD_ROW: {
-            let lastIndex = stateCopy.field[stateCopy.field.length - 1].length;
+            let lastKey = Number(stateCopy.field[stateCopy.fieldHeight - 1][stateCopy.fieldWidth - 1].key) + 1;
             let newRow = [];
             for (let i = 0; i < stateCopy.fieldWidth; i++) {
-                newRow.push({ key: "0" + lastIndex, score: 200 * (stateCopy.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
-                lastIndex += 1;
+                newRow.push({ key: "0" + lastKey, score: 200 * (stateCopy.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
+                lastKey += 1;
             };
             stateCopy.field = [...stateCopy.field, newRow];
             stateCopy.fieldHeight = stateCopy.fieldHeight + 1;
