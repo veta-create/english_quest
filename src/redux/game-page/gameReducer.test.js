@@ -85,7 +85,7 @@ describe('the current player must change', () => {
   it('current player must be 01', () => {
     const action = playerChange();
 
-    let newState = lodash.cloneDeep(state);
+    const newState = lodash.cloneDeep(state);
 
     newState.currentPlayer = newState.players[newState.players.length - 1].key;
 
@@ -127,7 +127,7 @@ describe('the winner must change', () => {
   it('the winner must be [Все, 100](dead heat)', () => {
     const action = determineWinner();
 
-    let newState = lodash.cloneDeep(state);
+    const newState = lodash.cloneDeep(state);
 
     newState.players[1].score = 100;
 
