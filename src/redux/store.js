@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import { constructorReducer } from './constructorReducer';
+import { constructorReducer } from './constructor-page/constructorReducer';
 import { gameReducer } from './game-page/gameReducer'
 import { settingsReducer } from './settingsReducer';
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import { getCreatingQuestion, getCreatingQuestionType, getCurrentCell, getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-selectors';
-import { addColumn, addNewQuestion, addRow, changeCreatingQuestionType, changeTheme, clickOnCell, createFieldFromTemplate, setCurrentCell } from '../../redux/constructorReducer';
+import { getCreatingQuestion, getCreatingQuestionType, getCurrentCell, getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-page/constructor-selectors';
+import { addColumn, addNewQuestion, addRow, changeCreatingQuestionType, changeTheme, clickOnCell, createFieldFromTemplate, setCurrentCell } from '../../redux/constructor-page/constructorReducer';
 import Constructor from './index';
 
 const mapStateToProps = (state) => {
