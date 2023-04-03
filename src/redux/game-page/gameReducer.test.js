@@ -48,7 +48,7 @@ describe('current question should change', () => {
   const action = changeCurrentQuestion({ key: '02', score: 200, question: '2?', answers: ['п', 'н', 'н'], correct: 0, close: false });
   const result = gameReducer(state, action);
 
-  it('key must be 02', () => {
+  it('key must be "02"', () => {
     expect(result.currentQuestion.key).toBe('02');
   });
 
@@ -56,11 +56,11 @@ describe('current question should change', () => {
     expect(result.currentQuestion.score).toBe(200);
   });
 
-  it('question must be 2?', () => {
+  it('question must be "2?"', () => {
     expect(result.currentQuestion.question).toBe('2?');
   });
 
-  it('answers must be equal [п, н, н]', () => {
+  it('answers must be equal ["п", "н", "н"]', () => {
     expect(result.currentQuestion.answers).toEqual(['п', 'н', 'н']);
   });
 
@@ -74,7 +74,7 @@ describe('current question should change', () => {
 });
 
 describe('the current player must change', () => {
-  it('current player must be 02', () => {
+  it('current player must be "02"', () => {
     const action = playerChange();
 
     const result = gameReducer(state, action);
@@ -82,7 +82,7 @@ describe('the current player must change', () => {
     expect(result.currentPlayer).toBe("02");
   });
 
-  it('current player must be 01', () => {
+  it('current player must be "01"', () => {
     const action = playerChange();
 
     const newState = lodash.cloneDeep(state);
@@ -116,7 +116,7 @@ describe('game over must be change', () => {
 });
 
 describe('the winner must change', () => {
-  it('the winner must be [Arut, 100]', () => {
+  it('the winner must be ["Arut", 100]', () => {
     const action = determineWinner();
 
     const result = gameReducer(state, action);
@@ -124,7 +124,7 @@ describe('the winner must change', () => {
     expect(result.winner).toEqual(["Arut", 100]);
   });
 
-  it('the winner must be [Все, 100](dead heat)', () => {
+  it('the winner must be ["Все", 100](dead heat)', () => {
     const action = determineWinner();
 
     const newState = lodash.cloneDeep(state);

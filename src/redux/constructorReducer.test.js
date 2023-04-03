@@ -1,5 +1,5 @@
-import lodash from 'lodash';
-import { addColumn, addRow, changeTheme, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
+import lodash, { stubTrue } from 'lodash';
+import { addColumn, addRow, changeTheme, constructorReducer, createField, createQuestion, setNewFieldSize, toggleCreatingQuestion } from "./constructorReducer";
 
 let state = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -196,7 +196,7 @@ describe('a new row should be added to the field', () => {
 });
 
 describe('theme must change', () => {
-    it('the first theme should be Winx', () => {
+    it('the first theme should be "Winx"', () => {
         const action = changeTheme(0, 'Winx');
 
         const result = constructorReducer(state, action);
@@ -204,11 +204,42 @@ describe('theme must change', () => {
         expect(result.themes[0]).toBe('Winx');
     });
 
-    it('the third theme should be Math', () => {
+    it('the third theme should be "Math"', () => {
         const action = changeTheme(2, 'Math');
 
         const result = constructorReducer(state, action);
 
         expect(result.themes[2]).toBe('Math');
     })
+});
+
+describe('creating question must change', () => {
+    it('creating question should be true', () => {
+        const action = toggleCreatingQuestion(true);
+
+        const result = constructorReducer(state, action);
+
+        expect(result.creatingQuestion).toBe(true);
+    });
+
+    it('creating question should be false', () => {
+        const action = toggleCreatingQuestion(false);
+
+        const result = constructorReducer(state, action);
+
+        expect(result.creatingQuestion).toBe(false);
+    });
+});
+
+describe('the question for the cell should change', () => {
+    const actionCreateField = createField();
+
+    const newState = constructorReducer(state, actionCreateField);
+    it('the question for the first cell should change', () => {
+        const action = createQuestion('text', '01', 'Кто стал первым космонавтом?', ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], 1);
+
+        const result = constructorReducer(newState, action);
+
+        expect(result.field[0][0]).toEqual({key: '01', score: 200, question: 'Кто стал первым космонавтом?', answers: ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], correct: 0, close: false});
+    });
 });

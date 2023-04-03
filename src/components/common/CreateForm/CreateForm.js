@@ -12,7 +12,7 @@ const CreateForm = (props) => {
     const correctAnswer = useInput("", { isEmpty: true, permissibleNumberValue: [1, 3] });
 
     const onSubmitAnswerButton = (questionType) => {
-        let answers = [option1, option2, option3];
+        let answers = [option1.value, option2.value, option3.value];
         if (option1.isEmpty ||
             option2.isEmpty ||
             option3.isEmpty ||
@@ -21,7 +21,7 @@ const CreateForm = (props) => {
             || correctAnswer.permissibleNumberValue) {
             alert("Проверьте правильность заполнения формы, пожалуйста");
         } else {
-            props.addNewQuestion(questionType, props.currentCell.key, question, answers, correctAnswer);
+            props.addNewQuestion(questionType, props.currentCell.key, question.value, answers, correctAnswer.value);
         };
     };
 

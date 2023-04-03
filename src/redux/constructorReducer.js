@@ -24,7 +24,6 @@ let initialState = {
 export const constructorReducer = (state = initialState, action) => {
     const stateCopy = lodash.cloneDeep(state);
     const fieldCopy = lodash.cloneDeep(stateCopy.field);
-    const themesCopy = lodash.cloneDeep(stateCopy.themes);
     switch (action.type) {
         case SET_NEW_FIELD_SIZE: {
             stateCopy.fieldWidth = action.newFieldWidth;
@@ -78,20 +77,17 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.fieldWidth = stateCopy.fieldWidth + 1;
             return stateCopy;
         };
-        case ADD_THEME: {
-            stateCopy.themes[action.themeId] = action.newTheme;
+        case TOGGLE_CREATING_QUESTION: {
+            stateCopy.creatingQuestion = action.creatingQuestion;
             return stateCopy;
         };
-        case TOGGLE_CREATING_QUESTION:
-            return { ...state, creatingQuestion: action.creatingQuestion };
-
-        case CREATE_QUESTION:
-            for (let i = 0; i < fieldCopy.length; i++) {
-                for (let j = 0; j < fieldCopy[i].length; j++) {
-                    if (fieldCopy[i][j].key === action.key) {
+        case CREATE_QUESTION: {
+            for (let i = 0; i < stateCopy.field.length; i++) {
+                for (let j = 0; j < stateCopy.field[i].length; j++) {
+                    if (stateCopy.field[i][j].key === action.key) {
 
                         if (action.questionType === "text") {
-                            fieldCopy[i][j].question = action.newQuestion;
+                            stateCopy.field[i][j].question = action.newQuestion;
                         };
 
                         if (action.questionType === "audio") {
@@ -102,26 +98,21 @@ export const constructorReducer = (state = initialState, action) => {
                             //фунцкия, генерирующая путь к аудио файл
                         };
 
-                        fieldCopy[i][j].answers = action.answers;
-                        // надо обработать ошибку, если ввели неккоректный ответ
-                        fieldCopy[i][j].correct = action.correctAnswer - 1;
+                        stateCopy.field[i][j].answers = action.answers;
+                        stateCopy.field[i][j].correct = action.correctAnswer - 1;
                     }
                 }
             }
-            return { ...state, field: fieldCopy }
-
-        case SET_CURRENT_CELL:
-            return { ...state, currentCell: action.currentCell };
-
-        case CHANGE_THEME:
-            for (let i = 0; i < themesCopy.length; i++) {
-                if (i === action.themeNumber) {
-                    themesCopy[i] = action.newTheme;
-                };
-            };
-
-            return { ...state, themes: themesCopy }
-
+            return stateCopy;
+        };
+        case SET_CURRENT_CELL: {
+            stateCopy.currentCell = action.currentCell;
+            return stateCopy;
+        };
+        case CHANGE_THEME: {
+            stateCopy.themes[action.themeNumber] = action.newTheme;
+            return stateCopy;
+        };
         case CHANGE_CREATING_QUESTION_TYPE:
 
             return { ...state, creatingQuestionType: action.creatingQuestionType }
