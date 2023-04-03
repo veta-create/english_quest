@@ -78,11 +78,10 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.fieldWidth = stateCopy.fieldWidth + 1;
             return stateCopy;
         };
-        case ADD_THEME:
-            const copyThemes = [...state.themes];
-            copyThemes[action.themeId] = action.newTheme;
-            return { ...state, themes: copyThemes };
-
+        case ADD_THEME: {
+            stateCopy.themes[action.themeId] = action.newTheme;
+            return stateCopy;
+        };
         case TOGGLE_CREATING_QUESTION:
             return { ...state, creatingQuestion: action.creatingQuestion };
 

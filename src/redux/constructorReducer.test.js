@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { addColumn, addRow, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
+import { addColumn, addRow, changeTheme, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
 
 let state = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -193,4 +193,22 @@ describe('a new row should be added to the field', () => {
         expect(result.fieldWidth).toBe(4);
     });
 
-})
+});
+
+describe('theme must change', () => {
+    it('the first theme should be Winx', () => {
+        const action = changeTheme(0, 'Winx');
+
+        const result = constructorReducer(state, action);
+
+        expect(result.themes[0]).toBe('Winx');
+    });
+
+    it('the third theme should be Math', () => {
+        const action = changeTheme(2, 'Math');
+
+        const result = constructorReducer(state, action);
+
+        expect(result.themes[2]).toBe('Math');
+    })
+});
