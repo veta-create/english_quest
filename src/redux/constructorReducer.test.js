@@ -1,5 +1,5 @@
 import lodash, { stubTrue } from 'lodash';
-import { addColumn, addRow, changeTheme, constructorReducer, createField, createQuestion, setNewFieldSize, toggleCreatingQuestion } from "./constructorReducer";
+import { addColumn, addRow, changeCreatingQuestionType, changeTheme, constructorReducer, createField, createQuestion, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from "./constructorReducer";
 
 let state = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -241,5 +241,41 @@ describe('the question for the cell should change', () => {
         const result = constructorReducer(newState, action);
 
         expect(result.field[0][0]).toEqual({key: '01', score: 200, question: 'Кто стал первым космонавтом?', answers: ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], correct: 0, close: false});
+    });
+});
+
+describe('current cell must change', () => {
+    it('cell with key "02" should become current', () => {
+        const action = setCurrentCell({key: '02', score: 200, question: '', answers: Array(3), correct: 0, close: false});
+
+        const result = constructorReducer(state, action);
+
+        expect(result.currentCell).toEqual({key: '02', score: 200, question: '', answers: Array(3), correct: 0, close: false});
+    });
+});
+
+describe('creating question type must change', () => {
+    it('creating question type should be "text"', () => {
+        const action = changeCreatingQuestionType('text');
+
+        const result = constructorReducer(state, action);
+
+        expect(result.creatingQuestionType).toBe('text');
+    });
+
+    it('creating question type should be "audio"', () => {
+        const action = changeCreatingQuestionType('audio');
+
+        const result = constructorReducer(state, action);
+
+        expect(result.creatingQuestionType).toBe('audio');
+    });
+
+    it('creating question type should be "video"', () => {
+        const action = changeCreatingQuestionType('video');
+
+        const result = constructorReducer(state, action);
+
+        expect(result.creatingQuestionType).toBe('video');
     });
 });

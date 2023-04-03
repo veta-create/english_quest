@@ -3,7 +3,6 @@ const SET_NEW_FIELD_SIZE = "SET_NEW_FIELD_SIZE";
 const CREATE_FIELD = "CREATE_FIELD";
 const ADD_ROW = "ADD_ROW";
 const ADD_COLUMN = "ADD_COLUMN";
-const ADD_THEME = "ADD_THEME";
 const CREATE_QUESTION = "CREATE_QUESTION";
 const TOGGLE_CREATING_QUESTION = "TOGGLE_CREATING_QUESTION";
 const SET_CURRENT_CELL = "SET_CURRENT_CELL";
@@ -113,10 +112,10 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.themes[action.themeNumber] = action.newTheme;
             return stateCopy;
         };
-        case CHANGE_CREATING_QUESTION_TYPE:
-
-            return { ...state, creatingQuestionType: action.creatingQuestionType }
-
+        case CHANGE_CREATING_QUESTION_TYPE: {
+            stateCopy.creatingQuestionType = action.creatingQuestionType;
+            return stateCopy;
+        };
         default:
             return state;
     };
