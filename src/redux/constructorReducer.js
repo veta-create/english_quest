@@ -35,6 +35,7 @@ export const constructorReducer = (state = initialState, action) => {
             let newField = [];
             let row = [];
             let key = 1;
+
             for (let i = 0; i < stateCopy.fieldHeight; i++) {
                 for (let j = 0; j < stateCopy.fieldWidth; j++) {
                     row.push({ key: "0" + key, score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
@@ -43,6 +44,7 @@ export const constructorReducer = (state = initialState, action) => {
                 newField.push(row);
                 row = [];
             };
+
             let emptyArray = new Array(state.fieldWidth);
             stateCopy.field = newField;
             stateCopy.themes = emptyArray.fill("Тематика");
@@ -51,32 +53,31 @@ export const constructorReducer = (state = initialState, action) => {
         case ADD_ROW: {
             let lastKey = Number(stateCopy.field[stateCopy.fieldHeight - 1][stateCopy.fieldWidth - 1].key) + 1;
             let newRow = [];
+
             for (let i = 0; i < stateCopy.fieldWidth; i++) {
                 newRow.push({ key: "0" + lastKey, score: 200 * (stateCopy.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                 lastKey += 1;
             };
+
             stateCopy.field = [...stateCopy.field, newRow];
             stateCopy.fieldHeight = stateCopy.fieldHeight + 1;
             return stateCopy;
         };
-        case ADD_COLUMN:
-            for (let i = 0; i < fieldCopy.length; i++) {
-                fieldCopy[i].push({ key: "0" + fieldCopy[i][fieldCopy[i].length], score: fieldCopy[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false })
-                if (i !== fieldCopy.length - 1) {
-                    for (let j = 0; j < fieldCopy[i + 1].length; j++) {
-                        fieldCopy[i + 1][j].key = Number(fieldCopy[i + 1][j].key) + 1;
-                        fieldCopy[i + 1][j].key = "0" + fieldCopy[i + 1][j].key;
-                    }
-                }
-            }
+        case ADD_COLUMN: {
+            for (let i = 0; i < stateCopy.field.length; i++) {
+                let key = Number(stateCopy.field[i][stateCopy.fieldWidth - 1].key) + 1;
+                stateCopy.field[i].push({ key: "0" + key, score: stateCopy.field[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false });
+                if (i !== stateCopy.fieldHeight - 1) {
+                    for (let j = 0; j < stateCopy.field[i + 1].length; j++) {
+                        stateCopy.field[i + 1][j].key = "0" + (Number(stateCopy.field[i + 1][j].key) + (i + 1));
+                    };
+                };
+            };
 
-            return {
-                ...state,
-                themes: [...state.themes, 'Тематика'],
-                field: fieldCopy,
-                fieldWidth: state.fieldWidth + 1
-            }
-
+            stateCopy.themes = [...stateCopy.themes, "Тематика"];
+            stateCopy.fieldWidth = stateCopy.fieldWidth + 1;
+            return stateCopy;
+        };
         case ADD_THEME:
             const copyThemes = [...state.themes];
             copyThemes[action.themeId] = action.newTheme;

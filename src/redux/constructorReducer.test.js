@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { addRow, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
+import { addColumn, addRow, constructorReducer, createField, setNewFieldSize } from "./constructorReducer";
 
 let state = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
@@ -164,3 +164,33 @@ describe('a new row should be added to the field', () => {
         expect(result.fieldHeight).toBe(5);
     });
 });
+
+describe('a new row should be added to the field', () => {
+    const actionCreateField = createField();
+
+    const action = addColumn();
+
+    const newState = constructorReducer(state, actionCreateField);
+
+    it('a row should be added to a field of size 3 * 3, field width should become 4', () => {
+        const result = constructorReducer(newState, action);
+
+        expect(result.field).toEqual([
+            [{ key: "01", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "02", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "03", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "04", score: 200, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "05", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "06", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "07", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "08", score: 400, question: '', answers: ['', '', ''], correct: 0, close: false }],
+            [{ key: "09", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "010", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "011", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false },
+            { key: "012", score: 600, question: '', answers: ['', '', ''], correct: 0, close: false }]
+        ]);
+
+        expect(result.fieldWidth).toBe(4);
+    });
+
+})
