@@ -1,12 +1,4 @@
 import lodash from 'lodash';
-const CHANGE_CURRENT_QUESTION = "CHANGE_CURRENT_QUESTION";
-const CHANGE_CURRENT_ANSWER = "CHANGE_CURRENT_ANSWER";
-const SCORE_COUNTER = "SCORE_COUNTER";
-const PLAYER_CHANGE = "PLAYER_CHANGE";
-const CELL_CLOSURE = "CELL_CLOSURE";
-const GAME_OVER = "GAME_OVER";
-const DETERMINE_WINNER = "DETERMINE_WINNER";
-const SET_QUESTION_IS_CLOSED = "SET_QUESTION_IS_CLOSED";
 
 let initialState = {
     fieldWidth: 3,
@@ -32,27 +24,71 @@ let initialState = {
     winner: ['', 0]
 };
 
-export const gameReducer = (state = initialState, action) => {
+export interface ChangeCurrentQuestion {
+    type: "CHANGE_CURRENT_QUESTION",
+    cell: { key: string, answers: [string, string, string], close: boolean, correct: number, question: string, score: number }
+};
+
+export interface ChangeCurrentAnswer {
+    type: "CHANGE_CURRENT_ANSWER",
+    currentAnswer: number
+};
+
+export interface ScoreCounter {
+    type: "SCORE_COUNTER",
+    answerId: number
+};
+
+export interface PlayerChange {
+    type: "PLAYER_CHANGE";
+}
+
+export interface CellClosure {
+    type: "CELL_CLOSURE",
+    key: string
+};
+
+export interface SetGameOver {
+    type: "SET_GAME_OVER"
+};
+
+export interface DetermineWinner {
+    type: "DETERMINE_WINNER",
+};
+
+export interface SetQuestionIsClosed {
+    type: "SET_QUESTION_IS_CLOSED",
+    questionIsClosed: boolean
+};
+
+export interface ChangeQuestionAnswered {
+    type: "CHANGE_QUESTION_ANSWERED"
+};
+
+type GameActions = ChangeCurrentQuestion | ChangeCurrentAnswer | ScoreCounter | PlayerChange | CellClosure | SetGameOver | DetermineWinner
+    | SetQuestionIsClosed | ChangeQuestionAnswered
+
+export const gameReducer = (state = initialState, action: GameActions) => {
     let stateCopy = lodash.cloneDeep(state);
     switch (action.type) {
-        case CHANGE_CURRENT_QUESTION: {
+        case "CHANGE_CURRENT_QUESTION": {
             let newCurrentQuestion = lodash.cloneDeep(action.cell);
             newCurrentQuestion.currentAnswer = 0;
             stateCopy.currentQuestion = newCurrentQuestion;
             return stateCopy;
         };
-        case CHANGE_CURRENT_ANSWER: {
+        case "CHANGE_CURRENT_ANSWER": {
             stateCopy.currentQuestion.currentAnswer = action.currentAnswer;
             return stateCopy;
         };
-        case SCORE_COUNTER: {
-            const scoreCounter = (symbol) => {
+        case "SCORE_COUNTER": {
+            const scoreCounter = (operation: string) => {
                 for (let i = 0; i < stateCopy.players.length; i++) {
                     if (stateCopy.players[i].key === stateCopy.currentPlayer) {
-                        if (symbol === "increase") {
+                        if (operation === "increase") {
                             stateCopy.players[i].score += stateCopy.currentQuestion.score;
                         };
-                        if (symbol === "decrease") {
+                        if (operation === "decrease") {
                             if (stateCopy.players[i].score - stateCopy.currentQuestion.score > 0) {
                                 stateCopy.players[i].score -= stateCopy.currentQuestion.score;
                             } else {
@@ -70,10 +106,10 @@ export const gameReducer = (state = initialState, action) => {
                 return scoreCounter("decrease");
             };
         };
-        case PLAYER_CHANGE: {
+        case "PLAYER_CHANGE": {
             const definePlayer = () => {
                 let newPlayer;
-                stateCopy.players.find((p, i) => {
+                stateCopy.players.find((p: {key: string, name: string, score: number}, i: number) => {
                     if (p.key === stateCopy.currentPlayer) {
                         if (i !== stateCopy.players.length - 1) {
                             newPlayer = i + 2;
@@ -88,7 +124,7 @@ export const gameReducer = (state = initialState, action) => {
             return stateCopy;
         };
 
-        case CELL_CLOSURE: {
+        case "CELL_CLOSURE": {
             for (let i = 0; i < stateCopy.field.length; i++) {
                 for (let j = 0; j < stateCopy.field[i].length; j++) {
                     if (stateCopy.field[i][j].key === action.key && !stateCopy.field[i][j].close) {
@@ -99,12 +135,12 @@ export const gameReducer = (state = initialState, action) => {
             return stateCopy;
         };
 
-        case GAME_OVER: {
+        case "SET_GAME_OVER": {
             stateCopy.gameOver = true;
             return stateCopy;
         };
 
-        case DETERMINE_WINNER: {
+        case "DETERMINE_WINNER": {
             let winner = ["", 0];
             let scoreHitCounter = 0;
 
@@ -130,8 +166,14 @@ export const gameReducer = (state = initialState, action) => {
             return stateCopy;
         };
 
-        case SET_QUESTION_IS_CLOSED: {
-            return { ...state, questionIsClosed: action.questionIsClosed };
+        case "SET_QUESTION_IS_CLOSED": {
+            stateCopy.questionIsClosed = action.questionIsClosed;
+            return stateCopy;
+        };
+
+        case "CHANGE_QUESTION_ANSWERED": {
+            stateCopy.questionAnswered += 1;
+            return stateCopy;
         };
 
         default:
@@ -139,71 +181,49 @@ export const gameReducer = (state = initialState, action) => {
     }
 };
 
-export const changeCurrentQuestion = (cell) => ({
-    type: CHANGE_CURRENT_QUESTION,
+export const changeCurrentQuestion = (cell: {
+    key: string,
+    answers: [string, string, string],
+    close: boolean, correct: number,
+    question: string,
+    score: number
+}) => ({
+    type: "CHANGE_CURRENT_QUESTION" as const,
     cell
 });
 
-export const changeCurrentAnswer = (currentAnswer) => ({
-    type: CHANGE_CURRENT_ANSWER,
+export const changeCurrentAnswer = (currentAnswer: number) => ({
+    type: "CHANGE_CURRENT_ANSWER" as const,
     currentAnswer
 });
 
-export const scoreCounter = (answerId) => ({
-    type: SCORE_COUNTER,
+export const scoreCounter = (answerId: number) => ({
+    type: "SCORE_COUNTER" as const,
     answerId
 });
 
 export const playerChange = () => ({
-    type: PLAYER_CHANGE
-})
+    type: "PLAYER_CHANGE" as const
+});
 
-export const cellClosure = (key) => ({
-    type: CELL_CLOSURE,
+export const cellClosure = (key: string) => ({
+    type: "CELL_CLOSURE" as const,
     key
-})
+});
 
-export const gameOver = () => ({
-    type: GAME_OVER,
+export const setGameOver = () => ({
+    type: "SET_GAME_OVER" as const,
 });
 
 export const determineWinner = () => ({
-    type: DETERMINE_WINNER
+    type: "DETERMINE_WINNER" as const
 });
 
-export const setQuestionIsClosed = (questionIsClosed) => ({
-    type: SET_QUESTION_IS_CLOSED,
+export const setQuestionIsClosed = (questionIsClosed: boolean) => ({
+    type: "SET_QUESTION_IS_CLOSED" as const,
     questionIsClosed
 });
 
-export const submitAnswerButton = (answerId, key, questionAnswered) => {
-    return (dispatch) => {
-        dispatch(scoreCounter(answerId));
-        dispatch(cellClosure(key));
-        dispatch(playerChange());
-        dispatch(setQuestionIsClosed(true));
-        if (questionAnswered === (initialState.fieldHeight * initialState.fieldWidth - 1)) {
-            dispatch(determineWinner());
-            dispatch(gameOver());
-        };
-    };
-};
-
-export const clickOnCell = (cell) => {
-    return (dispatch) => {
-        if (!cell.close) {
-            dispatch(changeCurrentQuestion(cell));
-            dispatch(setQuestionIsClosed(false));
-        } else {
-            alert("Эта ячейка уже использована, пожалуйста, выберите другую");
-        };
-    };
-};
-
-export const timeIsOver = (answerId) => {
-    return (dispatch) => {
-        dispatch(scoreCounter(answerId));
-        dispatch(setQuestionIsClosed(true));
-        dispatch(playerChange());
-    };
-};
+export const changeQuestionAnswered = () => ({
+    type: "CHANGE_QUESTION_ANSWERED" as const
+});

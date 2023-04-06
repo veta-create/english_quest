@@ -2,8 +2,9 @@ import styles from "./styles.module.css";
 import logo from "../../assets/logo.png"
 import { NavLink } from "react-router-dom";
 import cn from "classnames";
+import React from "react";
 
-const Home = (props) => {
+const Home: React.FC = () => {
     return (
         <div className={styles.main}>
             <div className={styles.logo}>

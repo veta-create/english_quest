@@ -11,6 +11,6 @@ const reducers = combineReducers({
 
 const store = configureStore({reducer: reducers});
 
-window.store = store;
+export type RootState = ReturnType<typeof store.getState>;
 
 export default store;

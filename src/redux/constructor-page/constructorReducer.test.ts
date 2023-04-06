@@ -1,12 +1,14 @@
-import lodash, { stubTrue } from 'lodash';
-import { addColumn, addRow, changeCreatingQuestionType, changeTheme, constructorReducer, createField, createQuestion, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from "./constructorReducer";
+import lodash from 'lodash';
+import { AddColumn, AddRow, ChangeCreatingQuestionType, ChangeTheme, CreateField, CreateQuestion, SetCurrentCell, SetNewFieldSize, ToggleCreatingQuestion, addColumn, addRow, changeCreatingQuestionType, changeTheme, constructorReducer, createField, createQuestion, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from "./constructorReducer";
+import { type } from '@testing-library/user-event/dist/type';
+import { ConstructorState } from '../../../types';
 
-let state = {
+let state: ConstructorState = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
     field: [],
     fieldWidth: 3,
     fieldHeight: 3,
-    currentCell: "01",
+    currentCellKey: "01",
     creatingQuestion: false,
     //text - текстовые вопросы, audio - аудио-вопросы, video - видео-вопросы
     creatingQuestionType: "text"
@@ -14,7 +16,7 @@ let state = {
 
 describe('field height and field width should change', () => {
     it('field width should be 4', () => {
-        const action = setNewFieldSize(4, 4);
+        const action: SetNewFieldSize = setNewFieldSize(4, 4);
 
         const result = constructorReducer(state, action);
 
@@ -22,7 +24,7 @@ describe('field height and field width should change', () => {
     });
 
     it('field height should be 5', () => {
-        const action = setNewFieldSize(4, 5);
+        const action: SetNewFieldSize = setNewFieldSize(4, 5);
 
         const result = constructorReducer(state, action);
 
@@ -32,7 +34,7 @@ describe('field height and field width should change', () => {
 
 describe('field field must be created', () => {
     it('a 3 * 3 field should be created', () => {
-        const action = createField();
+        const action: CreateField = createField();
 
         const result = constructorReducer(state, action);
 
@@ -50,7 +52,7 @@ describe('field field must be created', () => {
     });
 
     it('a 6 * 5 field should be created', () => {
-        const action = createField();
+        const action: CreateField = createField();
 
         const newState = lodash.cloneDeep(state);
 
@@ -95,9 +97,9 @@ describe('field field must be created', () => {
 });
 
 describe('a new row should be added to the field', () => {
-    const actionCreateField = createField();
+    const actionCreateField: CreateField = createField();
 
-    const action = addRow();
+    const action: AddRow = addRow();
 
     const newState = constructorReducer(state, actionCreateField);
 
@@ -166,9 +168,9 @@ describe('a new row should be added to the field', () => {
 });
 
 describe('a new row should be added to the field', () => {
-    const actionCreateField = createField();
+    const actionCreateField: CreateField = createField();
 
-    const action = addColumn();
+    const action: AddColumn = addColumn();
 
     const newState = constructorReducer(state, actionCreateField);
 
@@ -197,7 +199,7 @@ describe('a new row should be added to the field', () => {
 
 describe('theme must change', () => {
     it('the first theme should be "Winx"', () => {
-        const action = changeTheme(0, 'Winx');
+        const action: ChangeTheme = changeTheme(0, 'Winx');
 
         const result = constructorReducer(state, action);
 
@@ -205,7 +207,7 @@ describe('theme must change', () => {
     });
 
     it('the third theme should be "Math"', () => {
-        const action = changeTheme(2, 'Math');
+        const action: ChangeTheme = changeTheme(2, 'Math');
 
         const result = constructorReducer(state, action);
 
@@ -215,7 +217,7 @@ describe('theme must change', () => {
 
 describe('creating question must change', () => {
     it('creating question should be true', () => {
-        const action = toggleCreatingQuestion(true);
+        const action: ToggleCreatingQuestion = toggleCreatingQuestion(true);
 
         const result = constructorReducer(state, action);
 
@@ -223,7 +225,7 @@ describe('creating question must change', () => {
     });
 
     it('creating question should be false', () => {
-        const action = toggleCreatingQuestion(false);
+        const action: ToggleCreatingQuestion = toggleCreatingQuestion(false);
 
         const result = constructorReducer(state, action);
 
@@ -232,31 +234,31 @@ describe('creating question must change', () => {
 });
 
 describe('the question for the cell should change', () => {
-    const actionCreateField = createField();
+    const actionCreateField: CreateField = createField();
 
     const newState = constructorReducer(state, actionCreateField);
     it('the question for the first cell should change', () => {
-        const action = createQuestion('text', '01', 'Кто стал первым космонавтом?', ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], 1);
+        const action: CreateQuestion = createQuestion('text', '01', 'Кто стал первым космонавтом?', ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], 1);
 
         const result = constructorReducer(newState, action);
 
-        expect(result.field[0][0]).toEqual({key: '01', score: 200, question: 'Кто стал первым космонавтом?', answers: ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], correct: 0, close: false});
+        expect(result.field[0][0]).toEqual({ key: '01', score: 200, question: 'Кто стал первым космонавтом?', answers: ['Юрий Гагарин', 'Хазбик', 'Николас Кейдж'], correct: 0, close: false });
     });
 });
 
 describe('current cell must change', () => {
     it('cell with key "02" should become current', () => {
-        const action = setCurrentCell({key: '02', score: 200, question: '', answers: Array(3), correct: 0, close: false});
+        const action: SetCurrentCell = setCurrentCell("02");
 
         const result = constructorReducer(state, action);
 
-        expect(result.currentCell).toEqual({key: '02', score: 200, question: '', answers: Array(3), correct: 0, close: false});
+        expect(result.currentCellKey).toBe("02");
     });
 });
 
 describe('creating question type must change', () => {
     it('creating question type should be "text"', () => {
-        const action = changeCreatingQuestionType('text');
+        const action: ChangeCreatingQuestionType = changeCreatingQuestionType('text');
 
         const result = constructorReducer(state, action);
 
@@ -264,7 +266,7 @@ describe('creating question type must change', () => {
     });
 
     it('creating question type should be "audio"', () => {
-        const action = changeCreatingQuestionType('audio');
+        const action: ChangeCreatingQuestionType = changeCreatingQuestionType('audio');
 
         const result = constructorReducer(state, action);
 
@@ -272,7 +274,7 @@ describe('creating question type must change', () => {
     });
 
     it('creating question type should be "video"', () => {
-        const action = changeCreatingQuestionType('video');
+        const action: ChangeCreatingQuestionType = changeCreatingQuestionType('video');
 
         const result = constructorReducer(state, action);
 

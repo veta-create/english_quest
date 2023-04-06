@@ -9,7 +9,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-const render = (state) => {
+const render = () => {
   root.render(
     <React.StrictMode>
       <BrowserRouter>

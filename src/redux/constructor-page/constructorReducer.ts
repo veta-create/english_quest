@@ -1,35 +1,78 @@
+import { type } from "@testing-library/user-event/dist/type";
 import lodash from "lodash";
-const SET_NEW_FIELD_SIZE = "SET_NEW_FIELD_SIZE";
-const CREATE_FIELD = "CREATE_FIELD";
-const ADD_ROW = "ADD_ROW";
-const ADD_COLUMN = "ADD_COLUMN";
-const CREATE_QUESTION = "CREATE_QUESTION";
-const TOGGLE_CREATING_QUESTION = "TOGGLE_CREATING_QUESTION";
-const SET_CURRENT_CELL = "SET_CURRENT_CELL";
-const CHANGE_THEME = "CHANGE_THEME";
-const CHANGE_CREATING_QUESTION_TYPE = "CHANGE_CREATING_QUESTION_TYPE";
+import { ConstructorState } from "../../../types";
 
-let initialState = {
+let initialState: ConstructorState = {
     themes: ['Тематика', 'Тематика', 'Тематика'],
     field: [],
     fieldWidth: 3,
     fieldHeight: 3,
-    currentCell: "01",
+    currentCellKey: "01",
     creatingQuestion: false,
     //text - текстовые вопросы, audio - аудио-вопросы, video - видео-вопросы
     creatingQuestionType: "text"
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export interface CreateField {
+    type: "CREATE_FIELD"
+};
+
+export interface SetNewFieldSize {
+    type: "SET_NEW_FIELD_SIZE",
+    newFieldWidth: number,
+    newFieldHeight: number
+};
+
+export interface AddRow {
+    type: "ADD_ROW"
+};
+
+export interface AddColumn {
+    type: "ADD_COLUMN"
+};
+
+export interface ToggleCreatingQuestion {
+    type: "TOGGLE_CREATING_QUESTION",
+    creatingQuestion: boolean
+};
+
+export interface CreateQuestion {
+    type: "CREATE_QUESTION",
+    questionType: string,
+    key: string,
+    newQuestion: string,
+    answers: [string, string, string],
+    correctAnswer: number
+};
+
+export interface SetCurrentCell {
+    type: "SET_CURRENT_CELL",
+    currentCellKey: string
+};
+
+export interface ChangeTheme {
+    type: "CHANGE_THEME",
+    themeNumber: number,
+    newTheme: string
+};
+
+export interface ChangeCreatingQuestionType {
+    type: "CHANGE_CREATING_QUESTION_TYPE",
+    creatingQuestionType: string
+};
+
+type ConstructorActions = CreateField | SetNewFieldSize | AddRow | AddColumn | ToggleCreatingQuestion | CreateQuestion | SetCurrentCell 
+| ChangeTheme | ChangeCreatingQuestionType;
+
+export const constructorReducer = (state:ConstructorState = initialState, action: ConstructorActions) => {
     const stateCopy = lodash.cloneDeep(state);
-    const fieldCopy = lodash.cloneDeep(stateCopy.field);
     switch (action.type) {
-        case SET_NEW_FIELD_SIZE: {
+        case "SET_NEW_FIELD_SIZE": {
             stateCopy.fieldWidth = action.newFieldWidth;
-            stateCopy.fieldHeight = action.newFieldHeigh;
+            stateCopy.fieldHeight = action.newFieldHeight;
             return stateCopy;
         };
-        case CREATE_FIELD: {
+        case "CREATE_FIELD": {
             let newField = [];
             let row = [];
             let key = 1;
@@ -48,7 +91,7 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.themes = emptyArray.fill("Тематика");
             return stateCopy;
         };
-        case ADD_ROW: {
+        case "ADD_ROW": {
             let lastKey = Number(stateCopy.field[stateCopy.fieldHeight - 1][stateCopy.fieldWidth - 1].key) + 1;
             let newRow = [];
 
@@ -61,7 +104,7 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.fieldHeight = stateCopy.fieldHeight + 1;
             return stateCopy;
         };
-        case ADD_COLUMN: {
+        case "ADD_COLUMN": {
             for (let i = 0; i < stateCopy.field.length; i++) {
                 let key = Number(stateCopy.field[i][stateCopy.fieldWidth - 1].key) + 1;
                 stateCopy.field[i].push({ key: "0" + key, score: stateCopy.field[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false });
@@ -76,11 +119,11 @@ export const constructorReducer = (state = initialState, action) => {
             stateCopy.fieldWidth = stateCopy.fieldWidth + 1;
             return stateCopy;
         };
-        case TOGGLE_CREATING_QUESTION: {
+        case "TOGGLE_CREATING_QUESTION": {
             stateCopy.creatingQuestion = action.creatingQuestion;
             return stateCopy;
         };
-        case CREATE_QUESTION: {
+        case "CREATE_QUESTION": {
             for (let i = 0; i < stateCopy.field.length; i++) {
                 for (let j = 0; j < stateCopy.field[i].length; j++) {
                     if (stateCopy.field[i][j].key === action.key) {
@@ -104,15 +147,15 @@ export const constructorReducer = (state = initialState, action) => {
             }
             return stateCopy;
         };
-        case SET_CURRENT_CELL: {
-            stateCopy.currentCell = action.currentCell;
+        case "SET_CURRENT_CELL": {
+            stateCopy.currentCellKey = action.currentCellKey;
             return stateCopy;
         };
-        case CHANGE_THEME: {
+        case "CHANGE_THEME": {
             stateCopy.themes[action.themeNumber] = action.newTheme;
             return stateCopy;
         };
-        case CHANGE_CREATING_QUESTION_TYPE: {
+        case "CHANGE_CREATING_QUESTION_TYPE": {
             stateCopy.creatingQuestionType = action.creatingQuestionType;
             return stateCopy;
         };
@@ -122,30 +165,30 @@ export const constructorReducer = (state = initialState, action) => {
 };
 
 export const createField = () => ({
-    type: CREATE_FIELD
+    type: "CREATE_FIELD" as const
 });
 
-export const setNewFieldSize = (newFieldWidth, newFieldHeigh) => ({
-    type: SET_NEW_FIELD_SIZE,
+export const setNewFieldSize = (newFieldWidth: number, newFieldHeight: number) => ({
+    type: "SET_NEW_FIELD_SIZE" as const,
     newFieldWidth,
-    newFieldHeigh
+    newFieldHeight
 });
 
 export const addRow = () => ({
-    type: ADD_ROW
+    type: "ADD_ROW" as const
 });
 
 export const addColumn = () => ({
-    type: ADD_COLUMN
+    type: "ADD_COLUMN" as const
 });
 
-export const toggleCreatingQuestion = (creatingQuestion) => ({
-    type: TOGGLE_CREATING_QUESTION,
+export const toggleCreatingQuestion = (creatingQuestion: boolean) => ({
+    type: "TOGGLE_CREATING_QUESTION" as const,
     creatingQuestion
 });
 
-export const createQuestion = (questionType, key, newQuestion, answers, correctAnswer) => ({
-    type: CREATE_QUESTION,
+export const createQuestion = (questionType: string, key: string, newQuestion: string, answers: [string, string, string], correctAnswer: number) => ({
+    type: "CREATE_QUESTION" as const,
     questionType,
     key,
     newQuestion,
@@ -153,39 +196,18 @@ export const createQuestion = (questionType, key, newQuestion, answers, correctA
     correctAnswer
 });
 
-export const setCurrentCell = (currentCell) => ({
-    type: SET_CURRENT_CELL,
-    currentCell
+export const setCurrentCell = (currentCellKey: string) => ({
+    type: "SET_CURRENT_CELL" as const,
+    currentCellKey
 });
 
-export const changeTheme = (themeNumber, newTheme) => ({
-    type: CHANGE_THEME,
+export const changeTheme = (themeNumber: number, newTheme: string) => ({
+    type: "CHANGE_THEME" as const,
     themeNumber,
     newTheme
 });
 
-export const changeCreatingQuestionType = (creatingQuestionType) => ({
-    type: CHANGE_CREATING_QUESTION_TYPE,
+export const changeCreatingQuestionType = (creatingQuestionType: string) => ({
+    type: "CHANGE_CREATING_QUESTION_TYPE" as const,
     creatingQuestionType
 });
-
-export const clickOnCell = (currentCell) => {
-    return (dispatch) => {
-        dispatch(toggleCreatingQuestion(true));
-        dispatch(setCurrentCell(currentCell));
-    };
-};
-
-export const createFieldFromTemplate = (newFieldWidth, newFieldHeigh) => {
-    return (dispatch) => {
-        dispatch(setNewFieldSize(newFieldWidth, newFieldHeigh))
-        dispatch(createField())
-    };
-};
-
-export const addNewQuestion = (type, key, newQuestion, answers, correctAnswer) => {
-    return (dispatch) => {
-        dispatch(createQuestion(type, key, newQuestion, answers, correctAnswer))
-        dispatch(toggleCreatingQuestion(false))
-    };
-};

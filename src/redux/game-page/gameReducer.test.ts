@@ -1,7 +1,24 @@
 import lodash from 'lodash';
-import { cellClosure, changeCurrentQuestion, determineWinner, gameOver, gameReducer, playerChange, scoreCounter, setQuestionIsClosed } from "./gameReducer";
+import {
+  cellClosure,
+  changeCurrentQuestion,
+  determineWinner,
+  setGameOver,
+  gameReducer,
+  playerChange,
+  scoreCounter,
+  setQuestionIsClosed,
+  ChangeCurrentQuestion,
+  ScoreCounter,
+  PlayerChange,
+  CellClosure,
+  SetGameOver,
+  DetermineWinner,
+  SetQuestionIsClosed
+} from "./gameReducer";
+import { GameState } from '../../../types';
 
-let state = {
+let state: GameState = {
   fieldWidth: 3,
   fieldHeight: 3,
   themes: ["BTS", "Minecraft", "Олимпийские игры"],
@@ -19,6 +36,7 @@ let state = {
   players: [{ key: "01", name: "Arut", score: 100 }, { key: "02", name: "Veta", score: 0 }],
   currentPlayer: "01",
   currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
+  questionIsClosed: true,
   questionAnswered: 0,
   gameOver: false,
   winner: ['', 0]
@@ -27,7 +45,7 @@ let state = {
 describe('the number of player points should change', () => {
 
   it('the answer is correct, the points of the current player must be equal to 300', () => {
-    const action = scoreCounter(0);
+    const action: ScoreCounter = scoreCounter(0);
 
     const result = gameReducer(state, action);
 
@@ -35,7 +53,7 @@ describe('the number of player points should change', () => {
   });
 
   it('the answer is incorrect, the points of the current player must be equal to 0', () => {
-    const action = scoreCounter(2);
+    const action: ScoreCounter = scoreCounter(2);
 
     const result = gameReducer(state, action);
 
@@ -45,7 +63,14 @@ describe('the number of player points should change', () => {
 });
 
 describe('current question should change', () => {
-  const action = changeCurrentQuestion({ key: '02', score: 200, question: '2?', answers: ['п', 'н', 'н'], correct: 0, close: false });
+  const action: ChangeCurrentQuestion = changeCurrentQuestion({
+    key: '02',
+    score: 200,
+    question: '2?',
+    answers: ['п', 'н', 'н'],
+    correct: 0,
+    close: false
+  });
   const result = gameReducer(state, action);
 
   it('key must be "02"', () => {
@@ -75,7 +100,7 @@ describe('current question should change', () => {
 
 describe('the current player must change', () => {
   it('current player must be "02"', () => {
-    const action = playerChange();
+    const action: PlayerChange = playerChange();
 
     const result = gameReducer(state, action);
 
@@ -83,7 +108,7 @@ describe('the current player must change', () => {
   });
 
   it('current player must be "01"', () => {
-    const action = playerChange();
+    const action: PlayerChange = playerChange();
 
     const newState = lodash.cloneDeep(state);
 
@@ -97,7 +122,7 @@ describe('the current player must change', () => {
 
 describe('game cell must be closed', () => {
   it('the close field of the cell with the key "01" must be true', () => {
-    const action = cellClosure("01");
+    const action: CellClosure = cellClosure("01");
 
     const result = gameReducer(state, action);
 
@@ -107,7 +132,7 @@ describe('game cell must be closed', () => {
 
 describe('game over must be change', () => {
   it('game over must be true', () => {
-    const action = gameOver();
+    const action: SetGameOver = setGameOver();
 
     const result = gameReducer(state, action);
 
@@ -117,7 +142,7 @@ describe('game over must be change', () => {
 
 describe('the winner must change', () => {
   it('the winner must be ["Arut", 100]', () => {
-    const action = determineWinner();
+    const action: DetermineWinner = determineWinner();
 
     const result = gameReducer(state, action);
 
@@ -125,7 +150,7 @@ describe('the winner must change', () => {
   });
 
   it('the winner must be ["Все", 100](dead heat)', () => {
-    const action = determineWinner();
+    const action: DetermineWinner = determineWinner();
 
     const newState = lodash.cloneDeep(state);
 
@@ -139,7 +164,7 @@ describe('the winner must change', () => {
 
 describe('question is closed must change', () => {
   it('question is closed must be true', () => {
-    const action = setQuestionIsClosed(true);
+    const action: SetQuestionIsClosed = setQuestionIsClosed(true);
 
     const result = gameReducer(state, action);
 
@@ -147,7 +172,7 @@ describe('question is closed must change', () => {
   });
 
   it('question is closed must be false', () => {
-    const action = setQuestionIsClosed(false);
+    const action: SetQuestionIsClosed = setQuestionIsClosed(false);
 
     const result = gameReducer(state, action);
 

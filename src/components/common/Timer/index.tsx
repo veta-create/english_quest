@@ -1,13 +1,24 @@
 import React from "react";
 import cn from "classnames";
 
-const Timer = (props) => {
+interface TimerPropsTypes {
+  minutes: number,
+  seconds: number, 
+  currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
+  scoreCounter: (answerId: number) => ({ type: string, answerId: number }),
+  setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
+  playerChange: () => ({ type: string })
+}
+
+const Timer: React.FC<TimerPropsTypes> = (props) => {
     const [over, setOver] = React.useState(false);
     const [[m, s], setTime] = React.useState([props.minutes, props.seconds]);
   
     const tick = () => {
       if (over) {
-        props.timeIsOver(-1);
+        props.scoreCounter(props.currentQuestion.currentAnswer);
+        props.setQuestionIsClosed(true);
+        props.playerChange();
       };
   
       if (m === 0 && s === 0) {

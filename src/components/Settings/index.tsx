@@ -1,6 +1,15 @@
+import React from 'react';
 import styles from './styles.module.css';
 
-const Settings = (props) => {
+interface SettingsPropsTypes {
+    changeFieldSize: () => ({type: string}),
+    changePlayersCount: () => ({type: string}),
+    fieldWidth: number,
+    fieldHeight: number,
+    playersCount: number
+}
+
+const Settings: React.FC<SettingsPropsTypes> = (props) => {
     return (
         <div className={styles.main}>
             <div className={styles.logo}></div>
