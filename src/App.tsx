@@ -9,10 +9,10 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path='/' element={<Home />} />
         <Route path='/game' element={<GameContainer />} />
         <Route path='/custom' element={<ConstructorContainer />} />
         <Route path='/settings' element={<SettingsContainer />} />
+        <Route path='/' element={<Home />} />
       </Routes>
    </div>
   );

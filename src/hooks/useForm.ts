@@ -42,10 +42,8 @@ export const useInput = (initialValue: string, validators: Validators) => {
     const [isVisited, setVisited] = useState(false);
     const validation = useVaildation(value, validators);
 
-    const onChange = (e: Event) => {
-        if (e.target as HTMLInputElement) {
-            setValue(e.target.value);
-        }
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(e.target.value);
     };
 
     const onBlur = () => {

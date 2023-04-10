@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 import { getFieldHeight, getFieldWidth, getPlayersCount } from "../../redux/settings-selectors";
-import { changeFieldSize, changePlayersCount } from "../../redux/settingsReducer";
+import { addNewPlayer, changeFieldSize, changePlayersCount } from "../../redux/settingsReducer";
 import Settings from "./index";
 import { RootState } from "../../redux/store";
 
@@ -12,6 +12,10 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const SettingsContainer = connect(mapStateToProps, {changeFieldSize, changePlayersCount})(Settings);
+const SettingsContainer = connect(mapStateToProps, {
+    changeFieldSize,
+    changePlayersCount,
+    addNewPlayer
+})(Settings);
 
 export default SettingsContainer;

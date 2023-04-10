@@ -1,24 +1,48 @@
 import React from 'react';
-import styles from './styles.module.css';
+import { useInput } from '../../hooks/useForm';
+import cn from 'classnames';
 
 interface SettingsPropsTypes {
-    changeFieldSize: () => ({type: string}),
-    changePlayersCount: () => ({type: string}),
+    changeFieldSize: () => ({ type: string }),
+    changePlayersCount: () => ({ type: string }),
+    addNewPlayer: (newPlayerName: string) => ({type: string, newPlayerName: string}),
     fieldWidth: number,
     fieldHeight: number,
     playersCount: number
 }
 
 const Settings: React.FC<SettingsPropsTypes> = (props) => {
+    const playerName = useInput('', { isEmpty: true });
+
     return (
-        <div className={styles.main}>
-            <div className={styles.logo}></div>
-            <div className={styles.settings}>
-                <div className={styles.fieldSize} onClick={() => props.changeFieldSize()}>
-                    Размер поля: {props.fieldWidth} Х {props.fieldHeight}
+        <div className={cn("w-full", "h-full")}>
+            <div></div>
+            <div>
+                <div className={cn("cursor-pointer")} onClick={() => props.changeFieldSize()}>
+                    Размер поля: {props.fieldWidth} X {props.fieldHeight}
                 </div>
-                <div className={styles.playersCount} onClick={() => props.changePlayersCount()}>
+                <div>
                     Игроки: {props.playersCount}
+                    {playerName.isVisited && playerName.isEmpty &&
+                        <div>{playerName.isEmptyErrorMessage}</div>}
+
+                    <div className={cn("flex", "flex-row")}>
+                        <input
+                            value={playerName.value}
+                            onChange={(e) => { playerName.onChange(e) }}
+                            onBlur={() => { playerName.onBlur() }}
+                            id="playerName"
+                            name="playerName"
+                            placeholder="Имя игрока" />
+                        <input className={cn("cursor-pointer")}
+                            disabled={playerName.isEmpty}
+                            type="button"
+                            value="Добавить игрока"
+                            onClick={() => {
+                                props.addNewPlayer(playerName.value);
+                                props.changePlayersCount();
+                            }} />
+                    </div>
                 </div>
             </div>
         </div>

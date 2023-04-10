@@ -1,10 +1,10 @@
 import lodash from 'lodash';
-const CHANGE_PLAYERS_COUNT = "CHANGE_PLAYERS_COUNT";
 
 const initialState = {
     fieldWidth: 3,
     fieldHeight: 3,
-    playersCount: 2
+    playersCount: 2,
+    players: []
 };
 
 export interface ChangeFieldSize {
@@ -15,7 +15,12 @@ export interface ChangePlayersCount {
     type: "CHANGE_PLAYERS_COUNT",
 };
 
-type SettingsActions = ChangeFieldSize | ChangePlayersCount;
+export interface AddNewPLayer {
+    type: "ADD_NEW_PLAYER",
+    newPlayerName: string
+};
+
+type SettingsActions = ChangeFieldSize | ChangePlayersCount | AddNewPLayer;
 
 export const settingsReducer = (state = initialState, action: SettingsActions) => {
     const stateCopy = lodash.cloneDeep(state);
@@ -39,7 +44,7 @@ export const settingsReducer = (state = initialState, action: SettingsActions) =
 
             return stateCopy;
         };
-        case CHANGE_PLAYERS_COUNT: {
+        case "CHANGE_PLAYERS_COUNT": {
             if (stateCopy.playersCount < 5) {
                 stateCopy.playersCount += 1;
             } else {
@@ -47,6 +52,9 @@ export const settingsReducer = (state = initialState, action: SettingsActions) =
             };
             return stateCopy;
         };
+        case "ADD_NEW_PLAYER":
+            stateCopy.players = [...stateCopy.players, action.newPlayerName];
+            return stateCopy;
         default:
             return state;
     }
@@ -58,4 +66,9 @@ export const changeFieldSize = () => ({
 
 export const changePlayersCount = () => ({
     type: "CHANGE_PLAYERS_COUNT" as const
+});
+
+export const addNewPlayer = (newPlayerName: string) => ({
+    type: "ADD_NEW_PLAYER" as const,
+    newPlayerName
 });
