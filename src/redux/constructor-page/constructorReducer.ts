@@ -134,10 +134,12 @@ export const constructorReducer = (state:ConstructorState = initialState, action
 
                         if (action.questionType === "audio") {
                             //фунцкия, генерирующая путь к аудио файл
+                            stateCopy.field[i][j].question = action.newQuestion;
                         };
 
                         if (action.questionType === "video") {
                             //фунцкия, генерирующая путь к аудио файл
+                            stateCopy.field[i][j].question = action.newQuestion;
                         };
 
                         stateCopy.field[i][j].answers = action.answers;

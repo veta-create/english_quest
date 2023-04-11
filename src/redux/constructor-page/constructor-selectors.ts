@@ -25,6 +25,6 @@ export const getCreatingQuestionType = (state: RootState) => {
     return state.constructorPage.creatingQuestionType;
 };
 
-export const getCurrentCell = (state: RootState) => {
-    return state.constructorPage.currentCell;
-}
+export const getCurrentCellKey = (state: RootState) => {
+    return state.constructorPage.currentCellKey;
+};

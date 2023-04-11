@@ -10,7 +10,7 @@ interface CreateFormPropsTypes {
     toggleCreatingQuestion: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
     changeCreatingQuestionType: (creatingQuestionType: string) => ({ type: string, creatingQuestionType: string }),
     creatingQuestionType: string,
-    currentCell: string
+    currentCellKey: string
 }
 
 const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
@@ -35,8 +35,13 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 if (question.isEmpty) {
                     alert("Проверьте правильность заполнения формы, пожалуйста");
                 } else {
-                    props.createQuestion(questionType, props.currentCell, question.value, answers, +correctAnswer.value);
+                    props.createQuestion(questionType, props.currentCellKey, question.value, answers, +correctAnswer.value);
                     props.toggleCreatingQuestion(false);
+                    question.clear();
+                    option1.clear();
+                    option2.clear();
+                    option3.clear();
+                    correctAnswer.clear();
                 };
             };
 
@@ -44,7 +49,13 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 if (audio.isEmpty) {
                     alert("Загрузите аудио-вопрос");
                 } else {
+                    props.createQuestion(questionType, props.currentCellKey, audio.value, answers, +correctAnswer.value);
                     props.toggleCreatingQuestion(false);
+                    audio.clear();
+                    option1.clear();
+                    option2.clear();
+                    option3.clear();
+                    correctAnswer.clear();
                 };
             };
 
@@ -52,7 +63,13 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 if(video.isEmpty) {
                     alert("Загрузите видео-вопрос");
                 } else {
+                    props.createQuestion(questionType, props.currentCellKey, video.value, answers, +correctAnswer.value);
                     props.toggleCreatingQuestion(false);
+                    option1.clear();
+                    option2.clear();
+                    option3.clear();
+                    correctAnswer.clear();
+                    video.clear();
                 };
             };
         };

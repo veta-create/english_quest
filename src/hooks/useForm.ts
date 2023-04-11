@@ -50,11 +50,17 @@ export const useInput = (initialValue: string, validators: Validators) => {
         setVisited(true);
     };
 
+    const clear = () => {
+        setValue('');
+        setVisited(false);
+    };
+
     return {
-        value,
-        isVisited,
         onChange,
         onBlur,
+        clear,
+        value,
+        isVisited,
         ...validation
     };
 }

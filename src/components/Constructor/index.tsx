@@ -18,7 +18,7 @@ interface ConstructorPropsTypes {
     createField: () => ({type: string}),
     creatingQuestion: boolean,
     creatingQuestionType: string,
-    currentCell: string,
+    currentCellKey: string,
     field: CellType[][] | [],
     fieldHeight: number,
     fieldWidth: number,
@@ -76,7 +76,7 @@ const Constructor: React.FC<ConstructorPropsTypes> = (props) => {
                 toggleCreatingQuestion={props.toggleCreatingQuestion}
                 creatingQuestionType={props.creatingQuestionType}
                 changeCreatingQuestionType={props.changeCreatingQuestionType}
-                currentCell={props.currentCell} />
+                currentCellKey={props.currentCellKey} />
             </div>
         </div>
     )
