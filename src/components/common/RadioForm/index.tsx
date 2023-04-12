@@ -1,5 +1,5 @@
 // форма для с вопросами для ответа
-import styles from "./RadioForm.module.css";
+import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
 import React from "react";

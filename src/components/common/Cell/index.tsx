@@ -1,7 +1,7 @@
 // ячейки
 import cn from 'classnames';
 import React, { useRef } from 'react';
-import styles from './Cell.module.css';
+import styles from './styles.module.css';
 import score200 from '../../../assets/200.png';
 import score400 from '../../../assets/400.png';
 import score600 from '../../../assets/600.png';

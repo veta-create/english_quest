@@ -9,7 +9,7 @@ import {
     setGameOver,
     setQuestionIsClosed
 } from "../../../redux/game-page/gameReducer";
-import RadioForm from "./RadioForm";
+import RadioForm from ".";
 import {
     getCurrentQuestion,
     getFieldHeight,

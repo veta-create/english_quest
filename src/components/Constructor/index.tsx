@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import cn from 'classnames';
-import Cell from '../common/Cell/Cell';
+import Cell from '../common/Cell';
 import styles from './styles.module.css';
-import CreateForm from '../common/CreateForm/CreateForm';
+import CreateForm from '../common/CreateForm';
 import { CellType } from '../../../types';
 
 interface ConstructorPropsTypes {

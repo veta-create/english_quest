@@ -41,5 +41,9 @@ export const getFieldWidth = (state: RootState) => {
 };
 
 export const getFieldHeight = (state: RootState) => {
-    return state.gamePage.fieldHeight
+    return state.gamePage.fieldHeight;
+};
+
+export const getPlayersCount = (state: RootState) => {
+    return state.gamePage.playersCount;
 };

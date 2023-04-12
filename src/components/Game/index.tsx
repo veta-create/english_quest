@@ -1,25 +1,21 @@
-import RadioForm from '../common/RadioForm/RadioForm';
+import RadioForm from '../common/RadioForm';
 import cn from 'classnames';
-import Cell from '../common/Cell/Cell';
+import Cell from '../common/Cell';
 import { CellType } from '../../../types';
 import React from 'react';
-import RadioFormContainer from '../common/RadioForm/RadioFormContainer';
+import RadioFormContainer from '../common/RadioForm/container';
+import AddPlayersFormContainer from '../common/AddPlayersForm/container';
 
 interface GamePropsTypes {
-    changeCurrentAnswer: (currentAnswer: number) => ({type: string, currentAnswer: number}),
-    changeCurrentQuestion: (cell: CellType) => ({type: string, cell: CellType}),
-    scoreCounter: (answerId: number) => ({type: string, answerId: number}),
-    cellClosure: (key: string) => ({type: string, key: string}),
-    playerChange: () => ({type: string});
-    setQuestionIsClosed: (questionIsClosed: boolean) => ({type: string, questionIsClosed: boolean}),
-    determineWinner: () => ({type: string}),
-    setGameOver: () => ({type: string}),
-    changeQuestionAnswered: () => ({type: string}),
+    changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
+    changeCurrentQuestion: (cell: CellType) => ({ type: string, cell: CellType }),
+    setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
+    setGameOver: () => ({ type: string }),
+    changeQuestionAnswered: () => ({ type: string }),
     currentPlayer: string,
-    currentQuestion: {answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string},
     field: CellType[][] | [],
     gameOver: boolean,
-    players: {key: string, name: string, score: number}[],
+    players: { key: string, name: string, score: number }[],
     questionAnswered: number,
     questionIsClosed: boolean,
     fieldWidth: number,
@@ -29,7 +25,11 @@ interface GamePropsTypes {
 };
 
 const Game: React.FC<GamePropsTypes> = (props) => {
-    
+
+    if (!props.players.length) {
+        return <AddPlayersFormContainer />;
+    };
+
     if (props.gameOver) {
         return <div>
             <h1>GAME OVER</h1>
@@ -37,6 +37,7 @@ const Game: React.FC<GamePropsTypes> = (props) => {
                 : <p>Победил игрок: {props.winner[0]} со счетом {props.winner[1]}</p>}
         </div>
     };
+
     return (
         <div className={cn("h-full", "grid", "grid-cols-[8fr_2fr]", "bg-black")}>
             <div>
@@ -76,8 +77,8 @@ const Game: React.FC<GamePropsTypes> = (props) => {
             </div>
             {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
                 <RadioFormContainer />
-            </div>
-            }
+            </div>}
+
         </div>
     )
 };

@@ -1,6 +1,6 @@
 // форма для создания вопроса
 import cn from "classnames";
-import styles from "./CreateForm.module.css";
+import styles from "./styles.module.css";
 import { useInput } from "../../../hooks/useForm";
 import React from "react";
 

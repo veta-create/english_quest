@@ -15,7 +15,8 @@ let initialState = {
         { key: "08", score: 600, question: '8?', answers: ['н', 'п', 'н'], correct: 1, close: false },
         { key: "09", score: 600, question: '9?', answers: ['н', 'п', 'н'], correct: 1, close: false }]
     ],
-    players: [{ key: "01", name: "Arut", score: 0 }, { key: "02", name: "Veta", score: 0 }],
+    playersCount: 0,
+    players: [],
     currentPlayer: "01",
     currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
     questionIsClosed: true,
@@ -65,8 +66,13 @@ export interface ChangeQuestionAnswered {
     type: "CHANGE_QUESTION_ANSWERED"
 };
 
+export interface AddNewPlayers {
+    type: "ADD_NEW_PLAYERS",
+    newPlayers: Array<string>
+};
+
 type GameActions = ChangeCurrentQuestion | ChangeCurrentAnswer | ScoreCounter | PlayerChange | CellClosure | SetGameOver | DetermineWinner
-    | SetQuestionIsClosed | ChangeQuestionAnswered
+    | SetQuestionIsClosed | ChangeQuestionAnswered | AddNewPlayers
 
 export const gameReducer = (state = initialState, action: GameActions) => {
     let stateCopy = lodash.cloneDeep(state);
@@ -176,6 +182,14 @@ export const gameReducer = (state = initialState, action: GameActions) => {
             return stateCopy;
         };
 
+        case "ADD_NEW_PLAYERS": {
+            for(let i = 0; i < action.newPlayers.length; i++) {
+                stateCopy.players.push({ key: "0" + (i + 1), name: action.newPlayers[i], score: 0 });
+            };
+            stateCopy.playersCount = stateCopy.players.length;
+            return stateCopy;
+        };
+
         default:
             return state;
     }
@@ -226,4 +240,9 @@ export const setQuestionIsClosed = (questionIsClosed: boolean) => ({
 
 export const changeQuestionAnswered = () => ({
     type: "CHANGE_QUESTION_ANSWERED" as const
+});
+
+export const addNewPlayers = (newPlayers: Array<string>) => ({
+    type: "ADD_NEW_PLAYERS" as const,
+    newPlayers
 });

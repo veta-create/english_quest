@@ -3,17 +3,12 @@ import Game from './index';
 import {
     changeCurrentQuestion,
     changeCurrentAnswer,
-    scoreCounter,
-    cellClosure,
-    playerChange,
     setQuestionIsClosed,
-    determineWinner,
     setGameOver,
     changeQuestionAnswered
 } from '../../redux/game-page/gameReducer';
 import {
     getCurrentPlayer,
-    getCurrentQuestion,
     getField,
     getFieldHeight,
     getFieldWidth,
@@ -32,7 +27,6 @@ const mapStateToProps = (state: RootState) => {
         field: getField(state),
         players: getPlayers(state),
         currentPlayer: getCurrentPlayer(state),
-        currentQuestion: getCurrentQuestion(state),
         questionAnswered: getQuestionAnswered(state),
         gameOver: getGameOver(state),
         winner: getWinner(state),
@@ -46,11 +40,7 @@ const GameContainer = connect(mapStateToProps,
     {
         changeCurrentQuestion,
         changeCurrentAnswer,
-        scoreCounter,
-        cellClosure,
-        playerChange,
         setQuestionIsClosed,
-        determineWinner,
         setGameOver,
         changeQuestionAnswered
     })
