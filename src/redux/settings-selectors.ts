@@ -11,3 +11,7 @@ export const getFieldHeight = (state: RootState) => {
 export const getSettingsOpen = (state: RootState) => {
     return state.settingsPage.settingsOpen;
 };
+
+export const getTimer = (state: RootState) => {
+    return state.settingsPage.timer;
+};

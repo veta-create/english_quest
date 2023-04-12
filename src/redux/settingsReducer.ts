@@ -4,6 +4,8 @@ import { SettingsState } from '../../types';
 const initialState: SettingsState = {
     fieldWidth: 3,
     fieldHeight: 3,
+    //timer в миллисекундах
+    timer: 15000,
     settingsOpen: false 
 };
 
@@ -16,7 +18,11 @@ export interface ChangeSettingsOpen {
     settingsOpen: boolean
 };
 
-type SettingsActions = ChangeFieldSize | ChangeSettingsOpen;
+export interface SetTimer {
+    type: "SET_TIMER"
+};
+
+type SettingsActions = ChangeFieldSize | ChangeSettingsOpen | SetTimer;
 
 export const settingsReducer = (state = initialState, action: SettingsActions) => {
     const stateCopy = lodash.cloneDeep(state);
@@ -43,6 +49,13 @@ export const settingsReducer = (state = initialState, action: SettingsActions) =
         case "CHANGE_SETTINGS_OPEN":
             stateCopy.settingsOpen = action.settingsOpen;
             return stateCopy;
+        case "SET_TIMER":
+            if(stateCopy.timer === 60000) {
+                stateCopy.timer = 15000;
+            } else {
+                stateCopy.timer += 15000;
+            };
+            return stateCopy;
         default:
             return state;
     }
@@ -55,4 +68,8 @@ export const changeFieldSize = () => ({
 export const changeSettingsOpen = (settingsOpen: boolean) => ({
     type: "CHANGE_SETTINGS_OPEN" as const,
     settingsOpen
+});
+
+export const setTimer = () => ({
+    type: "SET_TIMER"
 });
