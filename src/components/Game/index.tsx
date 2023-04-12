@@ -3,6 +3,7 @@ import cn from 'classnames';
 import Cell from '../common/Cell/Cell';
 import { CellType } from '../../../types';
 import React from 'react';
+import RadioFormContainer from '../common/RadioForm/RadioFormContainer';
 
 interface GamePropsTypes {
     changeCurrentAnswer: (currentAnswer: number) => ({type: string, currentAnswer: number}),
@@ -74,20 +75,7 @@ const Game: React.FC<GamePropsTypes> = (props) => {
                 </div>
             </div>
             {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
-                <RadioForm
-                    changeCurrentAnswer={props.changeCurrentAnswer}
-                    scoreCounter={props.scoreCounter}
-                    cellClosure={props.cellClosure}
-                    playerChange={props.playerChange}
-                    setQuestionIsClosed={props.setQuestionIsClosed}
-                    determineWinner={props.determineWinner}
-                    setGameOver={props.setGameOver}
-                    currentQuestion={props.currentQuestion}
-                    questionAnswered={props.questionAnswered}
-                    players={props.players}
-                    fieldWidth={props.fieldWidth}
-                    fieldHeight={props.fieldHeight}
-                />
+                <RadioFormContainer />
             </div>
             }
         </div>
