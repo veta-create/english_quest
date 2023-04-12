@@ -36,6 +36,6 @@ export type GameState = {
 export type SettingsState = {
     fieldWidth: number,
     fieldHeight: number,
-    playersCount: number
+    settingsOpen: boolean
 };
 

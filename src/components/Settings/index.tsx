@@ -1,50 +1,24 @@
 import React from 'react';
-import { useInput } from '../../hooks/useForm';
 import cn from 'classnames';
 
 interface SettingsPropsTypes {
     changeFieldSize: () => ({ type: string }),
-    changePlayersCount: () => ({ type: string }),
-    addNewPlayer: (newPlayerName: string) => ({type: string, newPlayerName: string}),
+    changeSettingsOpen: (settingsOpen: boolean) => ({ type: string, settingsOpen: boolean }),
     fieldWidth: number,
     fieldHeight: number,
-    playersCount: number
-}
+};
 
 const Settings: React.FC<SettingsPropsTypes> = (props) => {
-    const playerName = useInput('', { isEmpty: true });
-
     return (
-        <div className={cn("w-full", "h-full")}>
-            <div></div>
-            <div>
-                <div className={cn("cursor-pointer")} onClick={() => props.changeFieldSize()}>
-                    Размер поля: {props.fieldWidth} X {props.fieldHeight}
-                </div>
-                <div>
-                    Игроки: {props.playersCount}
-                    {playerName.isVisited && playerName.isEmpty &&
-                        <div>{playerName.isEmptyErrorMessage}</div>}
-
-                    <div className={cn("flex", "flex-row")}>
-                        <input
-                            value={playerName.value}
-                            onChange={(e) => { playerName.onChange(e) }}
-                            onBlur={() => { playerName.onBlur() }}
-                            id="playerName"
-                            name="playerName"
-                            placeholder="Имя игрока" />
-                        <input className={cn("cursor-pointer")}
-                            disabled={playerName.isEmpty}
-                            type="button"
-                            value="Добавить игрока"
-                            onClick={() => {
-                                props.addNewPlayer(playerName.value);
-                                props.changePlayersCount();
-                            }} />
-                    </div>
-                </div>
+        <div className={cn("w-full", "text-5xl", "text-center", "text-white", "p-10")}>
+            <div className={cn("cursor-pointer")} onClick={() => props.changeFieldSize()}>
+                Размер поля: {props.fieldWidth} X {props.fieldHeight}
             </div>
+            <div>Таймер: 15c</div>
+            <input className={cn("border-2", "border-solid", "border-white", "cursor-pointer", "rounded")}
+                type="button"
+                value="Сохранить"
+                onClick={() => props.changeSettingsOpen(false)} />
         </div>
     )
 }

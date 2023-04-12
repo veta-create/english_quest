@@ -1,26 +1,22 @@
 import lodash from 'lodash';
+import { SettingsState } from '../../types';
 
-const initialState = {
+const initialState: SettingsState = {
     fieldWidth: 3,
     fieldHeight: 3,
-    playersCount: 2,
-    players: []
+    settingsOpen: false 
 };
 
 export interface ChangeFieldSize {
     type: "CHANGE_FIELD_SIZE",
 };
 
-export interface ChangePlayersCount {
-    type: "CHANGE_PLAYERS_COUNT",
+export interface ChangeSettingsOpen {
+    type: "CHANGE_SETTINGS_OPEN",
+    settingsOpen: boolean
 };
 
-export interface AddNewPLayer {
-    type: "ADD_NEW_PLAYER",
-    newPlayerName: string
-};
-
-type SettingsActions = ChangeFieldSize | ChangePlayersCount | AddNewPLayer;
+type SettingsActions = ChangeFieldSize | ChangeSettingsOpen;
 
 export const settingsReducer = (state = initialState, action: SettingsActions) => {
     const stateCopy = lodash.cloneDeep(state);
@@ -44,16 +40,8 @@ export const settingsReducer = (state = initialState, action: SettingsActions) =
 
             return stateCopy;
         };
-        case "CHANGE_PLAYERS_COUNT": {
-            if (stateCopy.playersCount < 5) {
-                stateCopy.playersCount += 1;
-            } else {
-                stateCopy.playersCount = 1;
-            };
-            return stateCopy;
-        };
-        case "ADD_NEW_PLAYER":
-            stateCopy.players = [...stateCopy.players, action.newPlayerName];
+        case "CHANGE_SETTINGS_OPEN":
+            stateCopy.settingsOpen = action.settingsOpen;
             return stateCopy;
         default:
             return state;
@@ -64,11 +52,7 @@ export const changeFieldSize = () => ({
     type: "CHANGE_FIELD_SIZE" as const
 });
 
-export const changePlayersCount = () => ({
-    type: "CHANGE_PLAYERS_COUNT" as const
-});
-
-export const addNewPlayer = (newPlayerName: string) => ({
-    type: "ADD_NEW_PLAYER" as const,
-    newPlayerName
+export const changeSettingsOpen = (settingsOpen: boolean) => ({
+    type: "CHANGE_SETTINGS_OPEN" as const,
+    settingsOpen
 });

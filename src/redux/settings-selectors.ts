@@ -8,6 +8,6 @@ export const getFieldHeight = (state: RootState) => {
     return state.settingsPage.fieldHeight;
 };
 
-export const getPlayersCount = (state: RootState) => {
-    return state.settingsPage.playersCount;
-}
+export const getSettingsOpen = (state: RootState) => {
+    return state.settingsPage.settingsOpen;
+};

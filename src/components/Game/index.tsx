@@ -28,6 +28,7 @@ interface GamePropsTypes {
 };
 
 const Game: React.FC<GamePropsTypes> = (props) => {
+    
     if (props.gameOver) {
         return <div>
             <h1>GAME OVER</h1>

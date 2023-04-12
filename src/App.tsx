@@ -2,8 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import ConstructorContainer from './components/Constructor/container';
 import GameContainer from './components/Game/container';
-import Home from './components/Home';
-import SettingsContainer from './components/Settings/container';
+import HomeContainer from './components/Home/container';
 
 function App() {
   return (
@@ -11,8 +10,7 @@ function App() {
       <Routes>
         <Route path='/game' element={<GameContainer />} />
         <Route path='/custom' element={<ConstructorContainer />} />
-        <Route path='/settings' element={<SettingsContainer />} />
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<HomeContainer />} />
       </Routes>
    </div>
   );
