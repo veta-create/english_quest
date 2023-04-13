@@ -4,21 +4,17 @@ import Cell from '../common/Cell';
 import styles from './styles.module.css';
 import CreateForm from '../common/CreateForm';
 import { CellType } from '../../../types';
+import RadioFormContainer from '../common/RadioForm/container';
 
 interface ConstructorPropsTypes {
-    addColumn: () => ({type: string}),
-    createQuestion: (questionType: string, key: string, newQuestion: string, answers: [string, string, string], correctAnswer: number) =>
-    ({type: any, questionType: string, key: string, newQuestion: string, answers: [string, string, string], correctAnswer: number}),
-    addRow: () => ({type: string}),
-    changeCreatingQuestionType: (creatingQuestionType: string) => ({type: string, creatingQuestionType: string}),
-    changeTheme: (themeNumber: number, newTheme: string) => ({type: string, themeNumber: number, newTheme: string}),
-    toggleCreatingQuestion: (creatingQuestion: boolean) => ({type: string, creatingQuestion: boolean}),
-    setCurrentCell: (currentCellKey: string) => ({type: string, currentCellKey: string}),
-    setNewFieldSize: (newFieldWidth: number, newFieldHeight: number) => ({type: string, newFieldWidth: number, newFieldHeight: number}),
-    createField: () => ({type: string}),
+    addColumn: () => ({ type: string }),
+    addRow: () => ({ type: string }),
+    changeTheme: (themeNumber: number, newTheme: string) => ({ type: string, themeNumber: number, newTheme: string }),
+    toggleCreatingQuestion: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
+    setCurrentCell: (currentCellKey: string) => ({ type: string, currentCellKey: string }),
+    setNewFieldSize: (newFieldWidth: number, newFieldHeight: number) => ({ type: string, newFieldWidth: number, newFieldHeight: number }),
+    createField: () => ({ type: string }),
     creatingQuestion: boolean,
-    creatingQuestionType: string,
-    currentCellKey: string,
     field: CellType[][] | [],
     fieldHeight: number,
     fieldWidth: number,
@@ -63,20 +59,15 @@ const Constructor: React.FC<ConstructorPropsTypes> = (props) => {
             <div>
                 <ul className={cn("w-full", "flex", "flex-col", "items-end", "list-none")}>
                     <Cell fieldWidth={3} fieldHeight={3} setNewFieldSize={props.setNewFieldSize} createField={props.createField}
-                     cellType="createFieldFromTemplate" content="3*3" />
+                        cellType="createFieldFromTemplate" content="3*3" />
                     <Cell fieldWidth={4} fieldHeight={4} setNewFieldSize={props.setNewFieldSize} createField={props.createField}
-                     cellType="createFieldFromTemplate" content="4*4" />
+                        cellType="createFieldFromTemplate" content="4*4" />
                     <Cell fieldWidth={6} fieldHeight={5} setNewFieldSize={props.setNewFieldSize} createField={props.createField}
-                     cellType="createFieldFromTemplate" content="6*5" />
+                        cellType="createFieldFromTemplate" content="6*5" />
                 </ul>
             </div>
-            <div className={cn(props.creatingQuestion ? styles.visible : styles.hide, "bg-indigo-800", "w-2/5", "h-full", "absolute" )}>
-                <CreateForm
-                createQuestion={props.createQuestion}
-                toggleCreatingQuestion={props.toggleCreatingQuestion}
-                creatingQuestionType={props.creatingQuestionType}
-                changeCreatingQuestionType={props.changeCreatingQuestionType}
-                currentCellKey={props.currentCellKey} />
+            <div className={cn(props.creatingQuestion ? styles.visible : styles.hide, "bg-indigo-800", "w-2/5", "h-full", "absolute")}>
+                <RadioFormContainer />
             </div>
         </div>
     )

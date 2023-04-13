@@ -20,7 +20,7 @@ interface RadioFormPropsTypes {
 };
 
 const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
-    return (<form className={cn(styles.main)}>
+    return (<form>
 
         <div className={cn("text-center")}>{props.currentQuestion.question}</div>
 

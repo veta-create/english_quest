@@ -67,10 +67,10 @@ const Game: React.FC<GamePropsTypes> = (props) => {
                 })}
             </div>
             <div className={cn("flex", "col-span-1")}>
-                <div className={cn("text-5xl", "font-bold", "text-yellow-600")}>
+                <div className={cn("h-4/6", "flex", "flex-col", "justify-around", "text-5xl", "font-bold", "text-yellow-600")}>
                     {props.players.map(p => <div key={p.key}
-                        className={cn(p.key === props.currentPlayer ? "text-white" : "")}>
-                        <div>{p.name}</div>
+                        className={p.key === props.currentPlayer ? cn("text-white")  : ""}>
+                        <div>{p.name} {p.key === props.currentPlayer ? "#" : ""}</div>
                         <div>{p.score}</div>
                     </div>)}
                 </div>

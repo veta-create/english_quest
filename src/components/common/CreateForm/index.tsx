@@ -20,7 +20,7 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
     const option3 = useInput("", { isEmpty: true });
     const correctAnswer = useInput("", { isEmpty: true, permissibleNumberValue: { min: 1, max: 3 } });
     const audio = useInput("", { isEmpty: true });
-    const video = useInput("", {isEmpty: true});
+    const video = useInput("", { isEmpty: true });
 
     const onSubmitAnswerButton = (questionType: string): void => {
         let answers: [string, string, string] = [option1.value, option2.value, option3.value];
@@ -59,8 +59,8 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 };
             };
 
-            if(props.creatingQuestionType === "video") {
-                if(video.isEmpty) {
+            if (props.creatingQuestionType === "video") {
+                if (video.isEmpty) {
                     alert("Загрузите видео-вопрос");
                 } else {
                     props.createQuestion(questionType, props.currentCellKey, video.value, answers, +correctAnswer.value);
@@ -105,12 +105,11 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
         <div className={cn(props.creatingQuestionType === "audio" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
             <p className={cn("text-white")}>*Добавьте аудио вопрос</p>
             <input name="audio" onChange={(e) => audio.onChange(e)} type="file" accept='audio/' />
-
         </div>
 
         <div className={cn(props.creatingQuestionType === "video" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
 
-            <p className={cn("text-white")}>Добавьте видео вопрос</p>
+            <p className={cn("text-white")}>*Добавьте видео вопрос</p>
 
             <input name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/' />
 
@@ -120,8 +119,9 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
             {(props.creatingQuestionType === "text"
                 && question.isVisited
                 && question.isEmpty)
-                && <div className={cn("text-red-800")}>{question.isEmptyErrorMessage}</div>}
-            <input value={question.value}
+                && <div className={cn("text-yellow-500")}>{question.isEmptyErrorMessage}</div>}
+            <input className={cn(styles.focusInput, "h-12", "rounded-2xl", "bg-gray-300", "text-3xl", "text-center")}
+                value={question.value}
                 onChange={(e) => question.onChange(e)}
                 onBlur={() => question.onBlur()}
                 id="question"
@@ -129,24 +129,27 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 placeholder="Введите вопрос" />
         </div>
 
-        {(option1.isVisited && option1.isEmpty) && <div className={cn("text-red-800")}>{option1.isEmptyErrorMessage}</div>}
-        <input value={option1.value}
+        {(option1.isVisited && option1.isEmpty) && <div className={cn("text-yellow-500")}>{option1.isEmptyErrorMessage}</div>}
+        <input className={cn(styles.focusInput, "h-12", "rounded-2xl", "bg-gray-300", "text-3xl", "text-center")}
+            value={option1.value}
             onChange={(e) => option1.onChange(e)}
             onBlur={() => option1.onBlur()}
             id="option1"
             name="option1"
             placeholder={'Вариант ответа номер 1'} />
 
-        {(option2.isVisited && option2.isEmpty) && <div className={cn("text-red-800")}>{option2.isEmptyErrorMessage}</div>}
-        <input value={option2.value}
+        {(option2.isVisited && option2.isEmpty) && <div className={cn("text-yellow-500")}>{option2.isEmptyErrorMessage}</div>}
+        <input className={cn(styles.focusInput, "h-12", "rounded-2xl", "bg-gray-300", "text-3xl", "text-center")}
+            value={option2.value}
             onChange={e => option2.onChange(e)}
             onBlur={() => option2.onBlur()}
             id="option2"
             name="option2"
             placeholder={'Вариант ответа номер 2'} />
 
-        {(option3.isVisited && option3.isEmpty) && <div className={cn("text-red-800")}>{option3.isEmptyErrorMessage}</div>}
-        <input value={option3.value}
+        {(option3.isVisited && option3.isEmpty) && <div className={cn("text-yellow-500")}>{option3.isEmptyErrorMessage}</div>}
+        <input className={cn(styles.focusInput, "h-12", "rounded-2xl", "bg-gray-300", "text-3xl", "text-center")}
+            value={option3.value}
             onChange={e => option3.onChange(e)}
             onBlur={() => option3.onBlur()}
             id="option3"
@@ -154,10 +157,11 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
             placeholder={'Вариант ответа номер 3'} />
 
         {(correctAnswer.isVisited && correctAnswer.isEmpty)
-            && <div className={cn("text-red-800")}>{correctAnswer.isEmptyErrorMessage}</div>}
+            && <div className={cn(styles.focusInput, "text-yellow-500")}>{correctAnswer.isEmptyErrorMessage}</div>}
         {(correctAnswer.isVisited && correctAnswer.permissibleNumberValue)
-            && <div className={cn("text-red-800")}>{correctAnswer.permissibleNumberValueErrorMessage}</div>}
-        <input value={correctAnswer.value}
+            && <div className={cn("text-yellow-500")}>{correctAnswer.permissibleNumberValueErrorMessage}</div>}
+        <input className={cn(styles.focusInput, "h-12", "rounded-2xl", "bg-gray-300", "text-3xl", "text-center")}
+            value={correctAnswer.value}
             onChange={e => correctAnswer.onChange(e)}
             onBlur={() => correctAnswer.onBlur()}
             id="correctAnswer"

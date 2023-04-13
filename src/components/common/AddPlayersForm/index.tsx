@@ -20,7 +20,7 @@ export const AddPlayersForm: React.FC<AddPlayersFormPropsTypes> = (props) => {
                     <div>Игроки: {playersCount}</div>
                     <div>Добавить игрока:
                         {playerName.isVisited && playerName.isEmpty && playersCount === 0 &&
-                            <div>{playerName.isEmptyErrorMessage}</div>}
+                            <div className={cn("text-yellow-500")}>{playerName.isEmptyErrorMessage}</div>}
                         <div className={cn("flex", "flex-row", "p-4")}>
                             <input
                                 className={cn(styles.playerNameInput,
@@ -42,11 +42,16 @@ export const AddPlayersForm: React.FC<AddPlayersFormPropsTypes> = (props) => {
                                 value="+"
                                 onClick={() => {
                                     if (newPLayers.length === 0) {
-                                        setNewPlayers([playerName.value])
+                                        setNewPlayers([playerName.value]);
+                                        setPlayersCount(playersCount + 1);
                                     } else {
-                                        setNewPlayers([...newPLayers, playerName.value])
+                                        if(playersCount === 5) {
+                                            alert("В игру нельзя ввести больше 5 игроков");
+                                        } else {
+                                            setNewPlayers([...newPLayers, playerName.value]);
+                                            setPlayersCount(playersCount + 1);
+                                        };
                                     };
-                                    setPlayersCount(playersCount + 1);
                                     playerName.clear();
                                 }} />
                         </div>

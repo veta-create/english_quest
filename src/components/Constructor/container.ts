@@ -9,15 +9,13 @@ const mapStateToProps = (state: RootState) => {
         themes: getThemes(state),
         fieldWidth: getFieldWidth(state),
         fieldHeight: getFieldHeight(state),
-        field: getField(state), 
+        field: getField(state),
         creatingQuestion: getCreatingQuestion(state),
-        currentCellKey: getCurrentCellKey(state),
-        creatingQuestionType: getCreatingQuestionType(state)
     };
 };
 
 const ConstructorContainer = connect(mapStateToProps,
-     {
+    {
         setNewFieldSize,
         createField,
         addRow,
@@ -27,7 +25,7 @@ const ConstructorContainer = connect(mapStateToProps,
         setCurrentCell,
         changeTheme,
         changeCreatingQuestionType
-     })
-     (Constructor);
+    })
+    (Constructor);
 
 export default ConstructorContainer;
