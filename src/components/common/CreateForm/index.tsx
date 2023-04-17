@@ -75,7 +75,7 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
         };
     };
 
-    return (<form className={cn(styles.main, "w-11/12", "h-full", "flex", "flex-col", "text-3xl", "justify-evenly")}>
+    return (<form className={cn("w-11/12", "h-full", "flex", "flex-col", "text-3xl", "justify-evenly")}>
 
         <div className={cn("h-44", "flex", "flex-col", "justify-between")}>
 

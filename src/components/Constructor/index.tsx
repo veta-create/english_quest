@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import cn from 'classnames';
 import Cell from '../common/Cell';
 import styles from './styles.module.css';
-import CreateForm from '../common/CreateForm';
 import { CellType } from '../../../types';
-import RadioFormContainer from '../common/RadioForm/container';
+import CreateFormContainer from '../common/CreateForm/container';
 
 interface ConstructorPropsTypes {
     addColumn: () => ({ type: string }),
@@ -67,7 +66,7 @@ const Constructor: React.FC<ConstructorPropsTypes> = (props) => {
                 </ul>
             </div>
             <div className={cn(props.creatingQuestion ? styles.visible : styles.hide, "bg-indigo-800", "w-2/5", "h-full", "absolute")}>
-                <RadioFormContainer />
+                <CreateFormContainer />
             </div>
         </div>
     )

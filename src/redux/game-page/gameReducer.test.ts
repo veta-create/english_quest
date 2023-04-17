@@ -14,7 +14,9 @@ import {
   CellClosure,
   SetGameOver,
   DetermineWinner,
-  SetQuestionIsClosed
+  SetQuestionIsClosed,
+  changeQuestionAnswered,
+  ChangeQuestionAnswered
 } from "./gameReducer";
 import { GameState } from '../../../types';
 
@@ -177,5 +179,15 @@ describe('question is closed must change', () => {
     const result = gameReducer(state, action);
 
     expect(result.questionIsClosed).toBe(false);
+  });
+});
+
+describe('question is answered must change', () => {
+  it('question is closed must be 1', () => {
+    const action: ChangeQuestionAnswered = changeQuestionAnswered();
+
+    const result = gameReducer(state, action);
+
+    expect(result.questionAnswered).toBe(1);
   });
 });

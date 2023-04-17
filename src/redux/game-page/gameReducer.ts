@@ -71,8 +71,13 @@ export interface AddNewPlayers {
     newPlayers: Array<string>
 };
 
+export interface SetCurrentPlayer {
+    type: "SET_CURRENT_PLAYER",
+    key: string
+};
+
 type GameActions = ChangeCurrentQuestion | ChangeCurrentAnswer | ScoreCounter | PlayerChange | CellClosure | SetGameOver | DetermineWinner
-    | SetQuestionIsClosed | ChangeQuestionAnswered | AddNewPlayers
+    | SetQuestionIsClosed | ChangeQuestionAnswered | AddNewPlayers | SetCurrentPlayer;
 
 export const gameReducer = (state = initialState, action: GameActions) => {
     let stateCopy = lodash.cloneDeep(state);
@@ -115,7 +120,7 @@ export const gameReducer = (state = initialState, action: GameActions) => {
         case "PLAYER_CHANGE": {
             const definePlayer = () => {
                 let newPlayer;
-                stateCopy.players.find((p: {key: string, name: string, score: number}, i: number) => {
+                stateCopy.players.find((p: { key: string, name: string, score: number }, i: number) => {
                     if (p.key === stateCopy.currentPlayer) {
                         if (i !== stateCopy.players.length - 1) {
                             newPlayer = i + 2;
@@ -183,10 +188,15 @@ export const gameReducer = (state = initialState, action: GameActions) => {
         };
 
         case "ADD_NEW_PLAYERS": {
-            for(let i = 0; i < action.newPlayers.length; i++) {
+            for (let i = 0; i < action.newPlayers.length; i++) {
                 stateCopy.players.push({ key: "0" + (i + 1), name: action.newPlayers[i], score: 0 });
             };
             stateCopy.playersCount = stateCopy.players.length;
+            return stateCopy;
+        };
+
+        case "SET_CURRENT_PLAYER": {
+            stateCopy.currentPlayer = action.key;
             return stateCopy;
         };
 
@@ -245,4 +255,9 @@ export const changeQuestionAnswered = () => ({
 export const addNewPlayers = (newPlayers: Array<string>) => ({
     type: "ADD_NEW_PLAYERS" as const,
     newPlayers
+});
+
+export const setCurrentPlayer = (key: string) => ({
+    type: "SET_CURRENT_PLAYER" as const,
+    key
 });

@@ -2,7 +2,7 @@
 import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
-import React from "react";
+import React, { useState } from "react";
 
 interface RadioFormPropsTypes {
     scoreCounter: (answerId: number) => ({ type: string, answerId: number }),
@@ -12,14 +12,17 @@ interface RadioFormPropsTypes {
     determineWinner: () => ({ type: string }),
     setGameOver: () => ({ type: string }),
     changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
+    setCurrentPlayer: (key: string) => ({type: string, key: string}),
     currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
     questionAnswered: number,
     players: { key: string, name: string, score: number }[],
     fieldWidth: number,
     fieldHeight: number,
+    currentPlayer: string
 };
 
 const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
+    const [currentPlayer, setCurrentPlayer] = useState(props.currentPlayer)
     return (<form>
 
         <div className={cn("text-center")}>{props.currentQuestion.question}</div>
