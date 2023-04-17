@@ -25,7 +25,6 @@ interface CellPropsTypes {
     toggleCreatingQuestion?: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
     setCurrentCell?: (currentCellKey: string) => ({ type: string, currentCellKey: string }),
     setGameOver?: () => ({ type: string }),
-    changeQuestionAnswered?: () => ({type: string}),
     themeNumber?: number,
     cellType: string,
     cell?: { key: string, answers: [string, string, string], close: boolean, correct: number, question: string, score: number },
@@ -77,19 +76,12 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
             if (props.changeCurrentQuestion &&
                 props.setQuestionIsClosed &&
                 props.setGameOver && 
-                props.cell &&
-                props.fieldHeight &&
-                props.fieldWidth &&
-                props.changeQuestionAnswered) {
+                props.cell) {
                 if (!props.cell.close) {
                     props.changeCurrentQuestion(props.cell);
                     props.setQuestionIsClosed(false);
-                    props.changeQuestionAnswered();
                 } else {
                     alert('Ячейка уже использована, пожалуйста, выберите другую')
-                };
-                if (props.questionAnswered === (props.fieldHeight * props.fieldWidth)) {
-                    props.setGameOver();
                 };
             };
         }}

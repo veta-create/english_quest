@@ -3,6 +3,7 @@ import { RootState } from "../../../redux/store";
 import {
     cellClosure,
     changeCurrentAnswer,
+    changeQuestionAnswered,
     determineWinner,
     playerChange,
     scoreCounter,
@@ -40,7 +41,8 @@ const RadioFormContainer = connect(mapStateToProps, {
     setQuestionIsClosed,
     determineWinner,
     setGameOver,
-    setCurrentPlayer
+    setCurrentPlayer,
+    changeQuestionAnswered
 })(RadioForm);
 
 export default RadioFormContainer;

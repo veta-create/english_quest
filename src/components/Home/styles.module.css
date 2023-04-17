@@ -12,8 +12,8 @@ a {
     color: #fff;
 }
 
-a:hover {
-    font-size: 3.3rem;
+a:hover, nav div:hover {
+    color: rgb(189, 186, 186);
 }
 
 .logo {

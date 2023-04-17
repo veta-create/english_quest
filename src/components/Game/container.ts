@@ -5,7 +5,6 @@ import {
     changeCurrentAnswer,
     setQuestionIsClosed,
     setGameOver,
-    changeQuestionAnswered
 } from '../../redux/game-page/gameReducer';
 import {
     getCurrentPlayer,
@@ -42,7 +41,6 @@ const GameContainer = connect(mapStateToProps,
         changeCurrentAnswer,
         setQuestionIsClosed,
         setGameOver,
-        changeQuestionAnswered
     })
     (Game);
 

@@ -13,6 +13,7 @@ interface RadioFormPropsTypes {
     setGameOver: () => ({ type: string }),
     changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
     setCurrentPlayer: (key: string) => ({ type: string, key: string }),
+    changeQuestionAnswered: () => ({type: string}),
     currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
     questionAnswered: number,
     players: { key: string, name: string, score: number }[],
@@ -60,6 +61,7 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
                     props.cellClosure(props.currentQuestion.key);
                     props.playerChange();
                     props.setQuestionIsClosed(true);
+                    props.changeQuestionAnswered();
                     if (props.questionAnswered === props.fieldWidth * props.fieldHeight - 1) {
                         props.determineWinner();
                         props.setGameOver();

@@ -4,6 +4,7 @@ import Cell from '../common/Cell';
 import styles from './styles.module.css';
 import { CellType } from '../../../types';
 import CreateFormContainer from '../common/CreateForm/container';
+import { NavLink } from 'react-router-dom';
 
 interface ConstructorPropsTypes {
     addColumn: () => ({ type: string }),
@@ -53,6 +54,7 @@ const Constructor: React.FC<ConstructorPropsTypes> = (props) => {
                     return rows;
                 })}
                 {props.fieldHeight < 5 ? <Cell cellType="addRow" addRow={props.addRow} /> : ""}
+                <NavLink to="/" className={cn("text-4xl")}>На главную</NavLink>
             </div>
 
             <div>

@@ -1,17 +1,16 @@
-import RadioForm from '../common/RadioForm';
 import cn from 'classnames';
 import Cell from '../common/Cell';
 import { CellType } from '../../../types';
 import React from 'react';
 import RadioFormContainer from '../common/RadioForm/container';
 import AddPlayersFormContainer from '../common/AddPlayersForm/container';
+import { NavLink } from 'react-router-dom';
 
 interface GamePropsTypes {
     changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
     changeCurrentQuestion: (cell: CellType) => ({ type: string, cell: CellType }),
     setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
     setGameOver: () => ({ type: string }),
-    changeQuestionAnswered: () => ({ type: string }),
     currentPlayer: string,
     field: CellType[][] | [],
     gameOver: boolean,
@@ -55,7 +54,6 @@ const Game: React.FC<GamePropsTypes> = (props) => {
                             changeCurrentQuestion={props.changeCurrentQuestion}
                             setQuestionIsClosed={props.setQuestionIsClosed}
                             setGameOver={props.setGameOver}
-                            changeQuestionAnswered={props.changeQuestionAnswered}
                             fieldWidth={props.fieldWidth}
                             fieldHeight={props.fieldHeight}
                             questionAnswered={props.questionAnswered}
@@ -73,12 +71,12 @@ const Game: React.FC<GamePropsTypes> = (props) => {
                         <div>{p.name} {p.key === props.currentPlayer ? "#" : ""}</div>
                         <div>{p.score}</div>
                     </div>)}
+                <NavLink to="/" className={cn("ml-auto", "mr-auto", "text-4xl")}>На главную</NavLink>
                 </div>
             </div>
             {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
                 <RadioFormContainer />
             </div>}
-
         </div>
     )
 };
