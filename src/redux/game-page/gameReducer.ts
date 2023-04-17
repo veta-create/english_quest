@@ -38,7 +38,8 @@ export interface ChangeCurrentAnswer {
 
 export interface ScoreCounter {
     type: "SCORE_COUNTER",
-    answerId: number
+    answerId: number,
+    playerKey: string
 };
 
 export interface PlayerChange {
@@ -96,7 +97,7 @@ export const gameReducer = (state = initialState, action: GameActions) => {
         case "SCORE_COUNTER": {
             const scoreCounter = (operation: string) => {
                 for (let i = 0; i < stateCopy.players.length; i++) {
-                    if (stateCopy.players[i].key === stateCopy.currentPlayer) {
+                    if (stateCopy.players[i].key === action.playerKey) {
                         if (operation === "increase") {
                             stateCopy.players[i].score += stateCopy.currentQuestion.score;
                         };
@@ -222,9 +223,10 @@ export const changeCurrentAnswer = (currentAnswer: number) => ({
     currentAnswer
 });
 
-export const scoreCounter = (answerId: number) => ({
+export const scoreCounter = (answerId: number, playerKey: string) => ({
     type: "SCORE_COUNTER" as const,
-    answerId
+    answerId,
+    playerKey
 });
 
 export const playerChange = () => ({

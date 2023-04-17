@@ -2,17 +2,17 @@
 import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface RadioFormPropsTypes {
-    scoreCounter: (answerId: number) => ({ type: string, answerId: number }),
+    scoreCounter: (answerId: number, playerKey: string) => ({ type: string, answerId: number, playerKey: string }),
     cellClosure: (key: string) => ({ type: string, key: string }),
     playerChange: () => ({ type: string }),
     setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
     determineWinner: () => ({ type: string }),
     setGameOver: () => ({ type: string }),
     changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
-    setCurrentPlayer: (key: string) => ({type: string, key: string}),
+    setCurrentPlayer: (key: string) => ({ type: string, key: string }),
     currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
     questionAnswered: number,
     players: { key: string, name: string, score: number }[],
@@ -22,7 +22,9 @@ interface RadioFormPropsTypes {
 };
 
 const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
-    const [currentPlayer, setCurrentPlayer] = useState(props.currentPlayer)
+    const [currentPlayer, setCurrentPlayer] = useState<string>(props.currentPlayer);
+    const [selectDisabled, setSelectDisabled] = useState<boolean>(true);
+
     return (<form>
 
         <div className={cn("text-center")}>{props.currentQuestion.question}</div>
@@ -54,7 +56,7 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
         <div className={cn("pt-6", "flex", "justify-center")}>
             <input type="button" className={cn(styles.answerButton, "cursor-pointer")}
                 onClick={() => {
-                    props.scoreCounter(props.currentQuestion.currentAnswer);
+                    props.scoreCounter(props.currentQuestion.currentAnswer, currentPlayer);
                     props.cellClosure(props.currentQuestion.key);
                     props.playerChange();
                     props.setQuestionIsClosed(true);
@@ -66,8 +68,15 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
         </div>
 
         <div className={cn("pt-6", "pl-6")}>
-            <select className={cn("bg-indigo-800", "text-white")}>
-                {props.players.map(p => <option className={cn("bg-white", "text-black")}>{p.name}</option>)}
+            <select disabled={selectDisabled} className={cn("bg-indigo-800", "text-white")} onChange={(e) => {
+                let playerName: string = e.target.value;
+                let playerKey: string | undefined = props.players.find(p => p.name === playerName)?.key;
+                if(playerKey) {
+                    setCurrentPlayer(playerKey);
+                };
+            }}>
+                {props.players.filter(p => p.key !== props.currentPlayer)
+                    .map(p => <option key={p.key} className={cn("bg-white", "text-black")}>{p.name}</option>)}
             </select>
         </div>
 
@@ -76,9 +85,7 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
                 minutes={0}
                 seconds={30}
                 currentQuestion={props.currentQuestion}
-                scoreCounter={props.scoreCounter}
-                setQuestionIsClosed={props.setQuestionIsClosed}
-                playerChange={props.playerChange} />
+                setSelectDisabled={setSelectDisabled} />
         </div>
     </form>)
 };

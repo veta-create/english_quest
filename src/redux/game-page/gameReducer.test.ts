@@ -50,16 +50,16 @@ let state: GameState = {
 
 describe('the number of player points must change', () => {
 
-  it('the answer is correct, the points of the current player must be equal to 300', () => {
-    const action: ScoreCounter = scoreCounter(0);
+  it('the answer is correct, the points of the player must be equal to 300', () => {
+    const action: ScoreCounter = scoreCounter(0, "01");
 
     const result = gameReducer(state, action);
 
     expect(result.players[0].score).toBe(300);
   });
 
-  it('the answer is incorrect, the points of the current player must be equal to 0', () => {
-    const action: ScoreCounter = scoreCounter(2);
+  it('the answer is incorrect, the points of the player must be equal to 0', () => {
+    const action: ScoreCounter = scoreCounter(2, "01");
 
     const result = gameReducer(state, action);
 

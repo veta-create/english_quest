@@ -1,13 +1,11 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import cn from "classnames";
 
 interface TimerPropsTypes {
   minutes: number,
   seconds: number, 
   currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
-  scoreCounter: (answerId: number) => ({ type: string, answerId: number }),
-  setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
-  playerChange: () => ({ type: string })
+  setSelectDisabled: Dispatch<SetStateAction<boolean>>
 }
 
 const Timer: React.FC<TimerPropsTypes> = (props) => {
@@ -15,10 +13,8 @@ const Timer: React.FC<TimerPropsTypes> = (props) => {
     const [[m, s], setTime] = React.useState([props.minutes, props.seconds]);
   
     const tick = () => {
-      if (over) {
-        props.scoreCounter(props.currentQuestion.currentAnswer);
-        props.setQuestionIsClosed(true);
-        props.playerChange();
+      if(over) {
+        props.setSelectDisabled(false);
       };
   
       if (m === 0 && s === 0) {
@@ -42,7 +38,7 @@ const Timer: React.FC<TimerPropsTypes> = (props) => {
         <p className={cn("flex", "justify-end", "content-end")}>{`${m
           .toString()
           .padStart(2, '0')}:${s.toString().padStart(2, '0')}`}</p>
-        <div>{over ? "Время закончилось" : ''}</div>
+        <div>{over ? "Время закончилось, можете выбрать другого игрока для ответа" : ''}</div>
       </div>
     );
   };

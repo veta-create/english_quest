@@ -45,11 +45,15 @@ export const AddPlayersForm: React.FC<AddPlayersFormPropsTypes> = (props) => {
                                         setNewPlayers([playerName.value]);
                                         setPlayersCount(playersCount + 1);
                                     } else {
-                                        if(playersCount === 5) {
+                                        if (playersCount === 5) {
                                             alert("В игру нельзя ввести больше 5 игроков");
                                         } else {
-                                            setNewPlayers([...newPLayers, playerName.value]);
-                                            setPlayersCount(playersCount + 1);
+                                            if (newPLayers.find(p => p === playerName.value)) {
+                                                alert("Такой игрок уже существует, выберите другое имя, пожалуйста");
+                                            } else {
+                                                setNewPlayers([...newPLayers, playerName.value]);
+                                                setPlayersCount(playersCount + 1);
+                                            };
                                         };
                                     };
                                     playerName.clear();
