@@ -1,6 +1,7 @@
 import lodash from 'lodash';
+import { GameState } from '../../../types';
 
-let initialState = {
+let initialState: GameState = {
     fieldWidth: 3,
     fieldHeight: 3,
     themes: ["BTS", "Minecraft", "Олимпийские игры"],

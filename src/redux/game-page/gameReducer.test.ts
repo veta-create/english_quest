@@ -16,7 +16,9 @@ import {
   DetermineWinner,
   SetQuestionIsClosed,
   changeQuestionAnswered,
-  ChangeQuestionAnswered
+  ChangeQuestionAnswered,
+  addNewPlayers,
+  AddNewPlayers
 } from "./gameReducer";
 import { GameState } from '../../../types';
 
@@ -35,6 +37,7 @@ let state: GameState = {
     { key: "08", score: 600, question: '8?', answers: ['н', 'п', 'н'], correct: 1, close: false },
     { key: "09", score: 600, question: '9?', answers: ['н', 'п', 'н'], correct: 1, close: false }]
   ],
+  playersCount: 0,
   players: [{ key: "01", name: "Arut", score: 100 }, { key: "02", name: "Veta", score: 0 }],
   currentPlayer: "01",
   currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
@@ -44,7 +47,7 @@ let state: GameState = {
   winner: ['', 0]
 }
 
-describe('the number of player points should change', () => {
+describe('the number of player points must change', () => {
 
   it('the answer is correct, the points of the current player must be equal to 300', () => {
     const action: ScoreCounter = scoreCounter(0);
@@ -64,7 +67,7 @@ describe('the number of player points should change', () => {
 
 });
 
-describe('current question should change', () => {
+describe('current question must change', () => {
   const action: ChangeCurrentQuestion = changeCurrentQuestion({
     key: '02',
     score: 200,
@@ -189,5 +192,21 @@ describe('question is answered must change', () => {
     const result = gameReducer(state, action);
 
     expect(result.questionAnswered).toBe(1);
+  });
+});
+
+describe('players must change', () => {
+  it('a new player should be added to the player("Danil")', () => {
+    const action: AddNewPlayers = addNewPlayers(["Danil"]);
+
+    let stateCopy = state;
+
+    stateCopy.players = [];
+
+    const result = gameReducer(stateCopy, action);
+
+    expect(result.players).toEqual(
+      [{ key: "01", name: "Danil", score: 0 }]
+    );
   });
 });
