@@ -18,7 +18,8 @@ import {
   changeQuestionAnswered,
   ChangeQuestionAnswered,
   addNewPlayers,
-  AddNewPlayers
+  AddNewPlayers,
+  setCurrentPlayer
 } from "./gameReducer";
 import { GameState } from '../../../types';
 
@@ -208,5 +209,15 @@ describe('players must change', () => {
     expect(result.players).toEqual(
       [{ key: "01", name: "Danil", score: 0 }]
     );
+  });
+});
+
+describe('current player must change', () => {
+  it('current player must be "03"', () => {
+    const action = setCurrentPlayer("03");
+
+    const result = gameReducer(state, action);
+
+    expect(result.currentPlayer).toBe("03");
   });
 });
