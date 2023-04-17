@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
-import { getFieldHeight, getFieldWidth, getTimer } from "../../redux/settings-selectors";
-import { changeFieldSize, changeSettingsOpen, setTimer } from "../../redux/settingsReducer";
+import { getFieldHeight, getFieldWidth, getTimer } from "../../redux/settings-page/settings-selectors";
+import { changeFieldSize, changeSettingsOpen, setTimer } from "../../redux/settings-page/settingsReducer";
 import Settings from "./index";
 import { RootState } from "../../redux/store";
 

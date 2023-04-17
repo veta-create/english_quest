@@ -1,5 +1,5 @@
-import { SettingsState } from "../../types";
-import { settingsReducer, ChangeFieldSize, changeFieldSize, changeSettingsOpen, ChangeSettingsOpen } from "./settingsReducer";
+import { SettingsState } from "../../../types";
+import { settingsReducer, ChangeFieldSize, changeFieldSize, changeSettingsOpen, ChangeSettingsOpen, setTimer, SetTimer } from "./settingsReducer";
 
 const state: SettingsState = {
     fieldWidth: 3,
@@ -27,5 +27,15 @@ describe('settings open must change', () => {
         const result = settingsReducer(state, action);
 
         expect(result.settingsOpen).toBe(true);
+    });
+});
+
+describe('timer must change', () => {
+    it('timer must be 30000', () => {
+        const action: SetTimer = setTimer();
+
+        const result = settingsReducer(state, action);
+
+        expect(result.timer).toBe(30000);
     });
 });

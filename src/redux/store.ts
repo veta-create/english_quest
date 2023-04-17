@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { constructorReducer } from './constructor-page/constructorReducer';
 import { gameReducer } from './game-page/gameReducer'
-import { settingsReducer } from './settingsReducer';
+import { settingsReducer } from './settings-page/settingsReducer';
 
 const reducers = combineReducers({
     gamePage: gameReducer,

@@ -1,4 +1,4 @@
-import { RootState } from "./store";
+import { RootState } from "../store";
 
 export const getFieldWidth = (state: RootState) => {
     return state.settingsPage.fieldWidth;

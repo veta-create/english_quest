@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { RootState } from "../../redux/store";
 import Home from "./index";
-import { getSettingsOpen } from "../../redux/settings-selectors";
-import { changeSettingsOpen } from "../../redux/settingsReducer";
+import { getSettingsOpen } from "../../redux/settings-page/settings-selectors";
+import { changeSettingsOpen } from "../../redux/settings-page/settingsReducer";
 
 const mapStateToProps = (state: RootState) => {
     return {

@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { SettingsState } from '../../types';
+import { SettingsState } from '../../../types';
 
 const initialState: SettingsState = {
     fieldWidth: 3,
@@ -71,5 +71,5 @@ export const changeSettingsOpen = (settingsOpen: boolean) => ({
 });
 
 export const setTimer = () => ({
-    type: "SET_TIMER"
+    type: "SET_TIMER" as const
 });
