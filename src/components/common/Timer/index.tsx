@@ -1,10 +1,11 @@
 import React, { Dispatch, SetStateAction } from "react";
 import cn from "classnames";
+import { useAppSelector } from "../../../hooks/useSelector";
+import { RootState } from "../../../redux/store";
 
 interface TimerPropsTypes {
   minutes: number,
   seconds: number, 
-  currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
   setSelectDisabled: Dispatch<SetStateAction<boolean>>
 }
 

@@ -12,11 +12,12 @@ import plus from '../../../assets/plus.png';
 import minFieldSize from '../../../assets/minFieldSize.png';
 import midFieldSize from '../../../assets/midFieldSize.png';
 import maxFieldSize from '../../../assets/maxFieldSize.png';
-import { CellType } from '../../../../types';
+import { useAppDispatch } from '../../../hooks/useDispatch';
+import { changeCurrentQuestion, setQuestionIsClosed } from '../../../redux/game-page/gameSlice';
+import { useAppSelector } from '../../../hooks/useSelector';
+import { RootState } from '../../../redux/store';
 
 interface CellPropsTypes {
-    changeCurrentQuestion?: (cell: CellType) => ({ type: string, cell: CellType }),
-    setQuestionIsClosed?: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
     changeTheme?: (themeNumber: number, newTheme: string) => ({ type: string, themeNumber: number, newTheme: string }),
     addColumn?: () => ({ type: string }),
     addRow?: () => ({ type: string }),
@@ -24,7 +25,6 @@ interface CellPropsTypes {
     createField?: () => ({ type: string }),
     toggleCreatingQuestion?: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
     setCurrentCell?: (currentCellKey: string) => ({ type: string, currentCellKey: string }),
-    setGameOver?: () => ({ type: string }),
     themeNumber?: number,
     cellType: string,
     cell?: { key: string, answers: [string, string, string], close: boolean, correct: number, question: string, score: number },
@@ -32,11 +32,11 @@ interface CellPropsTypes {
     fieldWidth?: number,
     fieldHeight?: number,
     className?: string,
-    questionAnswered?: number,
 };
 
 
 const Cell: React.FC<CellPropsTypes> = (props) => {
+    const dispatch = useAppDispatch();
     const defineScorePicture = () => {
         if (props.cell && props.cell.score === 200) {
             return score200;
@@ -73,13 +73,10 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
 
     if (props.cellType === "playCell" && props.cell) {
         return <div onClick={() => {
-            if (props.changeCurrentQuestion &&
-                props.setQuestionIsClosed &&
-                props.setGameOver && 
-                props.cell) {
+            if (props.cell) {
                 if (!props.cell.close) {
-                    props.changeCurrentQuestion(props.cell);
-                    props.setQuestionIsClosed(false);
+                    dispatch(changeCurrentQuestion(props.cell));
+                    dispatch(setQuestionIsClosed(false));
                 } else {
                     alert('Ячейка уже использована, пожалуйста, выберите другую')
                 };

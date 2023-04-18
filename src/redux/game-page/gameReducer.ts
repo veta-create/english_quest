@@ -73,13 +73,8 @@ export interface AddNewPlayers {
     newPlayers: Array<string>
 };
 
-export interface SetCurrentPlayer {
-    type: "SET_CURRENT_PLAYER",
-    key: string
-};
-
 type GameActions = ChangeCurrentQuestion | ChangeCurrentAnswer | ScoreCounter | PlayerChange | CellClosure | SetGameOver | DetermineWinner
-    | SetQuestionIsClosed | ChangeQuestionAnswered | AddNewPlayers | SetCurrentPlayer;
+    | SetQuestionIsClosed | ChangeQuestionAnswered | AddNewPlayers;
 
 export const gameReducer = (state = initialState, action: GameActions) => {
     let stateCopy = lodash.cloneDeep(state);
@@ -197,11 +192,6 @@ export const gameReducer = (state = initialState, action: GameActions) => {
             return stateCopy;
         };
 
-        case "SET_CURRENT_PLAYER": {
-            stateCopy.currentPlayer = action.key;
-            return stateCopy;
-        };
-
         default:
             return state;
     }
@@ -258,9 +248,4 @@ export const changeQuestionAnswered = () => ({
 export const addNewPlayers = (newPlayers: Array<string>) => ({
     type: "ADD_NEW_PLAYERS" as const,
     newPlayers
-});
-
-export const setCurrentPlayer = (key: string) => ({
-    type: "SET_CURRENT_PLAYER" as const,
-    key
 });

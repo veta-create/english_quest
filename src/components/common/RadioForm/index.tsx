@@ -3,40 +3,35 @@ import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
 import { useState } from "react";
+import { useAppDispatch } from "../../../hooks/useDispatch";
+import { cellClosure, changeCurrentAnswer, changeQuestionAnswered, determineWinner, playerChange, scoreCounter, setGameOver, setQuestionIsClosed } from "../../../redux/game-page/gameSlice";
+import { useAppSelector } from "../../../hooks/useSelector";
+import { RootState } from "../../../redux/store";
 
-interface RadioFormPropsTypes {
-    scoreCounter: (answerId: number, playerKey: string) => ({ type: string, answerId: number, playerKey: string }),
-    cellClosure: (key: string) => ({ type: string, key: string }),
-    playerChange: () => ({ type: string }),
-    setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
-    determineWinner: () => ({ type: string }),
-    setGameOver: () => ({ type: string }),
-    changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
-    setCurrentPlayer: (key: string) => ({ type: string, key: string }),
-    changeQuestionAnswered: () => ({type: string}),
-    currentQuestion: { answers: [string, string, string], correct: number, currentAnswer: number, key: string, score: number, question: string },
-    questionAnswered: number,
-    players: { key: string, name: string, score: number }[],
-    fieldWidth: number,
-    fieldHeight: number,
-    currentPlayer: string
-};
-
-const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
-    const [currentPlayer, setCurrentPlayer] = useState<string>(props.currentPlayer);
+const RadioForm: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const currentQuestion = useAppSelector((state: RootState) => state.gamePage.currentQuestion);
+    const questionAnswered = useAppSelector((state: RootState) => state.gamePage.questionAnswered);
+    const fieldWidth = useAppSelector((state: RootState) => state.gamePage.fieldWidth);
+    const fieldHeight = useAppSelector((state: RootState) => state.gamePage.fieldHeight);
+    const players = useAppSelector((state: RootState) => state.gamePage.players);
+    const stateCurrentPlayer = useAppSelector((state: RootState) => state.gamePage.currentPlayer);
     const [selectDisabled, setSelectDisabled] = useState<boolean>(true);
+    const [currentPlayer, setCurrentPlayer] = useState<string>(stateCurrentPlayer);
 
     return (<form>
 
-        <div className={cn("text-center")}>{props.currentQuestion.question}</div>
+        <div className={cn("text-center")}>{currentQuestion.question}</div>
 
         <div className={cn("pt-8")}>
-            {props.currentQuestion.answers.map((a, i) => {
-                if (i === props.currentQuestion.currentAnswer) {
+            {currentQuestion.answers.map((a, i) => {
+                if (i === currentQuestion.currentAnswer) {
                     return <div key={"i" + i}>
                         <input className={cn(styles.answerRadio, "absolute", "opacity-0")}
                             type="radio"
-                            checked onChange={() => props.changeCurrentAnswer(i)}
+                            checked onChange={() =>
+                                dispatch(changeCurrentAnswer(i))
+                            }
                             name="answer"
                             id={`${i}`} />
                         <label htmlFor={`${i}`} className={"cursor-pointer"}>{a}</label>
@@ -45,7 +40,9 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
                     return <div key={"i" + i}>
                         <input className={cn(styles.answerRadio, "absolute", "opacity-0")}
                             type="radio"
-                            onChange={() => props.changeCurrentAnswer(i)}
+                            onChange={() =>
+                                dispatch(changeCurrentAnswer(i))
+                            }
                             name="answer"
                             id={`${i}`} />
                         <label htmlFor={`${i}`} className={"cursor-pointer"}>{a}</label>
@@ -57,14 +54,14 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
         <div className={cn("pt-6", "flex", "justify-center")}>
             <input type="button" className={cn(styles.answerButton, "cursor-pointer")}
                 onClick={() => {
-                    props.scoreCounter(props.currentQuestion.currentAnswer, currentPlayer);
-                    props.cellClosure(props.currentQuestion.key);
-                    props.playerChange();
-                    props.setQuestionIsClosed(true);
-                    props.changeQuestionAnswered();
-                    if (props.questionAnswered === props.fieldWidth * props.fieldHeight - 1) {
-                        props.determineWinner();
-                        props.setGameOver();
+                    dispatch(scoreCounter({ playerKey: currentPlayer, answerId: currentQuestion.currentAnswer }));
+                    dispatch(cellClosure(currentQuestion.key));
+                    dispatch(playerChange());
+                    dispatch(setQuestionIsClosed(true));
+                    dispatch(changeQuestionAnswered());
+                    if (questionAnswered === fieldWidth * fieldHeight - 1) {
+                        dispatch(determineWinner());
+                        dispatch(setGameOver());
                     }
                 }} value="ответить" />
         </div>
@@ -72,12 +69,12 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
         <div className={cn("pt-6", "pl-6")}>
             <select disabled={selectDisabled} className={cn("bg-indigo-800", "text-white")} onChange={(e) => {
                 let playerName: string = e.target.value;
-                let playerKey: string | undefined = props.players.find(p => p.name === playerName)?.key;
-                if(playerKey) {
+                let playerKey: string | undefined = players.find(p => p.name === playerName)?.key;
+                if (playerKey) {
                     setCurrentPlayer(playerKey);
                 };
             }}>
-                {props.players.filter(p => p.key !== props.currentPlayer)
+                {players.filter(p => p.key !== stateCurrentPlayer)
                     .map(p => <option key={p.key} className={cn("bg-white", "text-black")}>{p.name}</option>)}
             </select>
         </div>
@@ -86,7 +83,6 @@ const RadioForm: React.FC<RadioFormPropsTypes> = (props) => {
             <Timer
                 minutes={0}
                 seconds={30}
-                currentQuestion={props.currentQuestion}
                 setSelectDisabled={setSelectDisabled} />
         </div>
     </form>)

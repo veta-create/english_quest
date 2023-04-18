@@ -2,38 +2,30 @@ import cn from 'classnames';
 import Cell from '../common/Cell';
 import { CellType } from '../../../types';
 import React from 'react';
-import RadioFormContainer from '../common/RadioForm/container';
-import AddPlayersFormContainer from '../common/AddPlayersForm/container';
 import { NavLink } from 'react-router-dom';
+import { AddPlayersForm } from '../common/AddPlayersForm';
+import RadioForm from '../common/RadioForm';
+import { useAppSelector } from '../../hooks/useSelector';
+import { RootState } from '../../redux/store';
 
-interface GamePropsTypes {
-    changeCurrentAnswer: (currentAnswer: number) => ({ type: string, currentAnswer: number }),
-    changeCurrentQuestion: (cell: CellType) => ({ type: string, cell: CellType }),
-    setQuestionIsClosed: (questionIsClosed: boolean) => ({ type: string, questionIsClosed: boolean }),
-    setGameOver: () => ({ type: string }),
-    currentPlayer: string,
-    field: CellType[][] | [],
-    gameOver: boolean,
-    players: { key: string, name: string, score: number }[],
-    questionAnswered: number,
-    questionIsClosed: boolean,
-    fieldWidth: number,
-    fieldHeight: number,
-    themes: string[],
-    winner: [string, number]
-};
+const Game: React.FC = () => {
+    const currentPlayer = useAppSelector((state: RootState) => state.gamePage.currentPlayer);
+    const gameOver = useAppSelector((state: RootState) => state.gamePage.gameOver);
+    const field = useAppSelector((state: RootState) => state.gamePage.field);
+    const players = useAppSelector((state: RootState) => state.gamePage.players);
+    const questionIsClosed = useAppSelector((state: RootState) => state.gamePage.questionIsClosed);
+    const themes = useAppSelector((state: RootState) => state.gamePage.themes);
+    const winner = useAppSelector((state: RootState) => state.gamePage.winner);
 
-const Game: React.FC<GamePropsTypes> = (props) => {
-
-    if (!props.players.length) {
-        return <AddPlayersFormContainer />;
+    if (players[0].key === "test") {
+        return <AddPlayersForm />;
     };
 
-    if (props.gameOver) {
+    if (gameOver) {
         return <div>
             <h1>GAME OVER</h1>
-            {props.winner[0] === 'Все' ? <p>Ничья со счетом: {props.winner[1]}</p>
-                : <p>Победил игрок: {props.winner[0]} со счетом {props.winner[1]}</p>}
+            {winner[0] === 'Все' ? <p>Ничья со счетом: {winner[1]}</p>
+                : <p>Победил игрок: {winner[0]} со счетом {winner[1]}</p>}
         </div>
     };
 
@@ -41,22 +33,16 @@ const Game: React.FC<GamePropsTypes> = (props) => {
         <div className={cn("h-full", "grid", "grid-cols-[8fr_2fr]", "bg-black")}>
             <div>
                 <div>
-                    <nav className={cn("flex", "flex-row", "text-white", "font-bold", "text-center")}>{props.themes.map((t, i) => {
+                    <nav className={cn("flex", "flex-row", "text-white", "font-bold", "text-center")}>{themes.map((t, i) => {
                         return <Cell key={"0" + i} cellType="none" content={t} />
                     })}
                     </nav>
                 </div>
-                {props.field.map((r, iR) => {
+                {field.map((r, iR) => {
                     let rows = [];
                     let row = <div key={"r" + iR} className={cn("flex", "flex-row")}>{r.map((cell, iC) =>
                         <Cell key={"r" + iR + "c" + iC}
                             cell={cell}
-                            changeCurrentQuestion={props.changeCurrentQuestion}
-                            setQuestionIsClosed={props.setQuestionIsClosed}
-                            setGameOver={props.setGameOver}
-                            fieldWidth={props.fieldWidth}
-                            fieldHeight={props.fieldHeight}
-                            questionAnswered={props.questionAnswered}
                             cellType="playCell" />
                     )}
                     </div>
@@ -66,16 +52,16 @@ const Game: React.FC<GamePropsTypes> = (props) => {
             </div>
             <div className={cn("flex", "col-span-1")}>
                 <div className={cn("h-4/6", "flex", "flex-col", "justify-around", "text-5xl", "font-bold", "text-yellow-600")}>
-                    {props.players.map(p => <div key={p.key}
-                        className={p.key === props.currentPlayer ? cn("text-white")  : ""}>
-                        <div>{p.name} {p.key === props.currentPlayer ? "#" : ""}</div>
+                    {players.map(p => <div key={p.key}
+                        className={p.key === currentPlayer ? cn("text-white") : ""}>
+                        <div>{p.name} {p.key === currentPlayer ? "#" : ""}</div>
                         <div>{p.score}</div>
                     </div>)}
-                <NavLink to="/" className={cn("ml-auto", "mr-auto", "text-4xl")}>На главную</NavLink>
+                    <NavLink to="/" className={cn("ml-auto", "mr-auto", "text-4xl")}>На главную</NavLink>
                 </div>
             </div>
-            {props.questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
-                <RadioFormContainer />
+            {questionIsClosed ? '' : <div className={cn("w-2/5", "p-8", "bg-indigo-800", "text-white", "text-4xl", "absolute", "inset-0")} >
+                <RadioForm />
             </div>}
         </div>
     )

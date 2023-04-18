@@ -19,7 +19,7 @@ export type ConstructorState = {
     creatingQuestionType: string
 };
 
-export type GameState = {
+export interface GameState {
     fieldWidth: number,
     fieldHeight: number,
     themes: Array<string>,
@@ -31,7 +31,7 @@ export type GameState = {
     questionIsClosed: boolean,
     questionAnswered: number,
     gameOver: boolean,
-    winner: [string, number]
+    winner: (string | number)[];
 };
 
 export type SettingsState = {

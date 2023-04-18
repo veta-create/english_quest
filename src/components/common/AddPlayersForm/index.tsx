@@ -2,16 +2,14 @@ import cn from "classnames";
 import { useInput } from "../../../hooks/useForm";
 import React, { useState } from "react";
 import styles from './styles.module.css';
+import { useAppDispatch } from "../../../hooks/useDispatch";
+import { addNewPlayers } from "../../../redux/game-page/gameSlice";
 
-interface AddPlayersFormPropsTypes {
-    addNewPlayers: (newPlayers: Array<string>) => ({ type: string, newPlayers: Array<string> }),
-    playersCount: number
-};
-
-export const AddPlayersForm: React.FC<AddPlayersFormPropsTypes> = (props) => {
+export const AddPlayersForm: React.FC = () => {
     const playerName = useInput('', { isEmpty: true });
     const [newPLayers, setNewPlayers] = useState<Array<string>>([]);
     const [playersCount, setPlayersCount] = useState<number>(0);
+    const dispatch = useAppDispatch();
     return (
         <div className={cn(styles.main, "table", "w-full", "h-full", "bg-black")}>
             <div className={cn("table-cell", "align-middle")}>
@@ -62,7 +60,7 @@ export const AddPlayersForm: React.FC<AddPlayersFormPropsTypes> = (props) => {
                     </div>
                     <input
                         disabled={!playersCount}
-                        onClick={() => props.addNewPlayers(newPLayers)}
+                        onClick={() => dispatch(addNewPlayers(newPLayers))}
                         className={cn(styles.goButton, "w-28", "self-center", "cursor-pointer", "text-center")}
                         type="button"
                         value="Начать" />

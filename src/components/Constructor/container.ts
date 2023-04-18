@@ -1,6 +1,21 @@
 import { connect } from 'react-redux';
-import { getCreatingQuestion, getCreatingQuestionType, getCurrentCellKey, getField, getFieldHeight, getFieldWidth, getThemes } from '../../redux/constructor-page/constructor-selectors';
-import { addColumn, addRow, changeCreatingQuestionType, changeTheme, createField, createQuestion, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from '../../redux/constructor-page/constructorReducer';
+import {
+    getCreatingQuestion, getField,
+    getFieldHeight,
+    getFieldWidth,
+    getThemes
+} from '../../redux/constructor-page/constructor-selectors';
+import {
+    addColumn,
+    addRow,
+    changeCreatingQuestionType,
+    changeTheme,
+    createField,
+    createQuestion,
+    setCurrentCell,
+    setNewFieldSize,
+    toggleCreatingQuestion
+} from '../../redux/constructor-page/constructorReducer';
 import Constructor from './index';
 import { RootState } from '../../redux/store';
 
