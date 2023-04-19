@@ -6,6 +6,7 @@ import { AddPlayersForm } from '../common/AddPlayersForm';
 import RadioForm from '../common/RadioForm';
 import { useAppSelector } from '../../hooks/useSelector';
 import { RootState } from '../../redux/store';
+import GameOver from '../common/GameOver';
 
 const Game: React.FC = () => {
     const currentPlayer = useAppSelector((state: RootState) => state.gamePage.currentPlayer);
@@ -14,18 +15,13 @@ const Game: React.FC = () => {
     const players = useAppSelector((state: RootState) => state.gamePage.players);
     const questionIsClosed = useAppSelector((state: RootState) => state.gamePage.questionIsClosed);
     const themes = useAppSelector((state: RootState) => state.gamePage.themes);
-    const winner = useAppSelector((state: RootState) => state.gamePage.winner);
 
     if (players[0].key === "test") {
         return <AddPlayersForm />;
     };
 
     if (gameOver) {
-        return <div>
-            <h1>GAME OVER</h1>
-            {winner[0] === 'Все' ? <p>Ничья со счетом: {winner[1]}</p>
-                : <p>Победил игрок: {winner[0]} со счетом {winner[1]}</p>}
-        </div>
+        return <GameOver />;
     };
 
     return (

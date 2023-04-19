@@ -17,6 +17,7 @@ import { changeCurrentQuestion, setQuestionIsClosed } from '../../../redux/game-
 import { addColumn, addRow, changeTheme, createField, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from '../../../redux/constructor-page/constructorSlice';
 import { useAppSelector } from '../../../hooks/useSelector';
 import { RootState } from '../../../redux/store';
+import { useInput } from '../../../hooks/useForm';
 
 interface CellPropsTypes {
     themeNumber?: number,
@@ -28,8 +29,7 @@ interface CellPropsTypes {
 
 const Cell: React.FC<CellPropsTypes> = (props) => {
     const dispatch = useAppDispatch();
-    const fieldHeight = useAppSelector((state: RootState) => state.constructorPage.fieldHeight);
-    const fieldWidth = useAppSelector((state: RootState) => state.constructorPage.fieldWidth);
+    const newTheme = useInput("", {isEmpty: true})
     const defineScorePicture = () => {
         if (props.cell && props.cell.score === 200) {
             return score200;
@@ -62,8 +62,6 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
 
     let cellStyles = cn(styles.cell, "w-1/6", "max-w-xs", "h-28", "flex", "justify-center", "items-center", "cursor-pointer", "text-3xl", "bg-blue-900");
 
-    let newTheme = useRef<HTMLInputElement>(null);
-
     if (props.cellType === "playCell" && props.cell) {
         return <div onClick={() => {
             if (props.cell) {
@@ -95,11 +93,11 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
     if (props.cellType === "changeTheme") {
         return <div
             className={cn(cellStyles, "border-solid", "border-4", "border-black")}>
-            <input ref={newTheme} id="question" placeholder={props.content} />
+            <input onChange={(e) => newTheme.onChange(e)} id="question" placeholder={props.content} />
             <input type="button" value="✓"
                 onClick={() => {
-                    if (newTheme.current && props.themeNumber) {
-                        dispatch(changeTheme({ themeNumber: props.themeNumber, newTheme: newTheme.current.value }))
+                    if (newTheme.value && props.themeNumber) {
+                        dispatch(changeTheme({ themeNumber: props.themeNumber, newTheme: newTheme.value }))
                     }
                 }} />
         </div>
