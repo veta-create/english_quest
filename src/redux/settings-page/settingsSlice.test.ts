@@ -1,5 +1,5 @@
 import { SettingsState } from "../../../types";
-import { settingsReducer, ChangeFieldSize, changeFieldSize, changeSettingsOpen, ChangeSettingsOpen, setTimer, SetTimer } from "./settingsReducer";
+import settingsSlice, { changeFieldSize, changeSettingsOpen, setTimer } from "./settingsSlice";
 
 const state: SettingsState = {
     fieldWidth: 3,
@@ -11,9 +11,9 @@ const state: SettingsState = {
 
 describe('field width and field height must change', () => {
     it('field width must be 4, field height must be 4', () => {
-        const action: ChangeFieldSize = changeFieldSize();
+        const action = changeFieldSize();
 
-        const result = settingsReducer(state, action);
+        const result = settingsSlice(state, action);
 
         expect(result.fieldWidth).toBe(4);
         expect(result.fieldHeight).toBe(4);
@@ -22,9 +22,9 @@ describe('field width and field height must change', () => {
 
 describe('settings open must change', () => {
     it('settings open must be true', () => {
-        const action: ChangeSettingsOpen = changeSettingsOpen(true);
+        const action = changeSettingsOpen(true);
 
-        const result = settingsReducer(state, action);
+        const result = settingsSlice(state, action);
 
         expect(result.settingsOpen).toBe(true);
     });
@@ -32,9 +32,9 @@ describe('settings open must change', () => {
 
 describe('timer must change', () => {
     it('timer must be 30000', () => {
-        const action: SetTimer = setTimer();
+        const action = setTimer();
 
-        const result = settingsReducer(state, action);
+        const result = settingsSlice(state, action);
 
         expect(result.timer).toBe(30000);
     });

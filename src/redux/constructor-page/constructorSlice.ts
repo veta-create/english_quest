@@ -99,7 +99,7 @@ const constructorSlice = createSlice({
             state.themes[action.payload.themeNumber] = action.payload.newTheme;
         },
         changeCreatingQuestionType: (state, action) => {
-            state.creatingQuestionType = action.payload.creatingQuestionType;
+            state.creatingQuestionType = action.payload;
         }
     }
 });

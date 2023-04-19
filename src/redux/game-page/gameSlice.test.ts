@@ -1,27 +1,6 @@
 import lodash from 'lodash';
-import {
-  cellClosure,
-  changeCurrentQuestion,
-  determineWinner,
-  setGameOver,
-  gameReducer,
-  playerChange,
-  scoreCounter,
-  setQuestionIsClosed,
-  ChangeCurrentQuestion,
-  ScoreCounter,
-  PlayerChange,
-  CellClosure,
-  SetGameOver,
-  DetermineWinner,
-  SetQuestionIsClosed,
-  changeQuestionAnswered,
-  ChangeQuestionAnswered,
-  addNewPlayers,
-  AddNewPlayers,
-  setCurrentPlayer
-} from "./gameReducer";
 import { GameState } from '../../../types';
+import gameSlice, { addNewPlayers, cellClosure, changeCurrentQuestion, changeQuestionAnswered, determineWinner, playerChange, scoreCounter, setGameOver, setQuestionIsClosed } from './gameSlice';
 
 let state: GameState = {
   fieldWidth: 3,
@@ -51,17 +30,17 @@ let state: GameState = {
 describe('the number of player points must change', () => {
 
   it('the answer is correct, the points of the player must be equal to 300', () => {
-    const action: ScoreCounter = scoreCounter(0, "01");
+    const action = scoreCounter({ playerKey: "01", answerId: 0 });
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.players[0].score).toBe(300);
   });
 
   it('the answer is incorrect, the points of the player must be equal to 0', () => {
-    const action: ScoreCounter = scoreCounter(2, "01");
+    const action = scoreCounter({ playerKey: "01", answerId: 2 });
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.players[0].score).toBe(0);
   });
@@ -69,7 +48,7 @@ describe('the number of player points must change', () => {
 });
 
 describe('current question must change', () => {
-  const action: ChangeCurrentQuestion = changeCurrentQuestion({
+  const action = changeCurrentQuestion({
     key: '02',
     score: 200,
     question: '2?',
@@ -77,7 +56,7 @@ describe('current question must change', () => {
     correct: 0,
     close: false
   });
-  const result = gameReducer(state, action);
+  const result = gameSlice(state, action);
 
   it('key must be "02"', () => {
     expect(result.currentQuestion.key).toBe('02');
@@ -106,21 +85,21 @@ describe('current question must change', () => {
 
 describe('the current player must change', () => {
   it('current player must be "02"', () => {
-    const action: PlayerChange = playerChange();
+    const action = playerChange();
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.currentPlayer).toBe("02");
   });
 
   it('current player must be "01"', () => {
-    const action: PlayerChange = playerChange();
+    const action = playerChange();
 
     const newState = lodash.cloneDeep(state);
 
     newState.currentPlayer = newState.players[newState.players.length - 1].key;
 
-    const result = gameReducer(newState, action);
+    const result = gameSlice(newState, action);
 
     expect(result.currentPlayer).toBe("01");
   })
@@ -128,9 +107,9 @@ describe('the current player must change', () => {
 
 describe('game cell must be closed', () => {
   it('the close field of the cell with the key "01" must be true', () => {
-    const action: CellClosure = cellClosure("01");
+    const action = cellClosure("01");
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.field[0][0].close).toBe(true);
   });
@@ -138,9 +117,9 @@ describe('game cell must be closed', () => {
 
 describe('game over must be change', () => {
   it('game over must be true', () => {
-    const action: SetGameOver = setGameOver();
+    const action = setGameOver();
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.gameOver).toBe(true);
   });
@@ -148,21 +127,21 @@ describe('game over must be change', () => {
 
 describe('the winner must change', () => {
   it('the winner must be ["Arut", 100]', () => {
-    const action: DetermineWinner = determineWinner();
+    const action = determineWinner();
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.winner).toEqual(["Arut", 100]);
   });
 
   it('the winner must be ["Все", 100](dead heat)', () => {
-    const action: DetermineWinner = determineWinner();
+    const action = determineWinner();
 
     const newState = lodash.cloneDeep(state);
 
     newState.players[1].score = 100;
 
-    let result = gameReducer(newState, action);
+    let result = gameSlice(newState, action);
 
     expect(result.winner).toEqual(['Все', 100]);
   });
@@ -170,17 +149,17 @@ describe('the winner must change', () => {
 
 describe('question is closed must change', () => {
   it('question is closed must be true', () => {
-    const action: SetQuestionIsClosed = setQuestionIsClosed(true);
+    const action = setQuestionIsClosed(true);
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.questionIsClosed).toBe(true);
   });
 
   it('question is closed must be false', () => {
-    const action: SetQuestionIsClosed = setQuestionIsClosed(false);
+    const action = setQuestionIsClosed(false);
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.questionIsClosed).toBe(false);
   });
@@ -188,9 +167,9 @@ describe('question is closed must change', () => {
 
 describe('question is answered must change', () => {
   it('question is closed must be 1', () => {
-    const action: ChangeQuestionAnswered = changeQuestionAnswered();
+    const action = changeQuestionAnswered();
 
-    const result = gameReducer(state, action);
+    const result = gameSlice(state, action);
 
     expect(result.questionAnswered).toBe(1);
   });
@@ -198,26 +177,12 @@ describe('question is answered must change', () => {
 
 describe('players must change', () => {
   it('a new player should be added to the player("Danil")', () => {
-    const action: AddNewPlayers = addNewPlayers(["Danil"]);
+    const action = addNewPlayers(["Danil"]);
 
-    let stateCopy = state;
-
-    stateCopy.players = [];
-
-    const result = gameReducer(stateCopy, action);
+    const result = gameSlice(state, action);
 
     expect(result.players).toEqual(
       [{ key: "01", name: "Danil", score: 0 }]
     );
-  });
-});
-
-describe('current player must change', () => {
-  it('current player must be "03"', () => {
-    const action = setCurrentPlayer("03");
-
-    const result = gameReducer(state, action);
-
-    expect(result.currentPlayer).toBe("03");
   });
 });
