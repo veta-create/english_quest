@@ -1,13 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-// import { constructorReducer } from './constructor-page/constructorReducer';
-import { settingsReducer } from './settings-page/settingsReducer';
 import gameSlice from './game-page/gameSlice';
 import constructorSlice from './constructor-page/constructorSlice';
+import settingsSlice from './settings-page/settingsSlice';
 
 const reducers = combineReducers({
     gamePage: gameSlice,
     constructorPage: constructorSlice,
-    settingsPage: settingsReducer
+    settingsPage: settingsSlice
 });
 
 const store = configureStore({reducer: reducers});

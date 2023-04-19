@@ -9,7 +9,7 @@ export type CellType = {
     score: number
 };
 
-export type ConstructorState = {
+export interface ConstructorState {
     themes: Array<string>,
     field: CellType[][] | [],
     fieldWidth: number,
@@ -34,7 +34,7 @@ export interface GameState {
     winner: (string | number)[];
 };
 
-export type SettingsState = {
+export interface SettingsState {
     fieldWidth: number,
     fieldHeight: number,
     timer: number,

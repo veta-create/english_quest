@@ -1,7 +1,5 @@
 import React, { Dispatch, SetStateAction } from "react";
 import cn from "classnames";
-import { useAppSelector } from "../../../hooks/useSelector";
-import { RootState } from "../../../redux/store";
 
 interface TimerPropsTypes {
   minutes: number,

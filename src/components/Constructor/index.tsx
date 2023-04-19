@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import cn from 'classnames';
-import Cell from '../common/Cell';
-import styles from './styles.module.css';
-import { CellType } from '../../../types';
 import { NavLink } from 'react-router-dom';
-import CreateForm from '../common/CreateForm';
 import { useAppDispatch } from '../../hooks/useDispatch';
-import { createField, setNewFieldSize } from '../../redux/constructor-page/constructorSlice';
 import { useAppSelector } from '../../hooks/useSelector';
 import { RootState } from '../../redux/store';
+import Cell from '../common/Cell';
+import styles from './styles.module.css';
+import CreateForm from '../common/CreateForm';
+import { createField, setNewFieldSize } from '../../redux/constructor-page/constructorSlice';
 
 const Constructor: React.FC = () => {
     const dispatch = useAppDispatch();
