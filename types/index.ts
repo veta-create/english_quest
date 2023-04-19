@@ -1,7 +1,7 @@
 import { type } from "@testing-library/user-event/dist/type"
 
 export type CellType = {
-    answers: [string, string, string],
+    answers: string[],
     close: boolean,
     correct: number,
     key: string,

@@ -3,17 +3,15 @@ import cn from "classnames";
 import styles from "./styles.module.css";
 import { useInput } from "../../../hooks/useForm";
 import React from "react";
+import { useAppDispatch } from "../../../hooks/useDispatch";
+import { changeCreatingQuestionType, createQuestion, toggleCreatingQuestion } from "../../../redux/constructor-page/constructorSlice";
+import { useAppSelector } from "../../../hooks/useSelector";
+import { RootState } from "../../../redux/store";
 
-interface CreateFormPropsTypes {
-    createQuestion: (questionType: string, key: string, newQuestion: string, answers: [string, string, string], correctAnswer: number) =>
-        ({ type: string, questionType: string, key: string, newQuestion: string, answers: [string, string, string], correctAnswer: number }),
-    toggleCreatingQuestion: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
-    changeCreatingQuestionType: (creatingQuestionType: string) => ({ type: string, creatingQuestionType: string }),
-    creatingQuestionType: string,
-    currentCellKey: string
-}
-
-const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
+const CreateForm: React.FC = () => {
+    const dispatch = useAppDispatch();
+    const currentCellKey = useAppSelector((state: RootState) => state.constructorPage.currentCellKey);
+    const creatingQuestionType = useAppSelector((state: RootState) => state.constructorPage.creatingQuestionType);
     const question = useInput("", { isEmpty: true });
     const option1 = useInput("", { isEmpty: true });
     const option2 = useInput("", { isEmpty: true });
@@ -23,7 +21,7 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
     const video = useInput("", { isEmpty: true });
 
     const onSubmitAnswerButton = (questionType: string): void => {
-        let answers: [string, string, string] = [option1.value, option2.value, option3.value];
+        let answers: string[] = [option1.value, option2.value, option3.value];
         if (option1.isEmpty ||
             option2.isEmpty ||
             option3.isEmpty ||
@@ -31,12 +29,18 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
             correctAnswer.permissibleNumberValue) {
             alert("Проверьте правильность заполнения формы, пожалуйста");
         } else {
-            if (props.creatingQuestionType === "text") {
+            if (creatingQuestionType === "text") {
                 if (question.isEmpty) {
                     alert("Проверьте правильность заполнения формы, пожалуйста");
                 } else {
-                    props.createQuestion(questionType, props.currentCellKey, question.value, answers, +correctAnswer.value);
-                    props.toggleCreatingQuestion(false);
+                    dispatch(createQuestion({
+                        questionType: questionType,
+                        key: currentCellKey,
+                        newQuestion: question.value,
+                        answers: answers,
+                        correctAnswer: +correctAnswer.value
+                    }));
+                    dispatch(toggleCreatingQuestion(false));
                     question.clear();
                     option1.clear();
                     option2.clear();
@@ -45,12 +49,18 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 };
             };
 
-            if (props.creatingQuestionType === "audio") {
+            if (creatingQuestionType === "audio") {
                 if (audio.isEmpty) {
                     alert("Загрузите аудио-вопрос");
                 } else {
-                    props.createQuestion(questionType, props.currentCellKey, audio.value, answers, +correctAnswer.value);
-                    props.toggleCreatingQuestion(false);
+                    dispatch(createQuestion({
+                        questionType: questionType,
+                        key: currentCellKey,
+                        newQuestion: question.value,
+                        answers: answers,
+                        correctAnswer: +correctAnswer.value
+                    }));
+                    dispatch(toggleCreatingQuestion(false));
                     audio.clear();
                     option1.clear();
                     option2.clear();
@@ -59,12 +69,18 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
                 };
             };
 
-            if (props.creatingQuestionType === "video") {
+            if (creatingQuestionType === "video") {
                 if (video.isEmpty) {
                     alert("Загрузите видео-вопрос");
                 } else {
-                    props.createQuestion(questionType, props.currentCellKey, video.value, answers, +correctAnswer.value);
-                    props.toggleCreatingQuestion(false);
+                    dispatch(createQuestion({
+                        questionType: questionType,
+                        key: currentCellKey,
+                        newQuestion: question.value,
+                        answers: answers,
+                        correctAnswer: +correctAnswer.value
+                    }));
+                    dispatch(toggleCreatingQuestion(false));
                     option1.clear();
                     option2.clear();
                     option3.clear();
@@ -83,18 +99,18 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
 
             <ul className={cn("h-24", "flex", "text-gray-300", "flex-row", "justify-evenly")}>
 
-                <li className={cn(props.creatingQuestionType === "text" ? "text-white" : '', "cursor-pointer")}
-                    onClick={() => props.changeCreatingQuestionType("text")}>
+                <li className={cn(creatingQuestionType === "text" ? "text-white" : '', "cursor-pointer")}
+                    onClick={() => dispatch(changeCreatingQuestionType("text"))}>
                     Текстовый
                 </li>
 
-                <li className={cn(props.creatingQuestionType === "audio" ? "text-white" : '', "cursor-pointer")}
-                    onClick={() => props.changeCreatingQuestionType("audio")}>
+                <li className={cn(creatingQuestionType === "audio" ? "text-white" : '', "cursor-pointer")}
+                    onClick={() => dispatch(changeCreatingQuestionType("audio"))}>
                     Аудио
                 </li>
 
-                <li className={cn(props.creatingQuestionType === "video" ? "text-white" : '', "cursor-pointer")}
-                    onClick={() => props.changeCreatingQuestionType("video")}>
+                <li className={cn(creatingQuestionType === "video" ? "text-white" : '', "cursor-pointer")}
+                    onClick={() => dispatch(changeCreatingQuestionType("video"))}>
                     Видео
                 </li>
 
@@ -102,12 +118,12 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
 
         </div>
 
-        <div className={cn(props.creatingQuestionType === "audio" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
+        <div className={cn(creatingQuestionType === "audio" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
             <p className={cn("text-white")}>*Добавьте аудио вопрос</p>
             <input name="audio" onChange={(e) => audio.onChange(e)} type="file" accept='audio/' />
         </div>
 
-        <div className={cn(props.creatingQuestionType === "video" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
+        <div className={cn(creatingQuestionType === "video" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
 
             <p className={cn("text-white")}>*Добавьте видео вопрос</p>
 
@@ -115,8 +131,8 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
 
         </div>
 
-        <div className={cn(props.creatingQuestionType === "text" ? "" : styles.hide, "flex", "flex-col", "justify-between")}>
-            {(props.creatingQuestionType === "text"
+        <div className={cn(creatingQuestionType === "text" ? "" : styles.hide, "flex", "flex-col", "justify-between")}>
+            {(creatingQuestionType === "text"
                 && question.isVisited
                 && question.isEmpty)
                 && <div className={cn("text-yellow-500")}>{question.isEmptyErrorMessage}</div>}
@@ -169,7 +185,7 @@ const CreateForm: React.FC<CreateFormPropsTypes> = (props) => {
             placeholder={'Номер верного ответа'} />
 
         <input className={cn(styles.main, "text-white", "cursor-pointer")}
-            onClick={() => onSubmitAnswerButton(props.creatingQuestionType)} type="button" value="Готово" />
+            onClick={() => onSubmitAnswerButton(creatingQuestionType)} type="button" value="Готово" />
 
     </form>)
 };

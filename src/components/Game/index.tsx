@@ -1,6 +1,5 @@
 import cn from 'classnames';
 import Cell from '../common/Cell';
-import { CellType } from '../../../types';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { AddPlayersForm } from '../common/AddPlayersForm';

@@ -14,29 +14,22 @@ import midFieldSize from '../../../assets/midFieldSize.png';
 import maxFieldSize from '../../../assets/maxFieldSize.png';
 import { useAppDispatch } from '../../../hooks/useDispatch';
 import { changeCurrentQuestion, setQuestionIsClosed } from '../../../redux/game-page/gameSlice';
+import { addColumn, addRow, changeTheme, createField, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from '../../../redux/constructor-page/constructorSlice';
 import { useAppSelector } from '../../../hooks/useSelector';
 import { RootState } from '../../../redux/store';
 
 interface CellPropsTypes {
-    changeTheme?: (themeNumber: number, newTheme: string) => ({ type: string, themeNumber: number, newTheme: string }),
-    addColumn?: () => ({ type: string }),
-    addRow?: () => ({ type: string }),
-    setNewFieldSize?: (newFieldWidth: number, newFieldHeight: number) => ({ type: string, newFieldWidth: number, newFieldHeight: number }),
-    createField?: () => ({ type: string }),
-    toggleCreatingQuestion?: (creatingQuestion: boolean) => ({ type: string, creatingQuestion: boolean }),
-    setCurrentCell?: (currentCellKey: string) => ({ type: string, currentCellKey: string }),
     themeNumber?: number,
     cellType: string,
-    cell?: { key: string, answers: [string, string, string], close: boolean, correct: number, question: string, score: number },
+    cell?: { key: string, answers: string[], close: boolean, correct: number, question: string, score: number },
     content?: string,
-    fieldWidth?: number,
-    fieldHeight?: number,
     className?: string,
 };
 
-
 const Cell: React.FC<CellPropsTypes> = (props) => {
     const dispatch = useAppDispatch();
+    const fieldHeight = useAppSelector((state: RootState) => state.constructorPage.fieldHeight);
+    const fieldWidth = useAppSelector((state: RootState) => state.constructorPage.fieldWidth);
     const defineScorePicture = () => {
         if (props.cell && props.cell.score === 200) {
             return score200;
@@ -90,9 +83,9 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
     if (props.cellType === "constructorCell") {
         return <div className={cn(cellStyles, "border-solid", "border-4", "border-black", "text-white", "text-center")}
             onClick={() => {
-                if (props.toggleCreatingQuestion && props.setCurrentCell && props.cell) {
-                    props.toggleCreatingQuestion(true);
-                    props.setCurrentCell(props.cell.key)
+                if (props.cell) {
+                    dispatch(toggleCreatingQuestion(true));
+                    dispatch(setCurrentCell(props.cell.key));
                 };
             }} >
             {props.content}
@@ -105,8 +98,8 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
             <input ref={newTheme} id="question" placeholder={props.content} />
             <input type="button" value="✓"
                 onClick={() => {
-                    if (newTheme.current && props.changeTheme && props.themeNumber) {
-                        props.changeTheme(props.themeNumber, newTheme.current.value)
+                    if (newTheme.current && props.themeNumber) {
+                        dispatch(changeTheme({ themeNumber: props.themeNumber, newTheme: newTheme.current.value }))
                     }
                 }} />
         </div>
@@ -114,11 +107,11 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
 
     if (props.cellType === "addColumn" || props.cellType === "addRow") {
         return <div onClick={() => {
-            if (props.cellType === "addColumn" && props.addColumn) {
-                props.addColumn();
+            if (props.cellType === "addColumn") {
+                dispatch(addColumn());
             }
-            if (props.cellType === "addRow" && props.addRow) {
-                props.addRow();
+            if (props.cellType === "addRow") {
+                dispatch(addRow());
             };
         }}
             className={cn(cellStyles, "border-2", "border-dashed", "divide-white")}>
@@ -128,10 +121,10 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
 
     if (props.cellType === "createFieldFromTemplate" && props.content) {
         return <div className={cn("w-2/6", "border-solid", "border-4", "border-black", cellStyles)} onClick={() => {
-            if (props.setNewFieldSize && props.createField && props.fieldWidth && props.fieldHeight) {
-                props.setNewFieldSize(props.fieldWidth, props.fieldHeight);
-                props.createField();
-            }
+            props.content === "3*3" && dispatch(setNewFieldSize({ newFieldWidth: 3, newFieldHeight: 3 }));
+            props.content === "4*4" && dispatch(setNewFieldSize({ newFieldWidth: 4, newFieldHeight: 4 }));
+            props.content === "6*5" && dispatch(setNewFieldSize({ newFieldWidth: 6, newFieldHeight: 5 }));
+            dispatch(createField());
         }}>
             <img src={defineTemplateField(props.content)} alt='Шаблон поля' />
         </div>
