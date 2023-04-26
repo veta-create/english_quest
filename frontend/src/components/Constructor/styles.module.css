@@ -36,3 +36,7 @@
 .hide {
     display: none;
 }
+
+.save:hover {
+    color: rgb(189, 186, 186);
+}

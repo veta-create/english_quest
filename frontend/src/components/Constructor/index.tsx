@@ -17,15 +17,54 @@ const Constructor: React.FC = () => {
     const fieldHeight = useAppSelector((state: RootState) => state.constructorPage.fieldHeight);
     const themes = useAppSelector((state: RootState) => state.constructorPage.themes);
     useEffect(() => {
-        dispatch(setNewFieldSize({newFieldWidth: 3, newFieldHeight: 3}));
+        dispatch(setNewFieldSize({ newFieldWidth: 3, newFieldHeight: 3 }));
         dispatch(createField());
     }, []);
+
+    const saveField = () => {
+        const body = JSON.stringify({ themes: themes, fieldWidth: fieldWidth, fieldHeight: fieldHeight, field: field });
+        const validator = () => {
+            let fieldCorrectness = true;
+            let themesCorrectness = true;
+
+            for (let i = 0; i < field.length; i++) {
+                for (let j = 0; j < field[i].length; j++) {
+                    if (field[i][j].question === "") {
+                        fieldCorrectness = false;
+                        break;
+                    };
+                };
+            };
+
+            for (let i = 0; i < themes.length; i++) {
+                if (themes[i] === "") {
+                    themesCorrectness = false;
+                    break;
+                };
+            };
+
+            return { fieldCorrectness, themesCorrectness };
+        };
+
+        if (validator().fieldCorrectness && validator().themesCorrectness) {
+            fetch("/api", {
+                method: "POST",
+                body: body,
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                }
+            }).then(() => console.log("Доска успешно сохранена")).catch((err) => console.log("Oops: " + err));
+        } else {
+            alert("Заполните доску целиком перед тем, как ее сохранить");
+        };
+    };
+
     return (
         <div className={styles.main}>
             <div className={styles.field}>
                 <div className={styles.themes}>
                     <nav>{themes.map((t, i) => {
-                        return <Cell key={"0" + i} themeNumber={i} cellType="changeTheme" content={`${t}`} />
+                        return <Cell key={"0" + i} themeNumber={i} cellType="changeTheme" />
                     })}
                     </nav>
                 </div>
@@ -45,7 +84,6 @@ const Constructor: React.FC = () => {
                     return rows;
                 })}
                 {fieldHeight < 5 ? <Cell cellType="addRow" /> : ""}
-                <NavLink to="/" className={cn("text-4xl")}>На главную</NavLink>
             </div>
 
             <div>
@@ -55,8 +93,14 @@ const Constructor: React.FC = () => {
                     <Cell cellType="createFieldFromTemplate" content="6*5" />
                 </ul>
             </div>
+
             <div className={cn(creatingQuestion ? styles.visible : styles.hide, "bg-indigo-800", "w-2/5", "h-full", "absolute")}>
                 <CreateForm />
+            </div>
+
+            <div className={cn("flex", "flex-col", "align-center", "text-4xl", "text-white")}>
+                <input className={cn(styles.save, "w-72", "text-center", "cursor-pointer")} type='button' value="Сохранить доску" onClick={() => saveField()} />
+                <NavLink to="/" className={cn("w-72", "text-center")}>На главную</NavLink>
             </div>
         </div>
     )

@@ -2,7 +2,7 @@
 import cn from "classnames";
 import styles from "./styles.module.css";
 import { useInput } from "../../../hooks/useForm";
-import React from "react";
+import React, { useRef } from "react";
 import { useAppDispatch } from "../../../hooks/useDispatch";
 import { changeCreatingQuestionType, createQuestion, toggleCreatingQuestion } from "../../../redux/constructor-page/constructorSlice";
 import { useAppSelector } from "../../../hooks/useSelector";
@@ -19,8 +19,10 @@ const CreateForm: React.FC = () => {
     const correctAnswer = useInput("", { isEmpty: true, permissibleNumberValue: { min: 1, max: 3 } });
     const audio = useInput("", { isEmpty: true });
     const video = useInput("", { isEmpty: true });
+    const audioB = useRef(null);
 
     const onSubmitAnswerButton = (questionType: string): void => {
+        // console.log(audioB.current.files)
         let answers: string[] = [option1.value, option2.value, option3.value];
         if (option1.isEmpty ||
             option2.isEmpty ||
@@ -120,14 +122,14 @@ const CreateForm: React.FC = () => {
 
         <div className={cn(creatingQuestionType === "audio" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
             <p className={cn("text-white")}>*Добавьте аудио вопрос</p>
-            <input name="audio" onChange={(e) => audio.onChange(e)} type="file" accept='audio/' />
+            <input name="audio" ref={audioB} onChange={(e) => audio.onChange(e)} type="file" accept='audio/*' />
         </div>
 
         <div className={cn(creatingQuestionType === "video" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
 
             <p className={cn("text-white")}>*Добавьте видео вопрос</p>
 
-            <input name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/' />
+            <input name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/*' />
 
         </div>
 

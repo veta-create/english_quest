@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ConstructorState } from '../../../types';
 
 let initialState: ConstructorState = {
-    themes: ['Тематика', 'Тематика', 'Тематика'],
+    themes: ['', '', ''],
     field: [],
     fieldWidth: 3,
     fieldHeight: 3,
@@ -28,14 +28,14 @@ const constructorSlice = createSlice({
             for (let i = 0; i < state.fieldHeight; i++) {
                 for (let j = 0; j < state.fieldWidth; j++) {
                     row.push({ key: "0" + key, score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
-                    key++
+                    key++;
                 };
                 newField.push(row);
                 row = [];
             };
             let emptyArray = new Array(state.fieldWidth);
             state.field = newField;
-            state.themes = emptyArray.fill("Тематика");
+            state.themes = emptyArray.fill("");
         },
         addRow(state) {
             let lastKey = Number(state.field[state.fieldHeight - 1][state.fieldWidth - 1].key) + 1;

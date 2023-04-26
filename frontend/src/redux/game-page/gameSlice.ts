@@ -1,21 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { GameState } from '../../../types';
 
 const initialState: GameState = {
     fieldWidth: 3,
     fieldHeight: 3,
     themes: ["BTS", "Minecraft", "Олимпийские игры"],
-    field: [
-        [{ key: "01", score: 200, question: '1?', answers: ['п', 'н', 'н'], correct: 0, close: false },
-        { key: "02", score: 200, question: 'Как добраться до Эндермира?', answers: ['Око Края', 'Через пещеру', 'В кусты'], correct: 0, close: false },
-        { key: "03", score: 200, question: '3?', answers: ['н', 'н', 'п'], correct: 2, close: false }],
-        [{ key: "04", score: 400, question: '4?', answers: ['н', 'н', 'п'], correct: 2, close: false },
-        { key: "05", score: 400, question: '5?', answers: ['н', 'п', 'н'], correct: 1, close: false },
-        { key: "06", score: 400, question: '6?', answers: ['п', 'н', 'н'], correct: 0, close: false }],
-        [{ key: "07", score: 600, question: '7?', answers: ['н', 'п', 'н'], correct: 1, close: false },
-        { key: "08", score: 600, question: '8?', answers: ['н', 'п', 'н'], correct: 1, close: false },
-        { key: "09", score: 600, question: '9?', answers: ['н', 'п', 'н'], correct: 1, close: false }]
-    ],
+    field: [],
     playersCount: 0,
     players: [{ key: "test", name: "none", score: 0 }],
     currentPlayer: "01",
@@ -36,6 +26,7 @@ const gameSlice = createSlice({
             state.currentQuestion.answers = action.payload.answers;
             state.currentQuestion.score = action.payload.score;
             state.currentQuestion.correct = action.payload.correct;
+            state.currentQuestion.currentAnswer = 0;
         },
         changeCurrentAnswer(state, action) {
             state.currentQuestion.currentAnswer = action.payload;
@@ -129,6 +120,12 @@ const gameSlice = createSlice({
             };
             state.players = players;
             state.playersCount = players.length;
+        },
+        setField: (state, action) => {
+            state.field = action.payload.field;
+            state.themes = action.payload.themes;
+            state.fieldWidth = action.payload.fieldWidth;
+            state.fieldHeight = action.payload.fieldHeight;
         }
     }
 });
@@ -143,4 +140,5 @@ export const { changeCurrentQuestion,
     determineWinner,
     setQuestionIsClosed,
     changeQuestionAnswered,
-    addNewPlayers } = gameSlice.actions;
+    addNewPlayers,
+    setField } = gameSlice.actions;

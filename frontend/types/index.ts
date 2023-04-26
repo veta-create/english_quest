@@ -9,9 +9,11 @@ export type CellType = {
     score: number
 };
 
+export type Field = CellType[][] | [];
+
 export interface ConstructorState {
     themes: Array<string>,
-    field: CellType[][] | [],
+    field: Field,
     fieldWidth: number,
     fieldHeight: number,
     currentCellKey: string,

@@ -7,6 +7,7 @@ import RadioForm from '../common/RadioForm';
 import { useAppSelector } from '../../hooks/useSelector';
 import { RootState } from '../../redux/store';
 import GameOver from '../common/GameOver';
+import { FieldSelection } from '../common/FieldSelection';
 
 const Game: React.FC = () => {
     const currentPlayer = useAppSelector((state: RootState) => state.gamePage.currentPlayer);
@@ -19,6 +20,10 @@ const Game: React.FC = () => {
     if (players[0].key === "test") {
         return <AddPlayersForm />;
     };
+
+    if(field.length === 0) {
+        return <FieldSelection />
+    }
 
     if (gameOver) {
         return <GameOver />;

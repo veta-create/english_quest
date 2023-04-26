@@ -15,8 +15,6 @@ import maxFieldSize from '../../../assets/maxFieldSize.png';
 import { useAppDispatch } from '../../../hooks/useDispatch';
 import { changeCurrentQuestion, setQuestionIsClosed } from '../../../redux/game-page/gameSlice';
 import { addColumn, addRow, changeTheme, createField, setCurrentCell, setNewFieldSize, toggleCreatingQuestion } from '../../../redux/constructor-page/constructorSlice';
-import { useAppSelector } from '../../../hooks/useSelector';
-import { RootState } from '../../../redux/store';
 import { useInput } from '../../../hooks/useForm';
 
 interface CellPropsTypes {
@@ -29,7 +27,7 @@ interface CellPropsTypes {
 
 const Cell: React.FC<CellPropsTypes> = (props) => {
     const dispatch = useAppDispatch();
-    const newTheme = useInput("", {isEmpty: true})
+    const newTheme = useInput("", { isEmpty: true })
     const defineScorePicture = () => {
         if (props.cell && props.cell.score === 200) {
             return score200;
@@ -93,12 +91,10 @@ const Cell: React.FC<CellPropsTypes> = (props) => {
     if (props.cellType === "changeTheme") {
         return <div
             className={cn(cellStyles, "border-solid", "border-4", "border-black")}>
-            <input onChange={(e) => newTheme.onChange(e)} id="question" placeholder={props.content} />
+            <input onChange={(e) => newTheme.onChange(e)} id="question" placeholder="Тематика" />
             <input type="button" value="✓"
                 onClick={() => {
-                    if (newTheme.value && props.themeNumber) {
-                        dispatch(changeTheme({ themeNumber: props.themeNumber, newTheme: newTheme.value }))
-                    }
+                    dispatch(changeTheme({ themeNumber: props.themeNumber, newTheme: newTheme.value }))
                 }} />
         </div>
     };
