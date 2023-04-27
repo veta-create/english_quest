@@ -11,7 +11,7 @@ export const FieldSelection: React.FC = () => {
     const stukAudio = new Audio(stuk);
 
     useEffect(() => {
-        fetch("/api")
+        fetch("/api/fields")
             .then((res) => res.json())
             .then((res) => setFields(res))
             .catch((err) => console.log("Oops: " + err));

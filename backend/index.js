@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get('/api', async function (req, res) {
+app.get('/api/fields', async function (req, res) {
     try {
         await mongoClient.connect();
         const db = mongoClient.db("fieldsdb");
@@ -27,12 +27,40 @@ app.get('/api', async function (req, res) {
     };
 });
 
-app.post('/api', async function (req, res) {
+app.get('/api/settings', async function (req, res) {
+    try {
+        await mongoClient.connect();
+        const db = mongoClient.db("fieldsdb");
+        const collection = db.collection("settings");
+        const results = await collection.find().toArray();
+        res.send(results);
+        return results;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await mongoClient.close();
+    };
+});
+
+app.post('/api/fields', async function (req, res) {
     try {
         await mongoClient.connect();
         const db = mongoClient.db("fieldsdb");
         const collection = db.collection("fields");
         await collection.insertOne(req.body);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await mongoClient.close();
+    };
+});
+
+app.post('/api/settings', async function (req, res) {
+    try {
+        await mongoClient.connect();
+        const db = mongoClient.db("fieldsdb");
+        const collection = db.collection("settings");
+        await collection.replaceOne({}, req.body);
     } catch (err) {
         console.log(err);
     } finally {

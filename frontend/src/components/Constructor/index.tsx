@@ -16,6 +16,7 @@ const Constructor: React.FC = () => {
     const fieldWidth = useAppSelector((state: RootState) => state.constructorPage.fieldWidth);
     const fieldHeight = useAppSelector((state: RootState) => state.constructorPage.fieldHeight);
     const themes = useAppSelector((state: RootState) => state.constructorPage.themes);
+    
     useEffect(() => {
         dispatch(setNewFieldSize({ newFieldWidth: 3, newFieldHeight: 3 }));
         dispatch(createField());

@@ -37,8 +37,6 @@ export interface GameState {
 };
 
 export interface SettingsState {
-    fieldWidth: number,
-    fieldHeight: number,
     timer: number,
     settingsOpen: boolean
 };

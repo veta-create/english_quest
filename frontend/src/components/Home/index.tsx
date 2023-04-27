@@ -2,9 +2,9 @@ import styles from "./styles.module.css";
 import logo from "../../assets/logo.png"
 import { NavLink } from "react-router-dom";
 import cn from "classnames";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useDispatch";
-import { changeSettingsOpen } from "../../redux/settings-page/settingsSlice";
+import { changeSettingsOpen, setTimer } from "../../redux/settings-page/settingsSlice";
 import { useAppSelector } from "../../hooks/useSelector";
 import { RootState } from "../../redux/store";
 import Settings from "../Settings";
@@ -14,6 +14,13 @@ const Home: React.FC = () => {
     const dispatch = useAppDispatch();
     const settingsOpen = useAppSelector((state: RootState) => state.settingsPage.settingsOpen);
     const themeAudio = new Audio(theme);
+
+    useEffect(() => {
+        fetch("/api/settings")
+            .then((res) => res.json())
+            .then((res) => dispatch(setTimer(res[0].timer)))
+            .catch((err) => console.log("Oops: " + err));
+    }, []);
 
     return (
         <div className={styles.main}>
