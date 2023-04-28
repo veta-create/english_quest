@@ -32,7 +32,7 @@ const Home: React.FC = () => {
                     <nav className={cn("flex", "flex-col")}>
                         <NavLink to="/game">Новая игра</NavLink>
                         <NavLink to="/custom">Пользовательская доска</NavLink>
-                        <div className={cn(styles.settings, "text-white", "cursor-pointer")}
+                        <div className={cn(styles.settingsHover, "text-white", "cursor-pointer")}
                             onClick={() => dispatch(changeSettingsOpen(true))}>Настройки</div>
                     </nav>
                 </div>

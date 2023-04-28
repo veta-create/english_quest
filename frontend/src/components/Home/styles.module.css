@@ -12,7 +12,11 @@ a {
     color: #fff;
 }
 
-a:hover, nav div:hover {
+a:hover {
+    color: rgb(189, 186, 186);
+}
+
+.settingsHover:hover {
     color: rgb(189, 186, 186);
 }
 

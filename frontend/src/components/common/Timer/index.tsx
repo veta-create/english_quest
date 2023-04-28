@@ -34,13 +34,15 @@ const Timer: React.FC<TimerPropsTypes> = (props) => {
 
     if (over) {
       props.setSelectDisabled(false);
-      dispatch(scoreCounter({ playerKey: currentPlayer, answerId: currentQuestion.currentAnswer }));
-      dispatch(cellClosure(currentQuestion.key));
-      dispatch(setQuestionIsClosed(true));
-      dispatch(changeQuestionAnswered());
-      if (questionAnswered === fieldWidth * fieldHeight - 1) {
-        dispatch(determineWinner());
-        dispatch(setGameOver());
+      if (players.length <= 2) {
+        dispatch(scoreCounter({ playerKey: currentPlayer, answerId: currentQuestion.currentAnswer }));
+        dispatch(cellClosure(currentQuestion.key));
+        dispatch(setQuestionIsClosed(true));
+        dispatch(changeQuestionAnswered());
+        if (questionAnswered === fieldWidth * fieldHeight - 1) {
+          dispatch(determineWinner());
+          dispatch(setGameOver());
+        };
       }
     };
   };

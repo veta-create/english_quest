@@ -2,7 +2,7 @@
 import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppDispatch } from "../../../hooks/useDispatch";
 import {
     cellClosure,
@@ -15,6 +15,7 @@ import {
 } from "../../../redux/game-page/gameSlice";
 import { useAppSelector } from "../../../hooks/useSelector";
 import { RootState } from "../../../redux/store";
+import preloader from "../../../assets/preloader.png";
 
 const RadioForm: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -83,8 +84,9 @@ const RadioForm: React.FC = () => {
                     }} value="ответить" />
             </div>
 
-            {players.length > 1 && <div className={cn("pt-6", "pl-6")}>
+            {players.length > 2 && <div className={cn("pt-6", "pl-6")}>
                 <select disabled={selectDisabled} className={cn("bg-indigo-800", "text-white")} onChange={(e) => {
+                    console.log("click")
                     let playerName: string = e.target.value;
                     let playerKey: string | undefined = players.find(p => p.name === playerName)?.key;
                     if (playerKey) {
@@ -101,7 +103,7 @@ const RadioForm: React.FC = () => {
             </div>
         </form>)
     } else {
-        return <div>Loading...</div>
+        return <img className={cn(styles.preloader, "mr-auto", "ml-auto")} src={preloader} alt="preloader" />
     }
 };
 

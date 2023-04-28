@@ -11,6 +11,14 @@ export type CellType = {
 
 export type Field = CellType[][] | [];
 
+export interface FieldsApi {
+    id: string,
+    field: Field,
+    themes: string[],
+    fieldWidth: number,
+    fieldHeight: Number
+};
+
 export interface ConstructorState {
     themes: Array<string>,
     field: Field,
@@ -27,9 +35,9 @@ export interface GameState {
     themes: Array<string>,
     field: CellType[][] | [],
     playersCount: number,
-    players: {key: string, name: string, score: number}[] | [],
+    players: { key: string, name: string, score: number }[] | [],
     currentPlayer: string,
-    currentQuestion: {key: string, question: string, answers: [string, string, string], score: 200, currentAnswer: number, correct: number},
+    currentQuestion: { key: string, question: string, answers: [string, string, string], score: 200, currentAnswer: number, correct: number },
     questionIsClosed: boolean,
     questionAnswered: number,
     gameOver: boolean,
