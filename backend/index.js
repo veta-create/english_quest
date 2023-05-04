@@ -52,11 +52,11 @@ app.get('/api/settings', async function (req, res) {
     };
 });
 
-app.get('/api/keys', async function (req, res) {
+app.get('/api/audioKeys', async function (req, res) {
     try {
         await mongoClient.connect();
         const db = mongoClient.db("fieldsdb");
-        const collection = db.collection("keys");
+        const collection = db.collection("audioKeys");
         const results = await collection.find().toArray();
         res.send(results);
         return results;
@@ -96,16 +96,15 @@ app.post('/api/settings', async function (req, res) {
 app.post('/api/audios', async function (req, res) {
     const file = req.files.audio;
     const type = "." + file.name.substring(file.name.length - 3);
+    const key = JSON.parse(req.body.key);
 
-    await file.mv(path.join(__dirname, 'audios', req.body.key + type));
-});
+    await file.mv(path.join(__dirname, 'audios', key.key + type));
 
-app.post('/audio/keys', async function (req, res) {
     try {
         await mongoClient.connect();
         const db = mongoClient.db("fieldsdb");
-        const collection = db.collection("keys");
-        await collection.audioKeys.insertOne(req.body);
+        const collection = db.collection("audioKeys");
+        await collection.insertOne(key);
     } catch (err) {
         console.log(err);
     } finally {

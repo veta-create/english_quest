@@ -21,22 +21,17 @@ const CreateForm: React.FC = () => {
     const video = useInput("", { isEmpty: true });
     const audioPicker = useRef<HTMLInputElement>(null);
     const [audioFile, setAudioFile] = useState<string | Blob>();
-    const [audioKeys, setAudioKeys] = useState<Array<string> | []>();
+    const [audioKey, setAudioKey] = useState<string>();
 
     useEffect(() => {
-        fetch("/api/keys")
+        fetch("/api/audioKeys")
             .then(res => res.json())
-            .then(res => setAudioKeys(res[0].audioKeys))
+            .then(res => setAudioKey(res[res.length - 1].key))
             .catch(err => console.log("Oops: " + err));
     }, []);
 
-    const getKey = (collection: Array<string>) => {
-        if (collection.length === 0) {
-            return "01";
-        } else {
-            const lastKey = collection[collection.length - 1];
-            return ("0" + Number(lastKey) + 1);
-        };
+    const getKey = (lastKey: string) => {
+        return ("0" + (Number(lastKey) + 1));
     };
 
     const audioHandle = () => {
@@ -82,13 +77,13 @@ const CreateForm: React.FC = () => {
                     const audioData = new FormData();
                     let key = '';
 
-                    if (audioKeys) {
-                        key = getKey(audioKeys);
+                    if (audioKey) {
+                        key = getKey(audioKey);
                     };
 
                     if (audioFile) {
                         audioData.append("audio", audioFile);
-                        audioData.append("key", key);
+                        audioData.append("key", JSON.stringify({key: key}));
                     };
 
                     console.log(audioFile)
@@ -96,8 +91,6 @@ const CreateForm: React.FC = () => {
                     await fetch("/api/audios", { method: "POST", body: audioData })
                         .then(() => console.log("Аудио загружены"))
                         .catch((err) => console.log("Oops: " + err));
-
-                    await fetch("/api/keys", { method: "POST", body: key });
 
                     dispatch(createQuestion({
                         questionType: questionType,
@@ -107,7 +100,7 @@ const CreateForm: React.FC = () => {
                         correctAnswer: +correctAnswer.value,
                         type: "audio"
                     }));
-                    
+
                     dispatch(toggleCreatingQuestion(false));
                     audio.clear();
                     option1.clear();
