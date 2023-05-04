@@ -39,7 +39,7 @@ const RadioForm: React.FC = () => {
     if (timer) {
         return (<form>
 
-            <div className={cn("text-center")}>{currentQuestion.question}</div>
+            {currentQuestion.type === "text" && <div className={cn("text-center")}>{currentQuestion.question}</div>}
 
             <div className={cn("pt-8")}>
                 {currentQuestion.answers.map((a, i) => {

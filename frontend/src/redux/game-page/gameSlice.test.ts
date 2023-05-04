@@ -20,7 +20,7 @@ let state: GameState = {
   playersCount: 0,
   players: [{ key: "01", name: "Arut", score: 100 }, { key: "02", name: "Veta", score: 0 }],
   currentPlayer: "01",
-  currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
+  currentQuestion: { type: "text", key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
   questionIsClosed: true,
   questionAnswered: 0,
   gameOver: false,

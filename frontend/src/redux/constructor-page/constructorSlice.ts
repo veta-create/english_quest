@@ -85,7 +85,8 @@ const constructorSlice = createSlice({
                             //фунцкия, генерирующая путь к аудио файл
                             state.field[i][j].question = action.payload.newQuestion;
                         };
-
+                        
+                        state.field[i][j].type = action.payload.type;
                         state.field[i][j].answers = action.payload.answers;
                         state.field[i][j].correct = action.payload.correctAnswer - 1;
                     }

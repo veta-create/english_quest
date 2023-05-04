@@ -1,24 +1,11 @@
 import { SettingsState } from "../../../types";
-import settingsSlice, { changeFieldSize, changeSettingsOpen, setTimer } from "./settingsSlice";
+import settingsSlice, { changeSettingsOpen, setTimer } from "./settingsSlice";
 
 const state: SettingsState = {
-    fieldWidth: 3,
-    fieldHeight: 3,
-    //timer в миллисекундах
-    timer: 15000,
+    //timer в секундах
+    timer: 15,
     settingsOpen: false
 };
-
-describe('field width and field height must change', () => {
-    it('field width must be 4, field height must be 4', () => {
-        const action = changeFieldSize();
-
-        const result = settingsSlice(state, action);
-
-        expect(result.fieldWidth).toBe(4);
-        expect(result.fieldHeight).toBe(4);
-    });
-});
 
 describe('settings open must change', () => {
     it('settings open must be true', () => {
@@ -31,11 +18,11 @@ describe('settings open must change', () => {
 });
 
 describe('timer must change', () => {
-    it('timer must be 30000', () => {
-        const action = setTimer();
+    it('timer must be 30', () => {
+        const action = setTimer(30);
 
         const result = settingsSlice(state, action);
 
-        expect(result.timer).toBe(30000);
+        expect(result.timer).toBe(30);
     });
 });

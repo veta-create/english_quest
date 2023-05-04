@@ -30,7 +30,7 @@ const Game: React.FC = () => {
     };
 
     return (
-        <div className={cn("h-full", "grid", "grid-cols-[8fr_2fr]", "bg-black")}>
+        <div className={cn("h-full", "min-h-screen", "grid", "grid-cols-[8fr_2fr]", "bg-black")}>
             <div>
                 <div>
                     <nav className={cn("flex", "flex-row", "text-white", "font-bold", "text-center")}>{themes.map((t, i) => {

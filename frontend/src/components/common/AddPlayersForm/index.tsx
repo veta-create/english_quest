@@ -11,7 +11,7 @@ export const AddPlayersForm: React.FC = () => {
     const [playersCount, setPlayersCount] = useState<number>(0);
     const dispatch = useAppDispatch();
     return (
-        <div className={cn(styles.main, "table", "w-full", "h-full", "bg-black")}>
+        <div className={cn("min-h-screen", "table", "w-full", "bg-black")}>
             <div className={cn("table-cell", "align-middle")}>
                 <div
                     className={cn("flex", "flex-col", "justify-around", "w-1/3", "h-80", "ml-auto", "mr-auto", "p-6", "text-4xl", "text-white", "bg-blue-900")}>

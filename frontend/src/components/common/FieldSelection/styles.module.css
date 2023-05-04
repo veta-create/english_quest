@@ -1,5 +1,8 @@
 .main {
+  min-height: 100vh;
+
   background-image: url(../../../assets/stars.png);
+  background-repeat: repeat-y;
 }
 
 .preloaderAnimation {

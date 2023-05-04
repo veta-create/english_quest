@@ -2,7 +2,7 @@
 import cn from "classnames";
 import styles from "./styles.module.css";
 import { useInput } from "../../../hooks/useForm";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useAppDispatch } from "../../../hooks/useDispatch";
 import { changeCreatingQuestionType, createQuestion, toggleCreatingQuestion } from "../../../redux/constructor-page/constructorSlice";
 import { useAppSelector } from "../../../hooks/useSelector";
@@ -19,10 +19,33 @@ const CreateForm: React.FC = () => {
     const correctAnswer = useInput("", { isEmpty: true, permissibleNumberValue: { min: 1, max: 3 } });
     const audio = useInput("", { isEmpty: true });
     const video = useInput("", { isEmpty: true });
-    const audioB = useRef(null);
+    const audioPicker = useRef<HTMLInputElement>(null);
+    const [audioFile, setAudioFile] = useState<string | Blob>();
+    const [audioKeys, setAudioKeys] = useState<Array<string> | []>();
 
-    const onSubmitAnswerButton = (questionType: string): void => {
-        // console.log(audioB.current.files)
+    useEffect(() => {
+        fetch("/api/keys")
+            .then(res => res.json())
+            .then(res => setAudioKeys(res[0].audioKeys))
+            .catch(err => console.log("Oops: " + err));
+    }, []);
+
+    const getKey = (collection: Array<string>) => {
+        if (collection.length === 0) {
+            return "01";
+        } else {
+            const lastKey = collection[collection.length - 1];
+            return ("0" + Number(lastKey) + 1);
+        };
+    };
+
+    const audioHandle = () => {
+        if (audioPicker.current) {
+            audioPicker.current.click();
+        };
+    };
+
+    const onSubmitAnswerButton = async (questionType: string): Promise<void> => {
         let answers: string[] = [option1.value, option2.value, option3.value];
         if (option1.isEmpty ||
             option2.isEmpty ||
@@ -40,7 +63,8 @@ const CreateForm: React.FC = () => {
                         key: currentCellKey,
                         newQuestion: question.value,
                         answers: answers,
-                        correctAnswer: +correctAnswer.value
+                        correctAnswer: +correctAnswer.value,
+                        type: "text"
                     }));
                     dispatch(toggleCreatingQuestion(false));
                     question.clear();
@@ -55,13 +79,35 @@ const CreateForm: React.FC = () => {
                 if (audio.isEmpty) {
                     alert("Загрузите аудио-вопрос");
                 } else {
+                    const audioData = new FormData();
+                    let key = '';
+
+                    if (audioKeys) {
+                        key = getKey(audioKeys);
+                    };
+
+                    if (audioFile) {
+                        audioData.append("audio", audioFile);
+                        audioData.append("key", key);
+                    };
+
+                    console.log(audioFile)
+
+                    await fetch("/api/audios", { method: "POST", body: audioData })
+                        .then(() => console.log("Аудио загружены"))
+                        .catch((err) => console.log("Oops: " + err));
+
+                    await fetch("/api/keys", { method: "POST", body: key });
+
                     dispatch(createQuestion({
                         questionType: questionType,
                         key: currentCellKey,
-                        newQuestion: question.value,
+                        newQuestion: key,
                         answers: answers,
-                        correctAnswer: +correctAnswer.value
+                        correctAnswer: +correctAnswer.value,
+                        type: "audio"
                     }));
+                    
                     dispatch(toggleCreatingQuestion(false));
                     audio.clear();
                     option1.clear();
@@ -80,7 +126,8 @@ const CreateForm: React.FC = () => {
                         key: currentCellKey,
                         newQuestion: question.value,
                         answers: answers,
-                        correctAnswer: +correctAnswer.value
+                        correctAnswer: +correctAnswer.value,
+                        type: "video"
                     }));
                     dispatch(toggleCreatingQuestion(false));
                     option1.clear();
@@ -121,15 +168,30 @@ const CreateForm: React.FC = () => {
         </div>
 
         <div className={cn(creatingQuestionType === "audio" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
+
             <p className={cn("text-white")}>*Добавьте аудио вопрос</p>
-            <input name="audio" ref={audioB} onChange={(e) => audio.onChange(e)} type="file" accept='audio/*' />
+
+            <input className={cn(styles.hidden)} name="audio" ref={audioPicker}
+                onChange={(e) => {
+                    audio.onChange(e);
+                    if (e.target.files) {
+                        setAudioFile(e.target.files[0])
+                    };
+                }} type="file" accept='.mp3,.mp4' />
+
+            <input type="button" className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500", "cursor-pointer")}
+                value="Загрузить аудио"
+                onClick={audioHandle} />
+
         </div>
 
         <div className={cn(creatingQuestionType === "video" ? "" : styles.hide, "h-28", "flex", "flex-col", "justify-between")}>
 
             <p className={cn("text-white")}>*Добавьте видео вопрос</p>
 
-            <input name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/*' />
+            <input className={cn(styles.hidden)} name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/*' />
+
+            <button className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500")}>Загрузить видео</button>
 
         </div>
 

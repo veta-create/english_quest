@@ -6,7 +6,8 @@ export type CellType = {
     correct: number,
     key: string,
     question: string,
-    score: number
+    score: number,
+    type?: string
 };
 
 export type Field = CellType[][] | [];
@@ -37,7 +38,7 @@ export interface GameState {
     playersCount: number,
     players: { key: string, name: string, score: number }[] | [],
     currentPlayer: string,
-    currentQuestion: { key: string, question: string, answers: [string, string, string], score: 200, currentAnswer: number, correct: number },
+    currentQuestion: { type: string, key: string, question: string, answers: [string, string, string], score: 200, currentAnswer: number, correct: number },
     questionIsClosed: boolean,
     questionAnswered: number,
     gameOver: boolean,

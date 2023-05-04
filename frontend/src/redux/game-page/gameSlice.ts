@@ -9,7 +9,7 @@ const initialState: GameState = {
     playersCount: 0,
     players: [{ key: "test", name: "none", score: 0 }],
     currentPlayer: "01",
-    currentQuestion: { key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
+    currentQuestion: { type: "text", key: "01", question: '1?', answers: ['п', 'н', 'н'], score: 200, currentAnswer: 0, correct: 0 },
     questionIsClosed: true,
     questionAnswered: 0,
     gameOver: false,
@@ -27,6 +27,7 @@ const gameSlice = createSlice({
             state.currentQuestion.score = action.payload.score;
             state.currentQuestion.correct = action.payload.correct;
             state.currentQuestion.currentAnswer = 0;
+            state.currentQuestion.type = action.payload.type;
         },
         changeCurrentAnswer(state, action) {
             state.currentQuestion.currentAnswer = action.payload;

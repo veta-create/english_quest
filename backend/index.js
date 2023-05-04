@@ -1,16 +1,24 @@
 import express from "express";
 import { MongoClient } from "mongodb";
 import cors from "cors";
+import fileUpload from "express-fileupload";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const url = "mongodb://127.0.0.1:27017/";
 const mongoClient = new MongoClient(url);
 
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 const app = express();
 // запросы от веб-сайта, который хостится в одном домене, к серверу в другом домене
 app.use(cors());
 app.use(express.json());
+// промежуточный слой для загрузки медиа
+// app.use(fileUpload());
 
 app.get('/api/fields', async function (req, res) {
     try {
@@ -27,6 +35,8 @@ app.get('/api/fields', async function (req, res) {
     };
 });
 
+app.use(fileUpload({}))
+
 app.get('/api/settings', async function (req, res) {
     try {
         await mongoClient.connect();
@@ -40,6 +50,21 @@ app.get('/api/settings', async function (req, res) {
     } finally {
         await mongoClient.close();
     };
+});
+
+app.get('/api/keys', async function (req, res) {
+    try {
+        await mongoClient.connect();
+        const db = mongoClient.db("fieldsdb");
+        const collection = db.collection("keys");
+        const results = await collection.find().toArray();
+        res.send(results);
+        return results;
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await mongoClient.close();
+    }
 });
 
 app.post('/api/fields', async function (req, res) {
@@ -67,6 +92,28 @@ app.post('/api/settings', async function (req, res) {
         await mongoClient.close();
     };
 });
+
+app.post('/api/audios', async function (req, res) {
+    const file = req.files.audio;
+    const type = "." + file.name.substring(file.name.length - 3);
+
+    await file.mv(path.join(__dirname, 'audios', req.body.key + type));
+});
+
+app.post('/audio/keys', async function (req, res) {
+    try {
+        await mongoClient.connect();
+        const db = mongoClient.db("fieldsdb");
+        const collection = db.collection("keys");
+        await collection.audioKeys.insertOne(req.body);
+    } catch (err) {
+        console.log(err);
+    } finally {
+        await mongoClient.close();
+    };
+});
+
+app.use('/api/audios', express.static(path.join(__dirname, 'audios')));
 
 app.listen(PORT, () => {
     console.log("Server started on PORT " + PORT);
