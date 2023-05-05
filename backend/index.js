@@ -11,14 +11,20 @@ const __dirname = path.dirname(__filename);
 const url = "mongodb://127.0.0.1:27017/";
 const mongoClient = new MongoClient(url);
 
+const app = express();
+
 const PORT = 3001;
 
-const app = express();
+app.use('/api/audios', express.static(path.join(__dirname, 'audios')));
 // запросы от веб-сайта, который хостится в одном домене, к серверу в другом домене
 app.use(cors());
 app.use(express.json());
 // промежуточный слой для загрузки медиа
 // app.use(fileUpload());
+
+app.get('/api', (req, res) => {
+    res.send('Hello World!');
+});
 
 app.get('/api/fields', async function (req, res) {
     try {
@@ -112,7 +118,6 @@ app.post('/api/audios', async function (req, res) {
     };
 });
 
-app.use('/api/audios', express.static(path.join(__dirname, 'audios')));
 
 app.listen(PORT, () => {
     console.log("Server started on PORT " + PORT);

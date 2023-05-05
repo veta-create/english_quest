@@ -27,7 +27,7 @@ const constructorSlice = createSlice({
 
             for (let i = 0; i < state.fieldHeight; i++) {
                 for (let j = 0; j < state.fieldWidth; j++) {
-                    row.push({ key: "0" + key, score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
+                    row.push({ type: "", key: "0" + key, score: 200 * (i + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                     key++;
                 };
                 newField.push(row);
@@ -42,7 +42,7 @@ const constructorSlice = createSlice({
             let newRow = [];
 
             for (let i = 0; i < state.fieldWidth; i++) {
-                newRow.push({ key: "0" + lastKey, score: 200 * (state.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
+                newRow.push({ type: "", key: "0" + lastKey, score: 200 * (state.fieldHeight + 1), question: '', answers: ['', '', ''], correct: 0, close: false })
                 lastKey += 1;
             };
 
@@ -53,7 +53,7 @@ const constructorSlice = createSlice({
         addColumn(state) {
             for (let i = 0; i < state.field.length; i++) {
                 let key = Number(state.field[i][state.fieldWidth - 1].key) + 1;
-                state.field[i].push({ key: "0" + key, score: state.field[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false });
+                state.field[i].push({ type: "", key: "0" + key, score: state.field[i][0].score, question: '', answers: ['', '', ''], correct: 0, close: false });
                 if (i !== state.fieldHeight - 1) {
                     for (let j = 0; j < state.field[i + 1].length; j++) {
                         state.field[i + 1][j].key = "0" + (Number(state.field[i + 1][j].key) + (i + 1));

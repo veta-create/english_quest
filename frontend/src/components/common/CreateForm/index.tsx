@@ -20,7 +20,7 @@ const CreateForm: React.FC = () => {
     const audio = useInput("", { isEmpty: true });
     const video = useInput("", { isEmpty: true });
     const audioPicker = useRef<HTMLInputElement>(null);
-    const [audioFile, setAudioFile] = useState<string | Blob>();
+    const [audioFile, setAudioFile] = useState<Blob>();
     const [audioKey, setAudioKey] = useState<string>();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const CreateForm: React.FC = () => {
             .then(res => res.json())
             .then(res => setAudioKey(res[res.length - 1].key))
             .catch(err => console.log("Oops: " + err));
-    }, []);
+    }, [currentCellKey]);
 
     const getKey = (lastKey: string) => {
         return ("0" + (Number(lastKey) + 1));
@@ -42,6 +42,7 @@ const CreateForm: React.FC = () => {
 
     const onSubmitAnswerButton = async (questionType: string): Promise<void> => {
         let answers: string[] = [option1.value, option2.value, option3.value];
+
         if (option1.isEmpty ||
             option2.isEmpty ||
             option3.isEmpty ||
@@ -74,6 +75,12 @@ const CreateForm: React.FC = () => {
                 if (audio.isEmpty) {
                     alert("Загрузите аудио-вопрос");
                 } else {
+                    dispatch(toggleCreatingQuestion(false));
+                    option1.clear();
+                    option2.clear();
+                    option3.clear();
+                    correctAnswer.clear();
+
                     const audioData = new FormData();
                     let key = '';
 
@@ -83,30 +90,27 @@ const CreateForm: React.FC = () => {
 
                     if (audioFile) {
                         audioData.append("audio", audioFile);
-                        audioData.append("key", JSON.stringify({key: key}));
+                        audioData.append("key", JSON.stringify({ key: key }));
                     };
 
                     console.log(audioFile)
+
+                    if (audioFile) {
+                        dispatch(createQuestion({
+                            questionType: questionType,
+                            key: currentCellKey,
+                            newQuestion: key + `.${audioFile.name.substring(audioFile.name.length - 3)}`,
+                            answers: answers,
+                            correctAnswer: +correctAnswer.value,
+                            type: "audio"
+                        }));
+                    }
 
                     await fetch("/api/audios", { method: "POST", body: audioData })
                         .then(() => console.log("Аудио загружены"))
                         .catch((err) => console.log("Oops: " + err));
 
-                    dispatch(createQuestion({
-                        questionType: questionType,
-                        key: currentCellKey,
-                        newQuestion: key,
-                        answers: answers,
-                        correctAnswer: +correctAnswer.value,
-                        type: "audio"
-                    }));
-
-                    dispatch(toggleCreatingQuestion(false));
                     audio.clear();
-                    option1.clear();
-                    option2.clear();
-                    option3.clear();
-                    correctAnswer.clear();
                 };
             };
 

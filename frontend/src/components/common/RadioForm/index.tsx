@@ -34,12 +34,16 @@ const RadioForm: React.FC = () => {
             .then((res) => res.json())
             .then((res) => setTimer(res[0].timer))
             .catch((err) => console.log("Oops: " + err));
-    }
+    };
 
     if (timer) {
         return (<form>
 
             {currentQuestion.type === "text" && <div className={cn("text-center")}>{currentQuestion.question}</div>}
+            {currentQuestion.type === "audio" && <audio controls>
+                <source src={`api/audios/${currentQuestion.question}`} type="audio/mpeg" />
+            </audio>
+            }
 
             <div className={cn("pt-8")}>
                 {currentQuestion.answers.map((a, i) => {
@@ -104,7 +108,7 @@ const RadioForm: React.FC = () => {
         </form>)
     } else {
         return <img className={cn(styles.preloader, "mr-auto", "ml-auto")} src={preloader} alt="preloader" />
-    }
+    };
 };
 
 export default RadioForm;
