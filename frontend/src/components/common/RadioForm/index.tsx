@@ -75,7 +75,7 @@ const RadioForm: React.FC = () => {
             </div>
             }
 
-            {currentQuestion.type === "video" && <video controls>
+            {currentQuestion.type === "video" && <video className={cn("w-full", "h-96", "border-4", "border-solid", "border-yellow-500", "bg-white")} controls>
                 <source src={`api/videos/${currentQuestion.question}`} />
             </video>}
 
@@ -137,7 +137,7 @@ const RadioForm: React.FC = () => {
             </div>}
 
             <div>
-                <Timer timer={timer} setSelectDisabled={setSelectDisabled} />
+                {/* <Timer timer={timer} setSelectDisabled={setSelectDisabled} /> */}
             </div>
         </form>)
     } else {
