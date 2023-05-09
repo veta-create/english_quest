@@ -20,13 +20,20 @@ const CreateForm: React.FC = () => {
     const audio = useInput("", { isEmpty: true });
     const video = useInput("", { isEmpty: true });
     const audioPicker = useRef<HTMLInputElement>(null);
+    const videoPicker = useRef<HTMLInputElement>(null);
     const [audioFile, setAudioFile] = useState<Blob>();
     const [audioKey, setAudioKey] = useState<string>();
-
+    const [videoFile, setVideoFile] = useState<Blob>();
+    const [videoKey, setVideoKey] = useState<string>();
+ 
     useEffect(() => {
         fetch("/api/audioKeys")
             .then(res => res.json())
             .then(res => setAudioKey(res[res.length - 1].key))
+            .catch(err => console.log("Oops: " + err));
+        fetch("/api/videoKeys")
+            .then(res => res.json())
+            .then(res => setVideoKey(res[res.length - 1].key))
             .catch(err => console.log("Oops: " + err));
     }, [currentCellKey]);
 
@@ -37,6 +44,12 @@ const CreateForm: React.FC = () => {
     const audioHandle = () => {
         if (audioPicker.current) {
             audioPicker.current.click();
+        };
+    };
+
+    const videoHandle = () => {
+        if (videoPicker.current) {
+            videoPicker.current.click()
         };
     };
 
@@ -118,19 +131,41 @@ const CreateForm: React.FC = () => {
                 if (video.isEmpty) {
                     alert("Загрузите видео-вопрос");
                 } else {
-                    dispatch(createQuestion({
-                        questionType: questionType,
-                        key: currentCellKey,
-                        newQuestion: question.value,
-                        answers: answers,
-                        correctAnswer: +correctAnswer.value,
-                        type: "video"
-                    }));
                     dispatch(toggleCreatingQuestion(false));
                     option1.clear();
                     option2.clear();
                     option3.clear();
                     correctAnswer.clear();
+
+                    const videoData = new FormData();
+                    let key = '';
+
+                    if (videoKey) {
+                        key = getKey(videoKey);
+                    };
+
+                    if (videoFile) {
+                        videoData.append("video", videoFile);
+                        videoData.append("key", JSON.stringify({ key: key }));
+                    };
+
+                    console.log(video)
+
+                    if (videoFile) {
+                        dispatch(createQuestion({
+                            questionType: questionType,
+                            key: currentCellKey,
+                            newQuestion: key + `.${videoFile.name.substring(videoFile.name.length - 3)}`,
+                            answers: answers,
+                            correctAnswer: +correctAnswer.value,
+                            type: "video"
+                        }));
+                    }
+
+                    await fetch("/api/videos", { method: "POST", body: videoData })
+                        .then(() => console.log("Видео загружены"))
+                        .catch((err) => console.log("Oops: " + err));
+
                     video.clear();
                 };
             };
@@ -172,7 +207,7 @@ const CreateForm: React.FC = () => {
                 onChange={(e) => {
                     audio.onChange(e);
                     if (e.target.files) {
-                        setAudioFile(e.target.files[0])
+                        setAudioFile(e.target.files[0]);
                     };
                 }} type="file" accept='.mp3,.mp4' />
 
@@ -186,9 +221,17 @@ const CreateForm: React.FC = () => {
 
             <p className={cn("text-white")}>*Добавьте видео вопрос</p>
 
-            <input className={cn(styles.hidden)} name="video" onChange={(e) => video.onChange(e)} type="file" accept='video/*' />
+            <input className={cn(styles.hidden)} name="video" ref={videoPicker}
+                onChange={(e) => {
+                    video.onChange(e)
+                    if (e.target.files) {
+                        setVideoFile(e.target.files[0]);
+                    };
+                }} type="file" accept='.mp3,.mp4' />
 
-            <button className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500")}>Загрузить видео</button>
+            <input type="button" className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500")}
+                value="Загрузить видео"
+                onClick={videoHandle} />
 
         </div>
 

@@ -44,6 +44,9 @@ const RadioForm: React.FC = () => {
                 <source src={`api/audios/${currentQuestion.question}`} type="audio/mpeg" />
             </audio>
             }
+            {currentQuestion.type === "video" && <video controls>
+                <source src={`api/videos/${currentQuestion.question}`} />
+            </video>}
 
             <div className={cn("pt-8")}>
                 {currentQuestion.answers.map((a, i) => {
