@@ -25,7 +25,7 @@ const CreateForm: React.FC = () => {
     const [audioKey, setAudioKey] = useState<string>();
     const [videoFile, setVideoFile] = useState<Blob>();
     const [videoKey, setVideoKey] = useState<string>();
- 
+
     useEffect(() => {
         fetch("/api/audioKeys")
             .then(res => res.json())
@@ -93,6 +93,7 @@ const CreateForm: React.FC = () => {
                     option2.clear();
                     option3.clear();
                     correctAnswer.clear();
+                    audio.clear();
 
                     const audioData = new FormData();
                     let key = '';
@@ -122,8 +123,6 @@ const CreateForm: React.FC = () => {
                     await fetch("/api/audios", { method: "POST", body: audioData })
                         .then(() => console.log("Аудио загружены"))
                         .catch((err) => console.log("Oops: " + err));
-
-                    audio.clear();
                 };
             };
 
@@ -136,6 +135,7 @@ const CreateForm: React.FC = () => {
                     option2.clear();
                     option3.clear();
                     correctAnswer.clear();
+                    video.clear();
 
                     const videoData = new FormData();
                     let key = '';
@@ -165,8 +165,6 @@ const CreateForm: React.FC = () => {
                     await fetch("/api/videos", { method: "POST", body: videoData })
                         .then(() => console.log("Видео загружены"))
                         .catch((err) => console.log("Oops: " + err));
-
-                    video.clear();
                 };
             };
         };
@@ -212,7 +210,7 @@ const CreateForm: React.FC = () => {
                 }} type="file" accept='.mp3,.mp4' />
 
             <input type="button" className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500", "cursor-pointer")}
-                value="Загрузить аудио"
+                value={audio.value ? audioFile?.name : "Загрузить аудио"}
                 onClick={audioHandle} />
 
         </div>
@@ -230,7 +228,7 @@ const CreateForm: React.FC = () => {
                 }} type="file" accept='.mp3,.mp4' />
 
             <input type="button" className={cn(styles.download, "text-white", "border-4", "border-dashed", "border-yellow-500")}
-                value="Загрузить видео"
+                value={video.value ? videoFile?.name : "Загрузить видео"}
                 onClick={videoHandle} />
 
         </div>

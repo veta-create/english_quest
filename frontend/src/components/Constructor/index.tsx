@@ -46,8 +46,8 @@ const Constructor: React.FC = () => {
 
             return { fieldCorrectness, themesCorrectness };
         };
-        // validator().fieldCorrectness && validator().themesCorrectness
-        if (true) {
+        
+        if (validator().fieldCorrectness && validator().themesCorrectness) {
             fetch("/api/fields", {
                 method: "POST",
                 body: body,

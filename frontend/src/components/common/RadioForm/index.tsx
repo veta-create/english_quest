@@ -2,7 +2,7 @@
 import styles from "./styles.module.css";
 import Timer from "../Timer";
 import cn from "classnames";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useAppDispatch } from "../../../hooks/useDispatch";
 import {
     cellClosure,
@@ -16,6 +16,8 @@ import {
 import { useAppSelector } from "../../../hooks/useSelector";
 import { RootState } from "../../../redux/store";
 import preloader from "../../../assets/preloader.png";
+import play from "../../../assets/play.png";
+import pause from "../../../assets/pause.png";
 
 const RadioForm: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -28,6 +30,21 @@ const RadioForm: React.FC = () => {
     const [selectDisabled, setSelectDisabled] = useState<boolean>(true);
     const [currentPlayer, setCurrentPlayer] = useState<string>(stateCurrentPlayer);
     const [timer, setTimer] = useState(0);
+    const [audioPlay, setAudioPlay] = useState(false);
+    const player = useRef<HTMLAudioElement>(null);
+
+    const onPlayHandle = (event: React.MouseEvent<HTMLElement>) => {
+        event.preventDefault();
+        if (player.current) {
+            if (audioPlay) {
+                setAudioPlay(false);
+                player.current.pause();
+            } else {
+                setAudioPlay(true);
+                player.current.play();
+            };
+        }
+    };
 
     if (!timer) {
         fetch("/api/settings")
@@ -40,10 +57,24 @@ const RadioForm: React.FC = () => {
         return (<form>
 
             {currentQuestion.type === "text" && <div className={cn("text-center")}>{currentQuestion.question}</div>}
-            {currentQuestion.type === "audio" && <audio controls>
-                <source src={`api/audios/${currentQuestion.question}`} type="audio/mpeg" />
-            </audio>
+
+            {currentQuestion.type === "audio" && <div className={cn("flex", "justify-center")}>
+
+                <audio ref={player} controls className={cn(styles.hidden)}>
+                    <source src={`api/audios/${currentQuestion.question}`} type="audio/mpeg" />
+                </audio>
+
+                <button onClick={(event) => onPlayHandle(event)}
+                    className={cn("flex", "items-center", "p-3", "rounded-3xl", "text-3xl", "bg-white", "text-blue-900")}>
+                    {audioPlay ?
+                        <img className={cn("w-12", "h-12")} src={pause} alt="play button" /> :
+                        <img className={cn("w-12")} src={play} alt="play button" />}
+                    <p className={cn("ml-6")}>Ваш аудио-вопрос</p>
+                </button>
+
+            </div>
             }
+
             {currentQuestion.type === "video" && <video controls>
                 <source src={`api/videos/${currentQuestion.question}`} />
             </video>}
