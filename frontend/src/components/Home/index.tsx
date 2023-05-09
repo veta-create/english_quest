@@ -28,7 +28,7 @@ const Home: React.FC = () => {
                 <img src={logo} alt="logo" />
             </div>
             {settingsOpen ? <Settings /> :
-                <div className={cn("p-10", "text-5xl", "text-center")}>
+                <div className={cn(styles.menu, "p-10", "text-center")}>
                     <nav className={cn("flex", "flex-col")}>
                         <NavLink to="/game">Новая игра</NavLink>
                         <NavLink to="/custom">Пользовательская доска</NavLink>
