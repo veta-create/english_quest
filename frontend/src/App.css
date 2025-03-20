@@ -1,11 +1,10 @@
 .App {
     min-height: 100vh;
-    font-family: "Roboto_Flex";
 }
 
 @font-face {
-    font-family: "Roboto_Flex";
-    src: url("../src/fonts/Roboto_Flex/RobotoFlex-VariableFont_GRAD\,XTRA\,YOPQ\,YTAS\,YTDE\,YTFI\,YTLC\,YTUC\,opsz\,slnt\,wdth\,wght.ttf") format("truetype");
+    font-family: "Ruthless";
+    src: url("../src/fonts/Roboto_Flex/static/RuthlessSketch.ttf") format("truetype");
     font-style: normal;
     font-weight: normal;
 }

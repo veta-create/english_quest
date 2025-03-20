@@ -1,0 +1,136 @@
+.container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    width: 100%;
+    height: 100vh;
+    font-family: "Ruthless";
+
+    color: #fb854a;
+    background-color: #f8d88f;
+}
+
+.start {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 26%;
+    font-size: 2rem;
+    text-align: center;
+    cursor: pointer;
+
+    color: #fb854a;
+    background-color: #f0ddb2;
+    border-radius: 15px;
+    box-shadow: 10px 5px 0px #fb854a;
+}
+
+.starsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.star {
+    width: 15%;
+    height: 12%;
+}
+
+.starsCount {
+    font-size: 3rem;
+
+    color: #fb854a;
+}
+
+.giggle {
+    display: flex;
+    width: 500px;
+    height: 100%;
+
+    background-image: url(../../assets/giggle.png);
+    background-repeat: no-repeat;
+    background-size: 600px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+}
+
+.task {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+}
+
+.level {
+    font-size: 4em;
+    text-align: center;
+
+    background-color: #aa98b5;
+    background-image: linear-gradient(40deg, #a4de61, #fb854a, #a4de61);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.skip {
+    display: inline-block;
+    width: 4em;
+
+    border-bottom: 2px solid #fb854a;
+}
+
+.things {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.things .bear {
+    width: 350px;
+    height: 350px;
+}
+
+.things .bunny {
+    width: 250px;
+    height: 250px;
+}
+
+.comprasions,
+.sentence {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.comprasions div {
+    cursor: pointer;
+
+    text-shadow: 1px 1px 1px #372c27;
+}
+
+.comprasions div:hover {
+    font-size: 1.6rem;
+}
+
+.tryAgain {
+    margin-top: 5px;
+    text-align: center;
+}
+
+.checkAnswer {
+    margin: auto;
+    width: 35%;
+    margin-top: 2%;
+    font-size: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+
+    background-color: #f0ddb2;
+    border-radius: 15px;
+    box-shadow: 10px 5px 0px #fb854a;
+}
+
+.checkAnswer:hover {
+    width: 42%;
+    font-size: 1.7rem;
+}

@@ -1,0 +1,31 @@
+.theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100vh;
+    font-family: "Ruthless";
+
+    background: linear-gradient(#629460, #f4d35e)
+}
+
+.success {
+    margin: auto;
+    font-size: 3rem;
+    text-align: center;
+
+    color: #fff;
+    text-shadow: 1px 2px 3px #000;
+}
+
+.next {
+    margin: auto;
+    font-size: 2.5rem;
+    cursor: pointer;
+
+    color: #629460;
+}
+
+.next:hover {
+    font-size: 2.7rem;
+}

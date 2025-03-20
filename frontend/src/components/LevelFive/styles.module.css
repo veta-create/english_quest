@@ -1,0 +1,130 @@
+.container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    width: 100%;
+    height: 100vh;
+    font-family: "Ruthless";
+
+    color: #d6939a;
+    background-color: #a7333f;
+}
+
+.level {
+    font-size: 3em;
+    text-align: center;
+
+    background-color: #cce3df;
+    background-image: linear-gradient(40deg, #520d15, #cce3df, #520d15);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.starsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.star {
+    width: 15%;
+    height: 12%;
+}
+
+.starsCount {
+    font-size: 3rem;
+
+    color: #cce3df;
+}
+
+.dragon {
+    display: flex;
+    width: 600px;
+    height: 100%;
+
+    background-image: url(../../assets/grammarDragon.png);
+    background-repeat: no-repeat;
+    background-size: 600px;
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    font-size: 2em;
+}
+
+.main img {
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.skip {
+    display: inline-block;
+    width: 2em;
+
+    border-bottom: 2px solid #d6939a;
+}
+
+.options {
+    margin-top: 3%;
+    cursor: pointer;
+
+    text-shadow: #74121d 1px 0 10px;
+}
+
+.options p:hover {
+    font-size: 1.1em;
+}
+
+.card {
+    margin-top: 5%;
+}
+
+.checkAnswer {
+    width: 20%;
+    margin-left: auto;
+    margin-top: 5%;
+    margin-right: auto;
+    font-size: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+
+    color: #74121d;
+    background-color: #efa3a3;
+    border-radius: 10px;
+    box-shadow: 10px 3px 0px #74121d;
+}
+
+.checkAnswer:hover {
+    width: 22%;
+    font-size: 1.6rem;
+}
+
+.tryAgain {
+    margin-top: 10px;
+    text-align: center;
+
+    color: #74121d;
+}
+
+
+.start {
+    width: 40%;
+    margin-left: 30%;
+    margin-top: 30%;
+    font-size: 2rem;
+    text-align: center;
+    cursor: pointer;
+
+    color: #74121d;
+    background-color: #efa3a3;
+    border-radius: 15px;
+    box-shadow: 10px 5px 0px #74121d;
+}
+
+.start:hover {
+    width: 42%;
+    font-size: 2.1rem;
+}

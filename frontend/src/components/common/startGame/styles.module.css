@@ -1,0 +1,36 @@
+.theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    height: 100vh;
+    font-family: "Ruthless";
+
+    background-color: #000;
+    background-image: url(../../../assets/theme.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.startingText {
+    width: 85%;
+    margin: auto;
+    font-size: 2rem;
+    text-align: center;
+
+    color: #fff;
+    text-shadow: 1px 2px 3px #000;
+}
+
+.start {
+    margin: auto;
+    font-size: 2.5rem;
+    cursor: pointer;
+
+    color: #bfe8be;
+    text-shadow: 1px 2px 3px #000;
+}
+
+.start:hover {
+    font-size: 2.7rem;
+}

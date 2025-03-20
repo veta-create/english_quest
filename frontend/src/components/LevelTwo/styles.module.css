@@ -1,0 +1,84 @@
+.container {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    width: 100%;
+    height: 100vh;
+    font-family: "Ruthless";
+
+    background-color: #fdbdc4;
+}
+
+.level {
+    text-align: center;
+    font-size: 3em;
+
+    background-color: #aa98b5;
+    background-image: linear-gradient(40deg, #442858, #f79d5c, #442858);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.start {
+    width: 40%;
+    margin-top: 30%;
+    margin-left: 30%;
+    text-align: center;
+    font-size: 2rem;
+    cursor: pointer;
+
+    color: #590d22;
+    background-color: #ff758f;
+    border-radius: 15px;
+    box-shadow: 10px 5px 0px #590d22;
+}
+
+.start:hover {
+    width: 42%;
+    font-size: 2.1rem;
+}
+
+.starsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.star {
+    width: 15%;
+    height: 12%;
+}
+
+.starsCount {
+    font-size: 3rem;
+
+    color: #ff758f;
+}
+
+.lexi {
+    display: flex;
+    width: 500px;
+    height: 100%;
+
+    background-image: url(../../assets/lexi.png);
+    background-repeat: no-repeat;
+    background-size: 600px;
+}
+
+.things {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 10%;
+}
+
+.animal {
+    width: 30%;
+    height: 30%;
+    cursor: pointer;
+}
+
+.animal:hover {
+    width: 31%;
+    height: 31%;
+}
