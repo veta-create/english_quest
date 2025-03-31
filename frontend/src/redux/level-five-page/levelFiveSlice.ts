@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LevelFiveState } from "../../../types";
 
 const initialState: LevelFiveState = {
-  correctAnswers: ["is", "am"],
+  correctAnswers: ["is", "are"],
 };
 
 const levelFiveSlice = createSlice({

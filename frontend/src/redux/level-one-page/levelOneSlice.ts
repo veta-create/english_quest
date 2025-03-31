@@ -4,9 +4,11 @@ import { LevelOneState } from "../../../types";
 const initialState: LevelOneState = {
   lettersForTask: ["B", "A", "C", "E", "D"],
   lettersForAnswer: [],
-  correctAnswer: ["A", "B", "C", "D", "E"],
+  correctAnswerLetters: ["A", "B", "C", "D", "E"],
+  wordsForTask: ["Sun", "Moon", "Rain", "Tree", "Cloud"],
+  correctAnswerWords: ["Cloud", "Moon", "Rain", "Sun", "Tree"],
   levelPassed: [0, false],
-  wordySpeech: []
+  wordySpeech: [],
 };
 
 const levelOneSlice = createSlice({
@@ -22,7 +24,7 @@ const levelOneSlice = createSlice({
     },
     voiceOverLetter(state, action) {},
     checkRightAnswer: (state, action) => {
-      if (action.payload.toString() === state.correctAnswer.toString()) {
+      if (action.payload.toString() === state.correctAnswerLetters.toString()) {
         state.levelPassed[1] = true;
       } else {
         state.levelPassed[0] = 1;

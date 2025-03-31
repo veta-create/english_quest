@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { LevelFourState } from "../../../types";
 
 const initialState: LevelFourState = {
-  correctAnswer: "bigger",
+  correctAnswers: ["bigger", "longer", "taller"],
 };
 
 const levelFourSlice = createSlice({

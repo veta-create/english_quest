@@ -22,7 +22,8 @@ const LevelThree: React.FC = () => {
 
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
-  const [task, setTask] = useState(lettersForTask);
+  const [task, setTask] = useState(lettersForTask[0]);
+  const [currentExercise, setCurrentExercise] = useState(1);
   const [currentAnswer, setCurrentAnswer] = useState(["", "", "", "", ""]);
   const [counter, setCounter] = useState(0);
   const [tryAgain, setTryAgain] = useState(false);
@@ -39,17 +40,37 @@ const LevelThree: React.FC = () => {
 
     setTask(currentTask.split(","));
 
-    if (currentLetters.toString() === correctAnswer.toString()) {
-      stop();
-      setLevelPassed(true);
+    if (
+      currentLetters.toString() ===
+      correctAnswer[currentExercise - 1].toString()
+    ) {
+      if (currentExercise === lettersForTask.length) {
+        stop();
+        setLevelPassed(true);
+      } else {
+        setCurrentExercise(currentExercise + 1);
+        setTask(lettersForTask[currentExercise]);
+        const filledArr = Array(lettersForTask[currentExercise].length).fill(
+          ""
+        );
+        setCurrentAnswer(filledArr);
+        setCounter(0);
+      }
       dispatch(setStarsCount(starsCount + (tryAgain ? 1 : 2)));
+      return;
     }
 
-    if (currentLetters.join("").length === correctAnswer.length) {
-      setCurrentAnswer(["", "", "", "", ""]);
+    if (
+      currentLetters.join("").length ===
+      correctAnswer[currentExercise - 1].length
+    ) {
+      const filledArr = Array(lettersForTask[currentExercise - 1].length).fill(
+        ""
+      );
+      setCurrentAnswer(filledArr);
       setCounter(0);
       setTryAgain(true);
-      setTask(lettersForTask);
+      setTask(lettersForTask[currentExercise - 1]);
     }
   };
 
@@ -62,7 +83,11 @@ const LevelThree: React.FC = () => {
           <div className={styles.level}>Level three: Word Builder Workshop</div>
           {start && (
             <div className={styles.main}>
-              <img src={require("../../assets/ocean.png")} />
+              <img
+                src={require(`../../assets/${correctAnswer[currentExercise - 1]
+                  .join("")
+                  .toLocaleLowerCase()}.png`)}
+              />
               <div className={styles.lettersForTask}>
                 {task.map((l) => (
                   <div

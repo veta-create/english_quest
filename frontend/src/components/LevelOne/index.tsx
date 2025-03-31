@@ -6,15 +6,22 @@ import { useAppSelector } from "../../hooks/useSelector";
 import { setStarsCount } from "../../redux/home-page/homeSlice";
 import styles from "./styles.module.css";
 import Passed from "../common/passed/passed";
-import speech from "../../sounds/wordySpeech.mp3";
+import speech1 from "../../sounds/wordySpeech.mp3";
+import speech2 from "../../sounds/wordySpeech_2.mp3";
 
 const LevelOne: React.FC = () => {
   const dispatch = useAppDispatch();
   const lettersForTask = useAppSelector(
     (state: RootState) => state.levelOnePage.lettersForTask
   );
-  const correctAnswer = useAppSelector(
-    (state: RootState) => state.levelOnePage.correctAnswer
+  const wordsForTask = useAppSelector(
+    (state: RootState) => state.levelOnePage.wordsForTask
+  );
+  const correctAnswerLetters = useAppSelector(
+    (state: RootState) => state.levelOnePage.correctAnswerLetters
+  );
+  const correctAnswerWords = useAppSelector(
+    (state: RootState) => state.levelOnePage.correctAnswerWords
   );
   const starsCount = useAppSelector(
     (state: RootState) => state.homePage.starsCount
@@ -24,16 +31,32 @@ const LevelOne: React.FC = () => {
   const [levelPassed, setLevelPassed] = useState(false);
   const [attemptCounter, setAttemptCounter] = useState(0);
   const [lettersForAnswer, setLettersForAnswer] = useState<String[]>([]);
+  const [wordsForAnswer, setWordsForAnswer] = useState<String[]>([]);
+  const [currentExercise, setCurrentExercise] = useState(1);
 
-  const [play, { stop }] = useSound(speech, { volume: 0.5 });
+  const [play1, { stop: stop1 }] = useSound(speech1, { volume: 0.5 });
+  const [play2, { stop: stop2 }] = useSound(speech2, { volume: 0.5 });
 
   const checkRightAnswer = () => {
-    if (lettersForAnswer.toString() === correctAnswer.toString()) {
-      setLevelPassed(true);
-      dispatch(setStarsCount(starsCount + (attemptCounter > 0 ? 1 : 2)));
-    } else {
-      setAttemptCounter(attemptCounter + 1);
-      setLettersForAnswer([]);
+    if (currentExercise === 1) {
+      if (lettersForAnswer.toString() === correctAnswerLetters.toString()) {
+        setCurrentExercise(2);
+        play2();
+        dispatch(setStarsCount(starsCount + (attemptCounter > 0 ? 1 : 2)));
+      } else {
+        setAttemptCounter(attemptCounter + 1);
+        setLettersForAnswer([]);
+      }
+    }
+    if (currentExercise === 2) {
+      if (wordsForAnswer.toString() === correctAnswerWords.toString()) {
+        stop2();
+        setLevelPassed(true);
+        dispatch(setStarsCount(starsCount + (attemptCounter > 0 ? 1 : 2)));
+      } else {
+        setAttemptCounter(attemptCounter + 1);
+        setWordsForAnswer([]);
+      }
     }
   };
 
@@ -45,35 +68,55 @@ const LevelOne: React.FC = () => {
           {start && (
             <div className={styles.lettersContainer}>
               <div className={styles.lettersForTask}>
-                {lettersForTask.map((l: string) => (
-                  <div
-                    onClick={() => {
-                      const currentAnswer = [...lettersForAnswer];
+                {currentExercise === 1 &&
+                  lettersForTask.map((l: string) => (
+                    <div
+                      onClick={() => {
+                        const currentAnswer = [...lettersForAnswer];
 
-                      currentAnswer.push(l);
+                        if (!currentAnswer.includes(l)) {
+                          currentAnswer.push(l);
+                          setLettersForAnswer(currentAnswer);
+                        }
+                      }}
+                    >
+                      {l}
+                    </div>
+                  ))}
+                {currentExercise === 2 &&
+                  wordsForTask.map((w: string) => (
+                    <div
+                      className={styles.word}
+                      onClick={() => {
+                        const currentAnswer = [...wordsForAnswer];
 
-                      setLettersForAnswer(currentAnswer);
-                    }}
-                  >
-                    {l}
-                  </div>
-                ))}
+                        if (!currentAnswer.includes(w)) {
+                          currentAnswer.push(w);
+                          setWordsForAnswer(currentAnswer);
+                        }
+                      }}
+                    >
+                      {w}
+                    </div>
+                  ))}
               </div>
               <div className={styles.lettersForAnswer}>
                 <div className={styles.letters}>
-                  {lettersForAnswer.map((l) => (
-                    <div className={styles.letter}>{l}</div>
-                  ))}
+                  {currentExercise === 1 &&
+                    lettersForAnswer.map((l) => (
+                      <div className={styles.letter}>{l}</div>
+                    ))}
+                  {currentExercise === 2 &&
+                    wordsForAnswer.map((w) => (
+                      <div className={styles.word}>{w}</div>
+                    ))}
                 </div>
-                {lettersForAnswer.length === 5 && (
-                  <div>Did you use all the letters</div>
-                )}
               </div>
               <div
                 className={styles.checkAnswer}
                 onClick={() => {
                   checkRightAnswer();
-                  stop();
+                  stop1();
                 }}
               >
                 Check the answer
@@ -88,7 +131,7 @@ const LevelOne: React.FC = () => {
               className={styles.greeting}
               onClick={() => {
                 setStart(true);
-                play();
+                play1();
               }}
             >
               Hello!

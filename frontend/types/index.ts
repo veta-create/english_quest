@@ -13,7 +13,9 @@ export type Field = CellType[][] | [];
 export interface LevelOneState {
   lettersForTask: string[];
   lettersForAnswer: string[];
-  correctAnswer: string[];
+  correctAnswerLetters: string[];
+  wordsForTask: string[];
+  correctAnswerWords: string[];
   levelPassed: [number, boolean];
   wordySpeech: [];
 }
@@ -26,12 +28,12 @@ export interface LevelTwoState {
 }
 
 export interface LevelThreeState {
-  lettersForTask: string[];
-  correctAnswer: string[];
+  lettersForTask: Array<Array<string>>;
+  correctAnswer: Array<Array<string>>;
 }
 
 export interface LevelFourState {
-  correctAnswer: string;
+  correctAnswers: string[];
 }
 export interface LevelFiveState {
   correctAnswers: string[];

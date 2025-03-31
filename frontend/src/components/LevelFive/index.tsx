@@ -68,15 +68,15 @@ const LevelFive: React.FC = () => {
                   </div>
                 </div>
                 <div className={styles.card}>
-                  <img src={require("../../assets/happy.png")} />
+                  <img src={require("../../assets/flowers.png")} />
                   <div className={styles.sentence}>
-                    I{" "}
+                    The flowers{" "}
                     {secondCurrentAnswer ? (
                       secondCurrentAnswer
                     ) : (
                       <div className={styles.skip}></div>
                     )}{" "}
-                    happy
+                    very beautiful
                   </div>
                   <div className={styles.options}>
                     <p onClick={() => setSecondCurrentAnswer("am")}>am</p>
