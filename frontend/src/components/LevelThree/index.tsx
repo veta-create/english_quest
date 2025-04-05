@@ -22,6 +22,7 @@ const LevelThree: React.FC = () => {
 
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+  const [clueOpened, setClueOpened] = useState(false);
   const [task, setTask] = useState(lettersForTask[0]);
   const [currentExercise, setCurrentExercise] = useState(1);
   const [currentAnswer, setCurrentAnswer] = useState(["", "", "", "", ""]);
@@ -121,6 +122,21 @@ const LevelThree: React.FC = () => {
         </div>
         <div>
           <div className={styles.starsContainer}>
+            <div
+              className={styles.clue}
+              onClick={() => {
+                if (clueOpened) {
+                  setClueOpened(false);
+                } else {
+                  setClueOpened(true);
+                }
+              }}
+            >
+              Clue
+            </div>
+            {clueOpened === true && (
+              <p>Collect the word you see in the picture!</p>
+            )}
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}

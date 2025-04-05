@@ -27,6 +27,7 @@ const LevelFour: React.FC = () => {
   const [correctAnswer, setCorrectAnswer] = useState(correctAnswers[0]);
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+  const [clueOpened, setClueOpened] = useState(false);
   const [attemptCounter, setAttemptCounter] = useState(0);
   const [currentAnswer, setCurrentAnswer] = useState("");
   const [currentExercise, setCurrentExercise] = useState(1);
@@ -127,6 +128,21 @@ const LevelFour: React.FC = () => {
         </div>
         <div>
           <div className={styles.starsContainer}>
+            <div
+              className={styles.clue}
+              onClick={() => {
+                if (clueOpened) {
+                  setClueOpened(false);
+                } else {
+                  setClueOpened(true);
+                }
+              }}
+            >
+              Clue
+            </div>
+            {clueOpened === true && (
+              <p>Choose the correct comparative participle!</p>
+            )}
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}

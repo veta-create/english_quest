@@ -30,6 +30,7 @@ const LevelOne: React.FC = () => {
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
   const [attemptCounter, setAttemptCounter] = useState(0);
+  const [clueOpened, setClueOpened] = useState(false);
   const [lettersForAnswer, setLettersForAnswer] = useState<String[]>([]);
   const [wordsForAnswer, setWordsForAnswer] = useState<String[]>([]);
   const [currentExercise, setCurrentExercise] = useState(1);
@@ -140,12 +141,28 @@ const LevelOne: React.FC = () => {
         </div>
         <div>
           <div className={styles.starsContainer}>
+            <div
+              className={styles.clue}
+              onClick={() => {
+                if (clueOpened) {
+                  setClueOpened(false);
+                } else {
+                  setClueOpened(true);
+                }
+              }}
+            >
+              Clue
+            </div>
+            {clueOpened === true && (
+              <p>Arrange the letters and words in alphabetical order!</p>
+            )}
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
               src={require(`../../assets/star.png`)}
             />
           </div>
+
           <div className={styles.wordy}></div>
         </div>
       </div>

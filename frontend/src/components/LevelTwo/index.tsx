@@ -28,6 +28,7 @@ const LevelTwo: React.FC = () => {
 
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+  const [clueOpened, setClueOpened] = useState(false);
   const [currentAnimal, setCurrentAnimal] = useState(animalsForTask[0]);
   const [rightAnswers, setRightAnswers] = useState<string[]>([]);
 
@@ -134,6 +135,19 @@ const LevelTwo: React.FC = () => {
         </div>
         <div>
           <div className={styles.starsContainer}>
+            <div
+              className={styles.clue}
+              onClick={() => {
+                if (clueOpened) {
+                  setClueOpened(false);
+                } else {
+                  setClueOpened(true);
+                }
+              }}
+            >
+              Clue
+            </div>
+            {clueOpened === true && <p>Click on the animal you heard!</p>}
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}

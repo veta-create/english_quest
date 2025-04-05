@@ -19,6 +19,7 @@ const LevelFive: React.FC = () => {
 
   const [start, setStart] = useState(false);
   const [levelPassed, setLevelPassed] = useState(false);
+  const [clueOpened, setClueOpened] = useState(false);
   const [tryAgain, setTryAgain] = useState(false);
   const [firstCurrentAnswer, setFirstCurrentAnswer] = useState("");
   const [secondCurrentAnswer, setSecondCurrentAnswer] = useState("");
@@ -108,6 +109,21 @@ const LevelFive: React.FC = () => {
         </div>
         <div>
           <div className={styles.starsContainer}>
+            <div
+              className={styles.clue}
+              onClick={() => {
+                if (clueOpened) {
+                  setClueOpened(false);
+                } else {
+                  setClueOpened(true);
+                }
+              }}
+            >
+              Clue
+            </div>
+            {clueOpened === true && (
+              <p>Choose the correct form of the verb "to be"!</p>
+            )}
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}

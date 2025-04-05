@@ -138,3 +138,15 @@
     width: 42%;
     font-size: 2.1rem;
 }
+
+.clue {
+    cursor: pointer;
+    width: 15%;
+    height: 10%;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 0.8rem;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0px 2px 0px #673ab7;
+}
