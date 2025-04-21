@@ -1,19 +1,21 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-  resolve: {
-    alias: {
-      'react/jsx-runtime': path.resolve(__dirname, './node_modules/react/jsx-runtime'),
-      'react/jsx-dev-runtime': path.resolve(__dirname, './node_modules/react/jsx-dev-runtime')
-    }
-  },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
       include: [/node_modules/]
+    },
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress circular dependency warnings for react
+        if (warning.code === 'CIRCULAR_DEPENDENCY' && warning.message.includes('react')) {
+          return;
+        }
+        warn(warning);
+      }
     }
   }
 });
