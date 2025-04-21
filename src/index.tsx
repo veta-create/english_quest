@@ -1,13 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './styles.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')!);
 
 const render = () => {
   root.render(
@@ -21,11 +19,9 @@ const render = () => {
   );
 }
 
-render(store.getState())
+render()
 
 store.subscribe(() => {
-  let state = store.getState();
-  render(state);
+  store.getState();
+  render();
 });
-
-reportWebVitals();

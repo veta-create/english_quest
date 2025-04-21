@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LevelFiveState } from "../../../types";
+import { LevelFiveState } from "../../types";
 
 const initialState: LevelFiveState = {
   correctAnswers: ["is", "are"],

@@ -46,7 +46,7 @@
     width: 500px;
     height: 100vh;
 
-    background-image: url(../../assets/giggle.png);
+    background-image: url(/assets/giggle.png);
     background-repeat: no-repeat;
     background-size: 120%;
 }

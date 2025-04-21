@@ -50,7 +50,7 @@ export interface FieldsApi {
   field: Field;
   themes: string[];
   fieldWidth: number;
-  fieldHeight: Number;
+  fieldHeight: number;
 }
 
 export interface ConstructorState {

@@ -60,7 +60,7 @@
     width: 500px;
     height: 100%;
 
-    background-image: url(../../assets/lexi.png);
+    background-image: url(/assets/lexi.png);
     background-repeat: no-repeat;
     background-size: 600px;
 }

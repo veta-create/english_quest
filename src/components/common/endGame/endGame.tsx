@@ -18,7 +18,7 @@ const EndGame: React.FC = () => {
             You have collected the maximum amount {starsCount}{" "}
             <img
               className={styles.star}
-              src={require(`../../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </p>
         ) : (
@@ -26,7 +26,7 @@ const EndGame: React.FC = () => {
             And collected {starsCount}
             <img
               className={styles.star}
-              src={require(`../../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </p>
         )}

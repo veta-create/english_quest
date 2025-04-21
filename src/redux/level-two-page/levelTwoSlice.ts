@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LevelTwoState } from "../../../types";
+import { LevelTwoState } from "../../types";
 
 const initialState: LevelTwoState = {
   fruitsForTask: ["peach", "pear", "strawberry"],
@@ -12,12 +12,12 @@ const levelTwoSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setLettersForTask(state, action) {},
-    setLettersForAnswer(state, action) {
+    setLettersForTask() {},
+    setLettersForAnswer() {
       //   state.currentQuestion.currentAnswer = action.payload;
     },
-    voiceOverLetter(state, action) {},
-    checkRightAnswer: (state, action) => {},
+    voiceOverLetter() {},
+    checkRightAnswer: () => {},
   },
 });
 

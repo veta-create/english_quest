@@ -42,7 +42,7 @@
     width: 600px;
     height: 100%;
 
-    background-image: url(../../assets/grammarDragon.png);
+    background-image: url(/assets/grammarDragon.png);
     background-repeat: no-repeat;
     background-size: 600px;
 }

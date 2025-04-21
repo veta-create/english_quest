@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LevelThreeState } from "../../../types";
+import { LevelThreeState } from "../../types";
 
 const initialState: LevelThreeState = {
   lettersForTask: [

@@ -43,7 +43,7 @@
     width: 500px;
     height: 100vh;
 
-    background-image: url(../../assets/wordy.png);
+    background-image: url(/assets/wordy.png);
     background-repeat: no-repeat;
     background-size: 570px;
     background-color: #C0CFB2;

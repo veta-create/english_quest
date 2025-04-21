@@ -31,8 +31,8 @@ const LevelOne: React.FC = () => {
   const [levelPassed, setLevelPassed] = useState(false);
   const [attemptCounter, setAttemptCounter] = useState(0);
   const [clueOpened, setClueOpened] = useState(false);
-  const [lettersForAnswer, setLettersForAnswer] = useState<String[]>([]);
-  const [wordsForAnswer, setWordsForAnswer] = useState<String[]>([]);
+  const [lettersForAnswer, setLettersForAnswer] = useState<string[]>([]);
+  const [wordsForAnswer, setWordsForAnswer] = useState<string[]>([]);
   const [currentExercise, setCurrentExercise] = useState(1);
 
   const [play1, { stop: stop1 }] = useSound(speech1, { volume: 0.5 });
@@ -159,7 +159,7 @@ const LevelOne: React.FC = () => {
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
-              src={require(`../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </div>
 

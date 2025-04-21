@@ -42,7 +42,7 @@
     width: 500px;
     height: 100%;
 
-    background-image: url(../../assets/letterfix.png);
+    background-image: url(/assets/letterfix.png);
     background-repeat: no-repeat;
     background-size: 600px;
 }

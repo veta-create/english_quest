@@ -33,8 +33,8 @@ const LevelFour: React.FC = () => {
   const [currentExercise, setCurrentExercise] = useState(1);
 
   const [play, { stop }] = useSound(speech, { volume: 0.5 });
-  const [speechTwo, { stop: stop2 }] = useSound(speech2, { volume: 0.5 });
-  const [speechThree, { stop: stop3 }] = useSound(speech3, { volume: 0.5 });
+  const [speechTwo] = useSound(speech2, { volume: 0.5 });
+  const [speechThree] = useSound(speech3, { volume: 0.5 });
 
   if (levelPassed) {
     return <Passed />;
@@ -59,15 +59,11 @@ const LevelFour: React.FC = () => {
               <div className={styles.things}>
                 <img
                   className={styles.bigger}
-                  src={require(`../../assets/${
-                    exersises[currentExercise - 1][0]
-                  }.png`)}
+                  src={`/assets/${exersises[currentExercise - 1][0]}.png`}
                 />
                 <img
                   className={styles.smaller}
-                  src={require(`../../assets/${
-                    exersises[currentExercise - 1][1]
-                  }.png`)}
+                  src={`/assets/${exersises[currentExercise - 1][1]}.png`}
                 />
               </div>
               <div className={styles.comprasions}>
@@ -146,7 +142,7 @@ const LevelFour: React.FC = () => {
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
-              src={require(`../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </div>
           <div className={styles.giggle}></div>

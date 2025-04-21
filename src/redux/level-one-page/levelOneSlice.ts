@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { LevelOneState } from "../../../types";
+import { LevelOneState } from "../../types";
 
 const initialState: LevelOneState = {
   lettersForTask: ["B", "A", "C", "E", "D"],
@@ -15,14 +15,14 @@ const levelOneSlice = createSlice({
   name: "game",
   initialState,
   reducers: {
-    setLettersForTask(state, action) {},
+    setLettersForTask() {},
     setLettersForAnswer(state, action) {
       if (!state.lettersForAnswer.includes(action.payload)) {
         state.lettersForAnswer.push(action.payload);
       }
       //   state.currentQuestion.currentAnswer = action.payload;
     },
-    voiceOverLetter(state, action) {},
+    voiceOverLetter() {},
     checkRightAnswer: (state, action) => {
       if (action.payload.toString() === state.correctAnswerLetters.toString()) {
         state.levelPassed[1] = true;

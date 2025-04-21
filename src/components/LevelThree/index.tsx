@@ -85,9 +85,7 @@ const LevelThree: React.FC = () => {
           {start && (
             <div className={styles.main}>
               <img
-                src={require(`../../assets/${correctAnswer[currentExercise - 1]
-                  .join("")
-                  .toLocaleLowerCase()}.png`)}
+                src={`/assets/${correctAnswer[currentExercise - 1].join("").toLocaleLowerCase()}.png`}
               />
               <div className={styles.lettersForTask}>
                 {task.map((l) => (
@@ -140,7 +138,7 @@ const LevelThree: React.FC = () => {
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
-              src={require(`../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </div>
           <div className={styles.letterfix}></div>

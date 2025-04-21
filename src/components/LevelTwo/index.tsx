@@ -115,7 +115,7 @@ const LevelTwo: React.FC = () => {
                   onClick={() => checkRightAmimal(a)}
                   className={styles.animal}
                   key={a}
-                  src={require(`../../assets/${a}.png`)}
+                  src={`/assets/${a}.png`}
                 />
               ))}
             </div>
@@ -151,7 +151,7 @@ const LevelTwo: React.FC = () => {
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
-              src={require(`../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </div>
           <div className={styles.lexi}></div>

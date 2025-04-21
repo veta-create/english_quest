@@ -52,7 +52,7 @@ const LevelFive: React.FC = () => {
             <div>
               <div className={styles.main}>
                 <div className={styles.card}>
-                  <img src={require("../../assets/teacher.png")} />
+                  <img src={"/assets/teacher.png"} />
                   <div className={styles.sentence}>
                     She{" "}
                     {firstCurrentAnswer ? (
@@ -69,7 +69,7 @@ const LevelFive: React.FC = () => {
                   </div>
                 </div>
                 <div className={styles.card}>
-                  <img src={require("../../assets/flowers.png")} />
+                  <img src={"/assets/flowers.png"} />
                   <div className={styles.sentence}>
                     The flowers{" "}
                     {secondCurrentAnswer ? (
@@ -127,7 +127,7 @@ const LevelFive: React.FC = () => {
             <div className={styles.starsCount}>{starsCount}</div>
             <img
               className={styles.star}
-              src={require(`../../assets/star.png`)}
+              src={"/assets/star.png"}
             />
           </div>
           <div className={styles.dragon}></div>
